@@ -79,9 +79,11 @@ public class User {
     }*/
 
     /**
-     * Returns the specified AdventurePlan
-     * @param plannedAdventureId the ID of the AdventurePlan in the planned adventures list
-     * @return
+     * Returns the user's specified AdventurePlan object
+     * TODO - This method doesn't make sense. If you already had the adventurePlanId, you'd be able to look it up elsewhere
+     * Instead make a method that returns an adventure from a plan id, or a plan from an adventure id
+     * @param adventurePlanId the ID of the AdventurePlan in the planned adventures list
+     * @return The adventure plan object
      */
     public AdventurePlan getAdventurePlan(int adventurePlanId) {
         //Look through list of planned adventures to find a certain booking object
@@ -91,7 +93,8 @@ public class User {
 
     /**
      * Gets the most recent planned Adventure that matches the given AdventureId
-     * @return
+     * @param adventureId the id of the adventure that you want to get
+     * @return The specific adventure that you are looking for. Null if no match found.
      */
     public Adventure getAdventure(int adventureId) {
         //TODO - implement getAdventure

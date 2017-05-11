@@ -1,19 +1,14 @@
 package com.adventuresquad.activity;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
-import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.presenter.Register1Presenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 public class Register1Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,7 +18,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     private EditText mEditPassword2;
     private Button mButtonNext;
 
-    //Presenter
+    //DefaultPresenter
     private Register1Presenter mPresenter;
 
     @Override

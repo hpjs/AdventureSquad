@@ -27,7 +27,7 @@ public enum AdventureType {
      */
     public static final HashMap<AdventureType, String> ADVENTURE_TYPE_STRING_DICTIONARY = new HashMap<AdventureType, String>() {
         {
-            //TODO - Extract String resources
+            //TODO - Extract String resources in the correct way
             put(AdventureType.HIKING, "Hikes");
             put(AdventureType.BEACHES, "Beaches");
             put(AdventureType.RAINFORESTS, "Rainforests");
@@ -41,6 +41,7 @@ public enum AdventureType {
             put(AdventureType.SAILING, "Sailing");
         }
 
+        /*
         @Override
         public int size() {
             return 0;
@@ -64,6 +65,6 @@ public enum AdventureType {
         @Override
         public String remove(Object key) {
             return null;
-        }
+        }*/
     };
 }

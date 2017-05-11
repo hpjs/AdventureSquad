@@ -1,31 +1,20 @@
 package com.adventuresquad.activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.adventuresquad.MainActivity;
 import com.adventuresquad.R;
-import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.presenter.LoginPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 /**
  * Activity for logging in to the application, or going to the registration page
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-
-    //TODO - remove these fields once confirmed not needed
-    //private FirebaseAuth mAuth;
-    //private FirebaseAuth.AuthStateListener mAuthListener;
-    //private FirebaseUser mCurrentUser;
 
     //UI items
     private EditText mEditEmail;
@@ -33,7 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button mLoginButton;
     private Button mRegisterButton;
 
-    //Presenter
+    //DefaultPresenter
     private LoginPresenter mPresenter;
 
     @Override
@@ -53,8 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //Set up presenter
         mPresenter = new LoginPresenter(this);
-
-        //TODO - check that this is the right place to do this, or if there is a better way to do it
     }
 
     /**
@@ -65,12 +52,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_button_login :
-                mPresenter.login();
+                mPresenter.login(mEditEmail.getText().toString(), mEditPassword.getText().toString());
                 break;
 
             case R.id.login_button_register:
                 //Start registration process
-                goToRegister();
+                mPresenter.startRegistration();
                 break;
         }
     }

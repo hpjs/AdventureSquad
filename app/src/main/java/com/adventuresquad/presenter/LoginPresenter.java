@@ -2,7 +2,6 @@ package com.adventuresquad.presenter;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.LoginActivity;
@@ -15,7 +14,7 @@ import com.google.android.gms.tasks.Task;
  */
 
 /**
- * Presenter class for Login activity'
+ * DefaultPresenter class for Login activity'
  * Provides an interface between login api and login activity
  */
 public class LoginPresenter {
@@ -28,7 +27,7 @@ public class LoginPresenter {
     /**
      * Performs a login by taking the email and password from the edit text fields
      */
-    private void login(String email, String password) {
+    public void login(String email, String password) {
         //Perform a small amount of validation if necessary and show loading icon
 
         mActivity.showLoadingIcon();
@@ -52,4 +51,11 @@ public class LoginPresenter {
         });
     }
 
+    /**
+     * Kicks off registration logic if any necessary
+     */
+    public void startRegistration() {
+        //TODO - check if any logic is necessary to go here
+        mActivity.goToRegister();
+    }
 }
