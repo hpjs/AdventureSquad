@@ -28,7 +28,7 @@ public class User {
     }
 
     /**
-     * Minimum constructor
+     * Full constructor
      */
     public User(String mUserId, String mUserEmail, String mUserName, List<AdventureType> mPreferredAdventureType) {
         this(mUserId, mUserEmail, mUserName);

@@ -8,6 +8,9 @@ package com.adventuresquad.presenter;
  * Default presenter class for duplicating to make new presenter objects
  */
 public class DefaultPresenter {
+    private DefaultPresenter mActivity;
 
-
+    public DefaultPresenter(DefaultPresenter activity) {
+        mActivity = activity;
+    }
 }

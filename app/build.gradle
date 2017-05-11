@@ -25,16 +25,18 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //Firebase compilation
+
+    //Picasso Image view 'setter'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //Firebase dependencies
     compile 'com.google.firebase:firebase-core:10.2.4'
     compile 'com.google.firebase:firebase-auth:10.2.4'
     compile 'com.google.firebase:firebase-database:10.2.4'
     compile 'com.google.firebase:firebase-storage:10.2.4'
     compile 'com.google.android.gms:play-services-auth:10.2.4'
-
-    //Picasso Image view 'setter'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 
