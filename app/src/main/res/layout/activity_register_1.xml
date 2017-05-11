@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/register_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+        <EditText
+            android:id="@+id/register_one_edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/register_edit_email"
+            android:inputType="textEmailAddress"
+            android:layout_above="@+id/register_one_edit_password"/>
+
+        <EditText
+            android:id="@+id/register_one_edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_edit_password"
+            android:inputType="textPassword"
+            android:layout_above="@+id/register_one_edit_password2"/>
+
+        <EditText
+            android:id="@+id/register_one_edit_password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="@string/login_edit_password2"
+            android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/register_one_button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_next"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

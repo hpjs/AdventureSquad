@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "688819065034",
+    "firebase_url": "https://adventuresquad-9ed44.firebaseio.com",
+    "project_id": "adventuresquad-9ed44",
+    "storage_bucket": "adventuresquad-9ed44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688819065034:android:b59777aebc95dc80",
+        "android_client_info": {
+          "package_name": "com.adventuresquad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688819065034-hk2rsksc65g5dpmul05tlpnrfuag491q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adventuresquad",
+            "certificate_hash": "a29a531be2172ff1022ef9119af3c38ea006e35d"
+          }
+        },
+        {
+          "client_id": "688819065034-kl6pokopseeksq9k2uq991q71k7agnpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAnBaIwZ1zNjHMziHuNCs07B3xCAgOpr0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688819065034-kl6pokopseeksq9k2uq991q71k7agnpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
