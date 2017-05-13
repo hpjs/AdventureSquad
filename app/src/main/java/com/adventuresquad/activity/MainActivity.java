@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.adventuresquad.AdventureFeedAdapter;
 import com.adventuresquad.R;
 import com.adventuresquad.model.Adventure;
 
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private List<Adventure> mAdventureList = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private AdventureAdapter mTrainAdapter;
+    private AdventureFeedAdapter mTrainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
