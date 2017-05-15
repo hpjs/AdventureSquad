@@ -2,26 +2,47 @@ package com.adventuresquad.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.adventuresquad.AdventureFeedAdapter;
 import com.adventuresquad.R;
-import com.adventuresquad.model.Adventure;
+import com.adventuresquad.adapter.AdventureFeedAdapter;
+import com.adventuresquad.presenter.MainPresenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Activity class for the main adventure feed
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private List<Adventure> mAdventureList = new ArrayList<>();
+    private MainPresenter mPresenter;
     private RecyclerView mRecyclerView;
-    private AdventureFeedAdapter mTrainAdapter;
+    private AdventureFeedAdapter mAdventureFeedAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set up presenter
+        mPresenter = new MainPresenter(this);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.activity_main_recycler_view);
+
+        //Set up recycler view adapter & manager etc
+        //mAdventureFeedAdapter = new AdventureFeedAdapter(MainActivity.this);
+
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        //TODO - Potentially move this stuff to the presenter class (have already moved Adapter)
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //mRecyclerView.setAdapter(mAdventureFeedAdapter);
+        mPresenter.setAdapter(mRecyclerView);
+
+        mPresenter.getData();
     }
 
     @Override

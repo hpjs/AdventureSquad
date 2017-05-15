@@ -26,4 +26,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="placeholder_text_short">Lorum Ipsum Dolor Sit</string>
+    <string name="placeholder_distance">25km away</string>
 </resources>

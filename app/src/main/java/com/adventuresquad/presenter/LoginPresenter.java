@@ -1,21 +1,11 @@
 package com.adventuresquad.presenter;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.adventuresquad.R;
 import com.adventuresquad.activity.LoginActivity;
-import com.adventuresquad.api.AuthApi;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-/**
- * Created by Harrison on 11/05/2017.
- */
 
 /**
  * DefaultPresenter class for Login activity'
- * Provides an interface between login api and login activity
+ * Provides an interface between data and activity logic
+ * Created by Harrison on 11/05/2017.
  */
 public class LoginPresenter {
     private LoginActivity mActivity;
@@ -29,26 +19,26 @@ public class LoginPresenter {
      */
     public void login(String email, String password) {
         //Perform a small amount of validation if necessary and show loading icon
-
         mActivity.showLoadingIcon();
 
+        //TODO - Disabled Auth while getting login working
 
-        AuthApi.emailPasswordLogin(email, password, new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                //Check if login was valid
-                //Show error message if not valid
-                if (!task.isSuccessful()) {
-                    Log.w(AuthApi.DEBUG_LOGIN, "signInWithEmail:failed", task.getException());
-                    mActivity.showToastMessage(R.string.login_auth_failed);
-                    //TODO - Add UI code to show the error message (show red TextView with error)
-                }
-                else {
+//        AuthApi.emailPasswordLogin(email, password, new OnCompleteListener() {
+//            @Override
+//            public void onComplete(@NonNull Task task) {
+//                //Check if login was valid
+//                //Show error message if not valid
+//                if (!task.isSuccessful()) {
+//                    Log.w(AuthApi.DEBUG_LOGIN, "signInWithEmail:failed", task.getException());
+//                    mActivity.showToastMessage(R.string.login_auth_failed);
+//                    //TODO - Add UI code to show the error message (show red TextView with error)
+//                }
+//                else {
                     mActivity.hideLoadingIcon();
                     mActivity.loginSuccess();
-                }
-            }
-        });
+//                }
+//            }
+//        });
     }
 
     /**

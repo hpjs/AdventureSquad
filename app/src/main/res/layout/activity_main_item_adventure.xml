@@ -2,29 +2,53 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/picture_frame"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:layout_margin="12dp">
 
     <ImageView
         android:id="@+id/item_adventure_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/item_adventure_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_adventure_image"/>
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:src="@drawable/adventure_placeholder"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_adventure_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_adventure_image"
+            android:text="@string/placeholder_text_short"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/item_adventure_distance"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_adventure_title"
+        android:text="@string/placeholder_text_short"/>
 
     <ProgressBar
-        android:id="@+id/item_adventure_difficulty"
+        android:id="@+id/item_adventure_match"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/item_adventure_image"
+        android:layout_toEndOf="@id/item_adventure_title"
+        android:layout_toRightOf="@id/item_adventure_title"
+        android:indeterminate="false"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
