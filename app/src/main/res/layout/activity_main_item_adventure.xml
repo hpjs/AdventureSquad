@@ -11,30 +11,32 @@
         android:id="@+id/item_adventure_image"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:adjustViewBounds="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        android:src="@drawable/adventure_placeholder"/>
+        android:src="@drawable/adventure_placeholder_small"/>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/item_adventure_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/item_adventure_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_adventure_image"
-            android:text="@string/placeholder_text_short"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_adventure_image"
+        android:text="@string/placeholder_text_short"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/item_adventure_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_adventure_title"
+        android:layout_alignLeft="@id/item_adventure_title"
+        android:layout_alignStart="@id/item_adventure_title"
+        android:layout_marginBottom="5dp"
         android:text="@string/placeholder_text_short"/>
 
     <ProgressBar
@@ -48,7 +50,5 @@
         android:layout_toEndOf="@id/item_adventure_title"
         android:layout_toRightOf="@id/item_adventure_title"
         android:indeterminate="false"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>

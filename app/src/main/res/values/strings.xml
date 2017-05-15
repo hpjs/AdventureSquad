@@ -28,4 +28,12 @@
     </string>
     <string name="placeholder_text_short">Lorum Ipsum Dolor Sit</string>
     <string name="placeholder_distance">25km away</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_create">Create</string>
+    <string name="title_squad">Squad</string>
+    <string name="title_my_trips">My Trips</string>
+    <string name="title_profile">Profile</string>
 </resources>

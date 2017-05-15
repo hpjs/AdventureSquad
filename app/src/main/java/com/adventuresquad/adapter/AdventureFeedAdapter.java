@@ -58,6 +58,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      * @param viewType
      * @return
      */
+    @Override
     public AdventureFeedAdapter.AdventureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_main_item_adventure, parent, false);
@@ -72,6 +73,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      * @param holder   The view holder object to use
      * @param position The position in the list of the item
      */
+    @Override
     public void onBindViewHolder(AdventureFeedAdapter.AdventureViewHolder holder, int position) {
         //TODO
         //Get item of this position
@@ -86,8 +88,12 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         //could just give it all to the presenter and tell it to deal with it
         //This might work in a better form than dependency injection
         Adventure adventure = mPresenter.getAdventure(position);
+        onPopulateViewHolder(holder, adventure);
 
-        //set image
+    }
+
+    public void onPopulateViewHolder(AdventureViewHolder holder, Adventure adventure) {
+        holder.mImage.setImageResource(R.drawable.adventure_placeholder);
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Change these values to actually mean something (e.g. actual 'matchiness')
         holder.mMatch.setMax(10);

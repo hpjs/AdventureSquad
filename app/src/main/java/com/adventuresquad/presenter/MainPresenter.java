@@ -19,11 +19,10 @@ public class MainPresenter {
     private List<Adventure> mAdventureList = new ArrayList<>();
     private AdventureFeedAdapter mAdventureAdapter;
 
-    public MainPresenter(MainActivity activity) {
-
+    public MainPresenter(MainActivity activity, AdventureFeedAdapter adventureAdapter) {
+        //Dependency injections
         mActivity = activity;
-
-        mAdventureAdapter = new AdventureFeedAdapter(mActivity, this);
+        mAdventureAdapter = adventureAdapter;
     }
 
     /**

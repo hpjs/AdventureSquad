@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private MainPresenter mPresenter;
     private RecyclerView mRecyclerView;
-    private AdventureFeedAdapter mAdventureFeedAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -27,21 +26,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set up presenter
-        mPresenter = new MainPresenter(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_main_recycler_view);
 
         //Set up recycler view adapter & manager etc
-        //mAdventureFeedAdapter = new AdventureFeedAdapter(MainActivity.this);
+        AdventureFeedAdapter mAdventureFeedAdapter = new AdventureFeedAdapter(this, mPresenter);
 
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        //TODO - Potentially move this stuff to the presenter class (have already moved Adapter)
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //mRecyclerView.setAdapter(mAdventureFeedAdapter);
+        mRecyclerView.setAdapter(mAdventureFeedAdapter);
         mPresenter.setAdapter(mRecyclerView);
 
+        //Set up presenter
+        mPresenter = new MainPresenter(this, mAdventureFeedAdapter);
         mPresenter.getData();
     }
 
