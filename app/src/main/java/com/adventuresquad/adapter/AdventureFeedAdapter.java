@@ -46,9 +46,15 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     /**
      * Constructor
      */
-    public AdventureFeedAdapter(Context context, MainPresenter presenter) {
+    public AdventureFeedAdapter(Context context) {
         mContext = context;
-        mPresenter = presenter;
+    }
+
+    /**
+     * Sets up the presenter dependency
+     */
+    public void setPresenter(MainPresenter presenter) {
+        this.mPresenter = presenter;
     }
 
     /**

@@ -1,8 +1,11 @@
 package com.adventuresquad.api;
 
+import com.adventuresquad.model.Adventure;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 /**
  * API class to get and set individual or lists of adventures from a data source (e.g. Firebase)
@@ -11,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class AdventureApi {
 
-    public static final String ADVENTURE_DATABASE_LOCATION = "adventure";
+    public static final String ADVENTURE_DATABASE_LOCATION = "adventures";
 
     private FirebaseDatabase mDatabaseInstance;
     private DatabaseReference mAdventureRef;
@@ -31,6 +34,19 @@ public class AdventureApi {
 
         //
         mAdventureRef.addListenerForSingleValueEvent(listener);
+    }
+
+    public void putAdventure(Adventure adventure) {
+        mAdventureRef.setValue(adventure);
+    }
+
+    public void putAdventures(List<Adventure> adventureList) {
+        mAdventureRef.setValue(adventureList);
+    }
+
+    public void getAdventures(ValueEventListener listener) {
+        mAdventureRef.addListenerForSingleValueEvent(listener);
+
     }
 
     /* SAmple code to get data
