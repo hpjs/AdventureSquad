@@ -26,19 +26,19 @@ public interface AdventureApiPresenter {
      *
      * @param adventure The adventure that was retrieved by the API
      */
-    public void onGetAdventure(Adventure adventure);
+    public void onRetrieveAdventure(Adventure adventure);
 
     /**
      * Callback method after an API request for a list of adventures
      *
      * @param adventureList The list of adventures that was retrieved by the API
      */
-    public void onGetAdventureList(List<Adventure> adventureList);
+    public void onRetrieveAdventureList(List<Adventure> adventureList);
 
     /**
      * Called if there was a generic issue with retrieving a certain request for data
      */
-    public void onGetError(Exception e);
+    public void onRetrieveError(Exception e);
 
     /**
      * Called when there is a specific Firebase error that occcurs.

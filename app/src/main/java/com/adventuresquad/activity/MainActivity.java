@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity /*implements View.OnClickLis
 
 
         //Set up presenter
-        mPresenter = new MainPresenter(this, mAdventureFeedAdapter, new AdventureApi());
+        mPresenter = new MainPresenter(this, new AdventureApi());
 
         //Set up presenter dependency in adapter
         mAdventureFeedAdapter.setPresenter(mPresenter);
 
         //Test methods to insert sample adventures into database
-        mPresenter.setSampleData();
+        mPresenter.storeSampleData();
         //mPresenter.setLocalSampleData();
 
         //Get the data from Firebase

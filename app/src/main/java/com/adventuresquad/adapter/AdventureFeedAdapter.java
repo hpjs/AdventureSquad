@@ -13,6 +13,8 @@ import com.adventuresquad.R;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.MainPresenter;
 
+import java.util.List;
+
 /**
  * Adapter class for the main Adventure feed page recycler view
  * Created by Harrison on 13/05/2017.
@@ -21,6 +23,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
 
     private MainPresenter mPresenter;
     private Context mContext;
+    private List<Adventure> mAdventureList;
 
     //Currently holding a reference back to the Presenter class in order to request data etc
 
@@ -90,11 +93,8 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         //Therefore, make a reference to the data class (either Api class or Presenter)
         //in order to get the actual data when binding
 
-        //ALTERNATIVE TO 'getting' data from the presenter...
-        //could just give it all to the presenter and tell it to deal with it
-        //This might work in a better form than dependency injection
-        Adventure adventure = mPresenter.getAdventure(position);
-        onPopulateViewHolder(holder, adventure);
+        //Note: Adapter should (ideally) only talk to the activity
+        onPopulateViewHolder(holder, mAdventureList.get(position));
 
     }
 
