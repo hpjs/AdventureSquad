@@ -13,16 +13,17 @@ import com.adventuresquad.R;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.MainPresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Adapter class for the main Adventure feed page recycler view
  * Created by Harrison on 13/05/2017.
  */
 public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdapter.AdventureViewHolder> {
 
-    private MainPresenter mPresenter;
     private Context mContext;
-
-    //Currently holding a reference back to the Presenter class in order to request data etc
+    private List<Adventure> mAdventureList;
 
     /**
      * View holder class for recycler view
@@ -48,14 +49,9 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      */
     public AdventureFeedAdapter(Context context) {
         mContext = context;
+        mAdventureList = new ArrayList<>();
     }
 
-    /**
-     * Sets up the presenter dependency
-     */
-    public void setPresenter(MainPresenter presenter) {
-        this.mPresenter = presenter;
-    }
 
     /**
      * Inflates a single Adventure card item
@@ -72,36 +68,33 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         return new AdventureViewHolder(itemView);
     }
 
+    public void setAdventureList(List<Adventure> adventureList) {
+        this.mAdventureList = adventureList;
+    }
+
     /**
      * Called once the view holder has been initialised and 'bound' properly,
-     * to start populating with details of a particular list item at
-     *
+     * to start populating a card with details of a particular adventure
      * @param holder   The view holder object to use
      * @param position The position in the list of the item
      */
     @Override
     public void onBindViewHolder(AdventureFeedAdapter.AdventureViewHolder holder, int position) {
-        //TODO
-        //Get item of this position
-
         //Set view with text & details from the item
 
-        //If this class does not contain the actual data, then it needs to know where to get it from
-        //Therefore, make a reference to the data class (either Api class or Presenter)
-        //in order to get the actual data when binding
-
-        //ALTERNATIVE TO 'getting' data from the presenter...
-        //could just give it all to the presenter and tell it to deal with it
-        //This might work in a better form than dependency injection
-        Adventure adventure = mPresenter.getAdventure(position);
-        onPopulateViewHolder(holder, adventure);
-
+        //Note: Adapter should (ideally) only talk to the activity
+        onPopulateViewHolder(holder, mAdventureList.get(position));
     }
 
+    /**
+     * Populates the view holder with the data from a particular adventure
+     * @param holder
+     * @param adventure
+     */
     public void onPopulateViewHolder(AdventureViewHolder holder, Adventure adventure) {
         holder.mImage.setImageResource(R.drawable.adventure_placeholder);
         holder.mTitle.setText(adventure.getAdventureTitle());
-        //TODO - Change these values to actually mean something (e.g. actual 'matchiness')
+        //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter
         holder.mMatch.setMax(10);
         holder.mMatch.setProgress(4);
         //TODO - Calculate the distance itself
@@ -113,6 +106,6 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      */
     @Override
     public int getItemCount() {
-        return mPresenter.getAdventureList().size();
+        return mAdventureList.size();
     }
 }

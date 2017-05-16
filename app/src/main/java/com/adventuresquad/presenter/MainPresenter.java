@@ -1,16 +1,11 @@
 package com.adventuresquad.presenter;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.MainActivity;
-import com.adventuresquad.adapter.AdventureFeedAdapter;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.model.Adventure;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,63 +14,26 @@ import java.util.List;
  * Main Presenter class to read data from API and present data to main activity
  * Created by Harrison on 11/05/2017.
  */
-public class MainPresenter {
+public class MainPresenter implements AdventureApiPresenter {
 
-    private static final String DEBUG_MAIN_PRESENTER = "debug_main_presenter";
+    //Dependencies
     private MainActivity mActivity;
-    //Example list for the time being
-    private List<Adventure> mAdventureList = new ArrayList<>();
-    private AdventureFeedAdapter mAdventureAdapter;
     private AdventureApi mApi;
+    //Data Fields
+    private List<Adventure> mAdventureList = new ArrayList<>();
+    //Debugging
+    private static final String DEBUG_MAIN_PRESENTER = "debug_main_presenter";
 
-    public MainPresenter(MainActivity activity, AdventureFeedAdapter adventureAdapter, AdventureApi api) {
+    /**
+     * CONSTRUCTOR
+     *
+     * @param activity The activity this presenter should be attached to
+     * @param api      The api instance that this presenter should call to get data
+     */
+    public MainPresenter(MainActivity activity, AdventureApi api) {
         //Dependency injections
         mActivity = activity;
-        mAdventureAdapter = adventureAdapter;
         mApi = api;
-    }
-
-    /**
-     * Sets the local adapter to the recyler view in the activity class
-     *
-     * @param view
-     */
-    public void setAdapter(RecyclerView view) {
-        view.setAdapter(mAdventureAdapter);
-    }
-
-    /**
-     * Returns the number of items in the list of items (mainly used by
-     *
-     * @return
-     */
-    public List<Adventure> getAdventureList() {
-        return mAdventureList;
-    }
-
-    //Gets a list of adventures from the database, passes to the adapter (?), and updates the UI
-    public void getData() {
-        mApi.testReadData(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Stuff to do when data is recieved
-                mActivity.showToastMessage(dataSnapshot.toString());
-
-                //Attempts to retrieve the data as a list of Adventures
-                try {
-                    mAdventureList = (List<Adventure>) dataSnapshot.getValue();
-                } catch (Exception e) {
-                    Log.d(DEBUG_MAIN_PRESENTER, "Failed to cast to list of exceptions");
-                }
-                //Update adapter data
-                mAdventureAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Show error message on UI 'failed to read data' or something
-            }
-        });
     }
 
     /**
@@ -99,59 +57,80 @@ public class MainPresenter {
     }
 
     /**
-     * Inserts sample data into Firebase
+     * Creates sample data, puts into database
      */
-    public void setSampleData() {
-
+    public void storeSampleData() {
         List<Adventure> list = new ArrayList<>();
-
         Adventure adventure = new Adventure("Firebase Entry 1", 111, 222);
-        //mAdventureList.add(adventure);
         list.add(adventure);
-
         adventure = new Adventure("Firebase Entry 2", 222, 222);
         list.add(adventure);
-
         adventure = new Adventure("Firebase Entry 3", 333, 333);
         list.add(adventure);
-
         adventure = new Adventure("Firebase Entry 4", 444, 444);
         list.add(adventure);
-
         adventure = new Adventure("Firebase Entry 5", 555, 555);
         list.add(adventure);
 
-        mApi.putAdventures(list);
+        mApi.putAdventureList(list);
     }
 
     /**
-     * Gets a particular adventure at a certain position
-     *
-     * @param position
+     * Begins process to retrieve a list of adventures FROM THE DATABASE.
+     * Callback method: onRetrieveAdventureList
      * @return
      */
-    public Adventure getAdventure(int position) {
-        return mAdventureList.get(position);
+    public void retrieveAdventureList() {
+        mApi.getAdventureList(this);
     }
 
     /**
-     * Gets a list of adventures from the database, formats for recycler view etc
-     * Stores in the local list of adventures
-     *
+     * Retrieves an individual adventure based on it's id
+     */
+    public void retrieveAdventure(String adventureId) {
+        mApi.getAdventure(this, adventureId);
+    }
+
+    /**
+     * Returns the locally-held list of adventures that was retrieved by the Api (on demand)
      * @return
      */
-    public void getAdventures() {
-        mApi.getAdventures(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Attempts to get an adventure and put it in the list
-                mAdventureList.add(dataSnapshot.getValue(Adventure.class));
-            }
+    public List<Adventure> getAdventureList() {
+        return mAdventureList;
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                mActivity.showToastMessage(R.string.read_database_error);
-            }
-        });
+    //Adventure API presenter callback methods
+
+    /**
+     * Returns a specific adventure, may not be used here (maybe add to the current list)
+     *
+     * @param adventure The adventure that was retrieved by the API
+     */
+    @Override
+    public void onRetrieveAdventure(Adventure adventure) {
+        mAdventureList.add(adventure);
+    }
+
+    /**
+     * Takes list and passes it back up to activity, formatted as necessary
+     *
+     * @param adventureList The list of adventures that was retrieved by the API
+     */
+    @Override
+    public void onRetrieveAdventureList(List<Adventure> adventureList) {
+        mAdventureList = adventureList;
+        //TODO - pass this back up to activity
+
+    }
+
+    /**
+     * Takes error and passes it back up to activity to deal with it
+     *
+     * @param e
+     */
+    @Override
+    public void onRetrieveError(Exception e) {
+        Log.d(DEBUG_MAIN_PRESENTER, e.toString());
+        mActivity.displayError(e.toString());
     }
 }
