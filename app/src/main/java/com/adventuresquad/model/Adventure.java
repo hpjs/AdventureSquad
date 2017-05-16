@@ -13,7 +13,7 @@ public class Adventure {
     //Solution - have an intermediary 'adventure bookings' object width the date etc
 
     //Adventure ID should be recieved from firebase, has to be a string (hexadecimal UUID)
-    private String mAdventureId;
+    //private String mAdventureId;
     private String mAdventureTitle;
 
     //Other adventure attributes, e.g. location, tags
@@ -24,6 +24,11 @@ public class Adventure {
 
     //Types that an adventure matches
     private List<AdventureType> mAdventureTypes;
+
+    /**
+     * Empty constructor (for marshalling)
+     */
+    public Adventure (){}
 
     /**
      * Default constructor
@@ -48,9 +53,9 @@ public class Adventure {
         mAdventureTypes = adventureTypes;
     }
 
-    public String getAdventureId() {
+    /*public String getAdventureId() {
         return mAdventureId;
-    }
+    }*/
 
     public String getAdventureTitle() {
         return mAdventureTitle;

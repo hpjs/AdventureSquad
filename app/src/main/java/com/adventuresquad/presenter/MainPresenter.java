@@ -131,6 +131,6 @@ public class MainPresenter implements AdventureApiPresenter {
     @Override
     public void onRetrieveError(Exception e) {
         Log.d(DEBUG_MAIN_PRESENTER, e.toString());
-        mActivity.showToastMessage(R.string.read_database_error);
+        mActivity.displayError(e.toString());
     }
 }

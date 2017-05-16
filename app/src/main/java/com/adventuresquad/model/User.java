@@ -9,6 +9,7 @@ public class User {
     private String mUserName;
     private String mUserEmail;
     //To link this user object to the authentication
+    //TODO - may not actually need this as a field itself here (may still be useful to have another copy though)
     private String mUserId;
     //Password stored in authentication, not in app
 
@@ -17,6 +18,11 @@ public class User {
 
     //List of all of this user's planned adventures
     private List<Adventure> mAdventurePlans;
+
+    /**
+     * Empty constructor
+     */
+    public User() {}
 
     /**
      * Minimum constructor

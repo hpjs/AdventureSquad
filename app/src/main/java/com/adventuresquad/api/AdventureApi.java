@@ -1,5 +1,7 @@
 package com.adventuresquad.api;
 
+import android.util.Log;
+
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.AdventureApiPresenter;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,8 @@ public class AdventureApi {
     //'Database' here just means that it holds all of the individual adventure objects underneath it
     public static final String ADVENTURES_DATABASE = "adventures";
 
+    public static final String DEBUG_ADVENTURE_API = "adventure_api";
+
     private FirebaseDatabase mDatabaseInstance;
     private DatabaseReference mAdventuresDatabase;
 
@@ -33,30 +37,14 @@ public class AdventureApi {
         mAdventuresDatabase = mDatabaseInstance.getReference(ADVENTURES_DATABASE);
     }
 
-    public void testWriteData() {
-        //NOTE: This directly sets the value of the 'adventures' object in the database!
-        //So it ends up being a key of 'adventures' and a value of "My First Adventure!"
-        //It's basically a literal representation of a JSON or XML file in a database.
-        mAdventuresDatabase.setValue("My first adventure!");
-    }
-
-    //Pass in a listener to do the actual stuff when data is read
-    public void testReadData(ValueEventListener listener) {
-        //TODO - Confirm that database ref is initialised first
-
-        //
-        mAdventuresDatabase.addListenerForSingleValueEvent(listener);
-    }
-
-    //TODO - test this method
     public void putAdventure(Adventure adventure, String key) {
-        //TODO - have it generate a unique ID to be the key value for this object
-        DatabaseReference mNewAdventureRef = mAdventuresDatabase.child("UNIQUE_ID_HERE");
+        //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
+        DatabaseReference mNewAdventureRef = mAdventuresDatabase.child(key);
         mNewAdventureRef.setValue(adventure);
     }
 
     public void putAdventure(Adventure adventure) {
-        //TODO - have it generate a unique ID to be the key value for this object
+        //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
         putAdventure(adventure, "INSERT_UNIQUE_ID_HERE");
     }
 
@@ -78,7 +66,6 @@ public class AdventureApi {
     public void getAdventure(final AdventureApiPresenter callbackPresenter, String id) {
         DatabaseReference adventure = mAdventuresDatabase.child(id);
         adventure.addListenerForSingleValueEvent(new ValueEventListener() {
-            //TODO - test this method
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
@@ -107,6 +94,8 @@ public class AdventureApi {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Adventure> list = new ArrayList<Adventure>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Log.d(DEBUG_ADVENTURE_API, "Child: " + child.toString());
+                    //TODO - fix marshalling to normal values
                     Adventure a = child.getValue(Adventure.class);
                     list.add(a);
                 }
