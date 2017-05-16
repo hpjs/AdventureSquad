@@ -63,6 +63,7 @@ public class MainPresenter {
 
                 //Attempts to retrieve the data as a list of Adventures
                 try {
+                    //TODO - this cast isn't working
                     mAdventureList = (List<Adventure>) dataSnapshot.getValue();
                 } catch (Exception e) {
                     Log.d(DEBUG_MAIN_PRESENTER, "Failed to cast to list of exceptions");
