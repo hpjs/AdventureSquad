@@ -31,7 +31,7 @@
         <activity android:name=".activity.Register1Activity">
         </activity>
         <activity
-            android:name=".NavigationActivity"
+            android:name=".activity.NavigationActivity"
             android:label="@string/title_activity_navigation">
         </activity>
     </application>

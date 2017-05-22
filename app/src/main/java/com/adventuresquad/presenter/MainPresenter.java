@@ -88,6 +88,7 @@ public class MainPresenter implements AdventureApiPresenter {
      */
     public void retrieveAdventure(String adventureId) {
         mApi.getAdventure(this, adventureId);
+        //TODO - pass adventure back up
     }
 
     /**
@@ -118,7 +119,6 @@ public class MainPresenter implements AdventureApiPresenter {
     @Override
     public void onRetrieveAdventureList(List<Adventure> adventureList) {
         mAdventureList = adventureList;
-        //TODO - pass this back up to activity
         mActivity.onRetrieveAdventureList(mAdventureList);
     }
 

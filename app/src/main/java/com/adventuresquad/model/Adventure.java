@@ -13,7 +13,7 @@ public class Adventure {
     //Solution - have an intermediary 'adventure bookings' object width the date etc
 
     //Adventure ID should be recieved from firebase, has to be a string (hexadecimal UUID)
-    //private String mAdventureId;
+    private String mAdventureId;
     private String mAdventureTitle;
 
     //Other adventure attributes, e.g. location, tags
@@ -87,6 +87,14 @@ public class Adventure {
 
     public void setAdventureTypes(List<AdventureType> adventureTypes) {
         mAdventureTypes = adventureTypes;
+    }
+
+    public String getAdventureId() {
+        return mAdventureId;
+    }
+
+    public void setAdventureId(String adventureId) {
+        mAdventureId = adventureId;
     }
 
     //TODO - add image storage for the images

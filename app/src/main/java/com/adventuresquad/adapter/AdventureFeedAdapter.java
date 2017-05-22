@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.model.Adventure;
-import com.adventuresquad.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,18 +79,10 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      */
     @Override
     public void onBindViewHolder(AdventureFeedAdapter.AdventureViewHolder holder, int position) {
-        //Set view with text & details from the item
+        //Get correct adventure item
+        Adventure adventure = mAdventureList.get(position);
 
-        //Note: Adapter should (ideally) only talk to the activity
-        onPopulateViewHolder(holder, mAdventureList.get(position));
-    }
-
-    /**
-     * Populates the view holder with the data from a particular adventure
-     * @param holder
-     * @param adventure
-     */
-    public void onPopulateViewHolder(AdventureViewHolder holder, Adventure adventure) {
+        //Populate view with text
         holder.mImage.setImageResource(R.drawable.adventure_placeholder);
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter
@@ -108,4 +99,14 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     public int getItemCount() {
         return mAdventureList.size();
     }
+
+    /**
+     * Returns an item at a specific position in the recycler view list
+     * @param position
+     * @return
+     */
+    public Adventure getListItem(int position) {
+        return mAdventureList.get(position);
+    }
+
 }

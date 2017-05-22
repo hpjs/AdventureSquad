@@ -114,6 +114,8 @@ public class AdventureApi {
                     Log.d(DEBUG_ADVENTURE_API, "Child: " + adventureSnapshot.toString());
                     //Marshalling fixed, just needed some setters on the Adventure class :)
                     Adventure a = adventureSnapshot.getValue(Adventure.class);
+                    //Gets the adventure ID as well
+                    a.setAdventureId(adventureSnapshot.getKey());
                     list.add(a);
                 }
                 callbackPresenter.onRetrieveAdventureList(list);
