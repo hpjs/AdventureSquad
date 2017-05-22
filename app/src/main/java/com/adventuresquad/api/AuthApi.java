@@ -1,36 +1,32 @@
 package com.adventuresquad.api;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.adventuresquad.presenter.AuthApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
-
 /**
  * Created by Harrison on 8/05/2017.
- */
-
-/**
- * Dealing with all authentication and login
+ * API to deal with all authentication and login
  */
 public class AuthApi {
 
-    public static FirebaseAuth mAuth;
-    private static FirebaseUser mCurrentUser;
-    private static FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
-    public static final String DEBUG_LOGIN = "login";
-
+    public static final String DEBUG_AUTH = "auth";
 
     /**
      * Initialises the AuthApi object with a listener for various state changes, including log-ins
      * NOTE: Possible problem coming here after registration.
      */
-    public static void initialiseAuthService () {
+    public void initialiseAuthService () {
         mAuth = FirebaseAuth.getInstance();
 
         //Initialise authlistener
@@ -40,10 +36,10 @@ public class AuthApi {
                 setCurrentUser(firebaseAuth.getCurrentUser());
                 if (getCurrentUser() != null) {
                     // User is signed in
-                    Log.d(DEBUG_LOGIN, "onAuthStateChanged:signed_in:" + getCurrentUser().getUid());
+                    Log.d(DEBUG_AUTH, "onAuthStateChanged:signed_in:" + getCurrentUser().getUid());
                 } else {
                     // User is signed out
-                    Log.d(DEBUG_LOGIN, "onAuthStateChanged:signed_out");
+                    Log.d(DEBUG_AUTH, "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -52,7 +48,7 @@ public class AuthApi {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-    public static void deInitialiseAuthService() {
+    public void deInitialiseAuthService() {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -64,9 +60,9 @@ public class AuthApi {
      * @param email
      * @param password
      */
-    public static void registerUser(String email, String password,
+    public void registerUser(String email, String password,
                                     OnCompleteListener listener) {
-        Log.d(AuthApi.DEBUG_LOGIN, "Attempting to register user");
+        Log.d(AuthApi.DEBUG_AUTH, "Attempting to register user");
         //Create user with email and password will return a 'promise'
         if (mAuth == null) {
             mAuth = FirebaseAuth.getInstance();
@@ -101,7 +97,7 @@ public class AuthApi {
      * Checks if the user is logged in or not (i.e. getting current user is null or not)
      * @return
      */
-    public static boolean checkUserLoggedIn() {
+    public boolean checkUserLoggedIn() {
         try {
             setCurrentUser(mAuth.getCurrentUser());
             return true;
@@ -116,31 +112,35 @@ public class AuthApi {
      * Should pass in an anonymous inner class with logic for successful/not successful login
      * @return Whether the email/pw were validated (i.e. login was 'started' or not)
      */
-    public static void emailPasswordLogin(String email, String password,
-                                          OnCompleteListener listener) {
-        if (!email.isEmpty() && !password.isEmpty()) {
-            mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(listener);
-        }
+    public void emailPasswordLogin(final AuthApiPresenter callback, String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(DEBUG_AUTH,"signInWithEmail:onComplete");
+                            callback.onLoginSuccess();
+                        } else {
+                            Log.d(DEBUG_AUTH,"signInWithEmail:failed", task.getException());
+                            callback.onLoginFail();
+                        }
+                    }
+                });
     }
 
     /**
      * Handles user creation with database
      */
-    public static FirebaseUser getUser() {
+    public FirebaseUser getUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    public static FirebaseUser getCurrentUser() {
+    public FirebaseUser getCurrentUser() {
         return mCurrentUser;
     }
 
-    public static void setCurrentUser(FirebaseUser mCurrentUser) {
-        AuthApi.mCurrentUser = mCurrentUser;
+    public void setCurrentUser(FirebaseUser mCurrentUser) {
+        mCurrentUser = mCurrentUser;
     }
 }
-
-
-// guil.drehmer@gmail.com
-// 0411 483 669

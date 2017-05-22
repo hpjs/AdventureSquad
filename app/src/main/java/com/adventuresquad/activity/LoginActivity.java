@@ -9,21 +9,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
-import com.adventuresquad.presenter.LoginPresenter;
+import com.adventuresquad.api.AuthApi;
+import com.adventuresquad.interfaces.PresentableAuthActivity;
+import com.adventuresquad.presenter.AuthPresenter;
 
 /**
  * Activity for logging in to the application, or going to the registration page
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PresentableAuthActivity {
 
     //UI items
+    //TODO - rebind using Butterknife
     private EditText mEditEmail;
     private EditText mEditPassword;
     private Button mLoginButton;
     private Button mRegisterButton;
 
     //DefaultPresenter
-    private LoginPresenter mPresenter;
+    private AuthPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegisterButton.setOnClickListener(this);
 
         //Set up presenter
-        mPresenter = new LoginPresenter(this);
+        mPresenter = new AuthPresenter(this, new AuthApi());
     }
 
     /**
@@ -88,19 +91,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Shows a given string resource as a toast
      */
-    public void showToastMessage(int stringResourceId) {
-        Toast.makeText(this, stringResourceId,
+    public void showToastMessage(String text) {
+        Toast.makeText(this, text,
                 Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Performs actions for login success
-     */
-    public void loginSuccess() {
+
+    @Override
+    public void onLoginSuccess() {
         //Go to main page, put any necessary extras
         Intent intentMainActivity = new Intent(this, MainActivity.class);
         startActivity(intentMainActivity);
     }
 
+    @Override
+    public void onLoginFail() {
 
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+        showToastMessage(errorMessage);
+    }
 }
