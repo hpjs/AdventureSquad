@@ -25,41 +25,57 @@ public class AdventureApi {
     //So every object underneath this needs a new unique identifier (which you can generate)
     //Every object in the database is just a key/value pair (literally just a big JSON file)
     //'Database' here just means that it holds all of the individual adventure objects underneath it
-    public static final String ADVENTURES_DATABASE = "adventures";
+    public static final String ADVENTURES_LIST = "adventures";
 
     public static final String DEBUG_ADVENTURE_API = "adventure_api";
 
     private FirebaseDatabase mDatabaseInstance;
     private DatabaseReference mAdventuresDatabase;
 
+    /**
+     * Constructor, initialises database references
+     */
     public AdventureApi() {
         mDatabaseInstance = FirebaseDatabase.getInstance();
-        mAdventuresDatabase = mDatabaseInstance.getReference(ADVENTURES_DATABASE);
+        mAdventuresDatabase = mDatabaseInstance.getReference(ADVENTURES_LIST);
     }
 
+    /**
+     * Store new adventure in database (RECOMMEND: USE putAdventure(adventure) INSTEAD)
+     * @param adventure The adventure to store in the DB
+     * @param key The key to store the adventure under
+     */
     public void putAdventure(Adventure adventure, String key) {
         //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
         DatabaseReference mNewAdventureRef = mAdventuresDatabase.child(key);
         mNewAdventureRef.setValue(adventure);
     }
 
+    /**
+     * Adds adventure to database with unique ID automatically
+     * @param adventure Adventure to store in DB
+     */
     public void putAdventure(Adventure adventure) {
         //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
-        putAdventure(adventure, "INSERT_UNIQUE_ID_HERE");
+        //putAdventure(adventure, "INSERT_UNIQUE_ID_HERE");
+        DatabaseReference mNewAdventureRef = mAdventuresDatabase.push();
+        mNewAdventureRef.setValue(adventure);
     }
 
-    //TODO - test this method
+    /**
+     * Stores a list of adventures in the database
+     * @param adventureList
+     */
     public void putAdventureList(List<Adventure> adventureList) {
         int i = 12340;
         for (Adventure a : adventureList) {
-            putAdventure(a, "MOCK_UUID_" + i);
+            putAdventure(a);
             i++;
         }
     }
 
     /**
      * Retrieves a specific adventure according to it's UUID
-     *
      * @param callbackPresenter The presenter to call methods on when a result is reached
      * @param id                The UUID of the adventure to retrieve
      */
@@ -93,10 +109,11 @@ public class AdventureApi {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Adventure> list = new ArrayList<Adventure>();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Log.d(DEBUG_ADVENTURE_API, "Child: " + child.toString());
-                    //TODO - fix marshalling to normal values
-                    Adventure a = child.getValue(Adventure.class);
+                //Loop over a list of retrieved adventures
+                for (DataSnapshot adventureSnapshot : dataSnapshot.getChildren()) {
+                    Log.d(DEBUG_ADVENTURE_API, "Child: " + adventureSnapshot.toString());
+                    //Marshalling fixed, just needed some setters on the Adventure class :)
+                    Adventure a = adventureSnapshot.getValue(Adventure.class);
                     list.add(a);
                 }
                 callbackPresenter.onRetrieveAdventureList(list);
@@ -108,6 +125,18 @@ public class AdventureApi {
             }
         });
 
+    }
+
+    /**
+     * Manually marshals the given data snapshot into an adventure object (should not be needed)
+     * @param adventureSnapshot Snapshot of an adventure to marshal
+     * @return
+     */
+    public Adventure marshalData(DataSnapshot adventureSnapshot) {
+        String name = (String) adventureSnapshot.child("adventureTitle").getValue();
+        double latitude = (double) adventureSnapshot.child("latitude").getValue();
+        double longitude = (double) adventureSnapshot.child("longitude").getValue();
+        return new Adventure(name, latitude, longitude);
     }
 
     /* SAmple code to get data
