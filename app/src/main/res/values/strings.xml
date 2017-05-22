@@ -38,8 +38,8 @@
     <string name="title_profile">Profile</string>
     <string name="read_database_error">Could not get data, database error</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
+    <string name="placeholder_text_large">
+        "\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
         "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "

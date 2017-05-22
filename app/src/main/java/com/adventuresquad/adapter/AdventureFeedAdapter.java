@@ -80,7 +80,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     @Override
     public void onBindViewHolder(AdventureFeedAdapter.AdventureViewHolder holder, int position) {
         //Get correct adventure item
-        Adventure adventure = mAdventureList.get(position);
+        Adventure adventure = getListItem(position);
 
         //Populate view with text
         holder.mImage.setImageResource(R.drawable.adventure_placeholder);

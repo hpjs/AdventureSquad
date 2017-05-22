@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public class AdventureApi {
 
     private FirebaseDatabase mDatabaseInstance;
     private DatabaseReference mAdventuresDatabase;
+    private FirebaseStorage mStorage;
+    private StorageReference mImageStore;
 
     /**
      * Constructor, initialises database references
@@ -38,6 +42,8 @@ public class AdventureApi {
     public AdventureApi() {
         mDatabaseInstance = FirebaseDatabase.getInstance();
         mAdventuresDatabase = mDatabaseInstance.getReference(ADVENTURES_LIST);
+        mStorage = FirebaseStorage.getInstance();
+        mImageStore = mStorage.getReference("images");
     }
 
     /**
@@ -56,9 +62,9 @@ public class AdventureApi {
      * @param adventure Adventure to store in DB
      */
     public void putAdventure(Adventure adventure) {
-        //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
         //putAdventure(adventure, "INSERT_UNIQUE_ID_HERE");
         DatabaseReference mNewAdventureRef = mAdventuresDatabase.push();
+        adventure.setAdventureId(mNewAdventureRef.getKey());
         mNewAdventureRef.setValue(adventure);
     }
 
@@ -67,10 +73,9 @@ public class AdventureApi {
      * @param adventureList
      */
     public void putAdventureList(List<Adventure> adventureList) {
-        int i = 12340;
+        //mAdventuresDatabase.setValue(adventureList);
         for (Adventure a : adventureList) {
             putAdventure(a);
-            i++;
         }
     }
 
@@ -111,11 +116,7 @@ public class AdventureApi {
                 List<Adventure> list = new ArrayList<Adventure>();
                 //Loop over a list of retrieved adventures
                 for (DataSnapshot adventureSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(DEBUG_ADVENTURE_API, "Child: " + adventureSnapshot.toString());
-                    //Marshalling fixed, just needed some setters on the Adventure class :)
                     Adventure a = adventureSnapshot.getValue(Adventure.class);
-                    //Gets the adventure ID as well
-                    a.setAdventureId(adventureSnapshot.getKey());
                     list.add(a);
                 }
                 callbackPresenter.onRetrieveAdventureList(list);
@@ -129,38 +130,18 @@ public class AdventureApi {
 
     }
 
-    /**
+    public void storeImage()
+
+    /*
      * Manually marshals the given data snapshot into an adventure object (should not be needed)
      * @param adventureSnapshot Snapshot of an adventure to marshal
      * @return
      */
-    public Adventure marshalData(DataSnapshot adventureSnapshot) {
-        String name = (String) adventureSnapshot.child("adventureTitle").getValue();
-        double latitude = (double) adventureSnapshot.child("latitude").getValue();
-        double longitude = (double) adventureSnapshot.child("longitude").getValue();
-        return new Adventure(name, latitude, longitude);
-    }
-
-    /* SAmple code to get data
-    ValueEventListener postListener = new ValueEventListener() {
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        // Get Post object and use the values to update the UI
-        Post post = dataSnapshot.getValue(Post.class);
-        // ...
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-        // Getting Post failed, log a message
-        Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-        // ...
-    }
-};
-mPostReference.addValueEventListener(postListener);
-    * */
-
-    //Or only get data once:
-    //addListenerForSingleValueEvent() method
+//    public Adventure marshalData(DataSnapshot adventureSnapshot) {
+//        String name = (String) adventureSnapshot.child("adventureTitle").getValue();
+//        double latitude = (double) adventureSnapshot.child("latitude").getValue();
+//        double longitude = (double) adventureSnapshot.child("longitude").getValue();
+//        return new Adventure(name, latitude, longitude);
+//    }
 
 }

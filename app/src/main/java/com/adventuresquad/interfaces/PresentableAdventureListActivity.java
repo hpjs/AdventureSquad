@@ -10,8 +10,6 @@ import java.util.List;
  */
 public interface PresentableAdventureListActivity extends Presentable {
 
-    public void onRetrieveAdventure(Adventure adventure);
-
     public void onRetrieveAdventureList(List<Adventure> adventureList);
 
 }

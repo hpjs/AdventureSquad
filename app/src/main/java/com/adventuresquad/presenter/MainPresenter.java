@@ -1,7 +1,9 @@
 package com.adventuresquad.presenter;
 
+import android.content.res.Resources;
 import android.util.Log;
 
+import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Main Presenter class to read data from API and present data to main activity
+ * MainActivity Presenter class to read data from API and present data to main activity
  * Created by Harrison on 11/05/2017.
  */
 public class MainPresenter implements AdventureApiPresenter {
@@ -36,39 +38,24 @@ public class MainPresenter implements AdventureApiPresenter {
     }
 
     /**
-     * Inserts sample data into local list to test main feed
-     */
-    public void setLocalSampleData() {
-        Adventure adventure = new Adventure("Title 1", 111, 222);
-        mAdventureList.add(adventure);
-
-        adventure = new Adventure("Title 2", 222, 222);
-        mAdventureList.add(adventure);
-
-        adventure = new Adventure("Title 3", 333, 333);
-        mAdventureList.add(adventure);
-
-        adventure = new Adventure("Title 4", 444, 444);
-        mAdventureList.add(adventure);
-
-        adventure = new Adventure("Title 5", 555, 555);
-        mAdventureList.add(adventure);
-    }
-
-    /**
      * Creates sample data, puts into database
      */
-    public void storeSampleData() {
+    public void storeSampleData(String sampleText) {
+
         List<Adventure> list = new ArrayList<>();
-        Adventure adventure = new Adventure("Firebase Entry 1", 111, 222);
+        Adventure adventure = new Adventure("FireBase Entry 1", sampleText, 111, 111);
         list.add(adventure);
-        adventure = new Adventure("Firebase Entry 2", 222, 222);
+
+        adventure = new Adventure("Firebase Entry 2", sampleText, 222, 222);
         list.add(adventure);
-        adventure = new Adventure("Firebase Entry 3", 333, 333);
+
+        adventure = new Adventure("Firebase Entry 3", sampleText, 333, 333);
         list.add(adventure);
-        adventure = new Adventure("Firebase Entry 4", 444, 444);
+
+        adventure = new Adventure("Firebase Entry 4", sampleText, 444, 444);
         list.add(adventure);
-        adventure = new Adventure("Firebase Entry 5", 555, 555);
+
+        adventure = new Adventure("Firebase Entry 5", sampleText, 555, 555);
         list.add(adventure);
 
         mApi.putAdventureList(list);

@@ -9,10 +9,37 @@
     tools:context="com.adventuresquad.activity.AdventureDetailActivity"
     tools:showIn="@layout/activity_adventure_detail">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/adventure_detail_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text"/>
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/adventure_detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/adventure_placeholder"/>
+
+        <TextView
+            android:id="@+id/adventure_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/placeholder_text_short"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/adventure_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/placeholder_text_large"/>
+
+        <!--Google maps view-->
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -10,5 +10,4 @@ public interface PresentableLoginActivity extends Presentable {
 
     public void onLoginFail();
 
-
 }

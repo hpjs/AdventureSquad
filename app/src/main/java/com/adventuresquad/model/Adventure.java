@@ -12,12 +12,12 @@ public class Adventure {
     //Problem - could book the same adventure multiple times
     //Solution - have an intermediary 'adventure bookings' object width the date etc
 
-    //Adventure ID should be recieved from firebase, has to be a string (hexadecimal UUID)
+    //Adventure ID should be received from FireBase, has to be a string (hexadecimal UUID)
     private String mAdventureId;
     private String mAdventureTitle;
+    private String mAdventureDetail;
 
     //Other adventure attributes, e.g. location, tags
-
     //Location
     private double mLatitude;
     private double mLongitude;
@@ -37,8 +37,9 @@ public class Adventure {
      * @param latitude       Location latitude of the adventure
      * @param longitude      Location longitude of the adventure
      */
-    public Adventure(String adventureTitle, double latitude, double longitude) {
+    public Adventure(String adventureTitle, String adventureDetail, double latitude, double longitude) {
         setAdventureTitle(adventureTitle);
+        setAdventureDetail(adventureDetail);
         setLatitude(latitude);
         setLongitude(longitude);
     }
@@ -47,9 +48,9 @@ public class Adventure {
      * Extended constructor
      * Still does not have image (which will be from Firebase storage)
      */
-    public Adventure(String adventureTitle, double latitude, double longitude,
+    public Adventure(String adventureTitle, String adventureDetail, double latitude, double longitude,
                      List<AdventureType> adventureTypes) {
-        this(adventureTitle, latitude, longitude);
+        this(adventureTitle, adventureDetail, latitude, longitude);
         setAdventureTypes(adventureTypes);
     }
 
@@ -95,6 +96,14 @@ public class Adventure {
 
     public void setAdventureId(String adventureId) {
         mAdventureId = adventureId;
+    }
+
+    public String getAdventureDetail() {
+        return mAdventureDetail;
+    }
+
+    public void setAdventureDetail(String adventureDetail) {
+        mAdventureDetail = adventureDetail;
     }
 
     //TODO - add image storage for the images

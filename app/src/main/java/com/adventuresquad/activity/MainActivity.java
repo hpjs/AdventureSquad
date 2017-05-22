@@ -28,52 +28,44 @@ import butterknife.OnClick;
  * Activity class for the main adventure feed
  */
 public class MainActivity extends AppCompatActivity implements PresentableAdventureListActivity, ItemClickSupport.OnItemClickListener /*View.OnClickListener*/ {
-
+    //Dependencies (set up in onCreate)
     private MainPresenter mPresenter;
-
-    private RecyclerView.LayoutManager mLayoutManager;
+    private AdventureFeedAdapter mAdventureFeedAdapter;
 
     //View bindings
     @BindView(R.id.activity_main_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_fab)
     FloatingActionButton mFab;
-    private AdventureFeedAdapter mAdventureFeedAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Bind views
         ButterKnife.bind(this);
 
         //Set up recycler view adapter & manager etc
         mAdventureFeedAdapter = new AdventureFeedAdapter(this);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdventureFeedAdapter);
 
         //Set up click listener for individual list items in the recycler view
-        ItemClickSupport.addTo(mRecyclerView)
-                .setOnItemClickListener(this);
+        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
-                        //Set up presenter
+        //Set up presenter
         mPresenter = new MainPresenter(this, new AdventureApi());
-
-        //Set up presenter dependency in adapter
-        //mAdventureFeedAdapter.setPresenter(mPresenter);
-
-        //Test methods to insert sample adventures into database (already enough sample data there)
-        //mPresenter.storeSampleData();
-        //mPresenter.setLocalSampleData();
     }
 
     @OnClick(R.id.activity_main_fab)
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_main_fab:
+//                mPresenter.storeSampleData(getString(R.string.placeholder_text_short)
+//                        + getString(R.string.placeholder_text_large));
                 mPresenter.retrieveAdventureList();
                 break;
         }
@@ -107,11 +99,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     }
 
     @Override
-    public void onRetrieveAdventure(Adventure adventure) {
-
-    }
-
-    @Override
     public void onRetrieveAdventureList(List<Adventure> adventureList) {
         mAdventureFeedAdapter.setAdventureList(adventureList);
         mAdventureFeedAdapter.notifyDataSetChanged();
@@ -127,10 +114,13 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
         Adventure selectedAdventure = mAdventureFeedAdapter.getListItem(position);
         //TODO - go to adventure details
-        showToastMessage("Item clicked - " + selectedAdventure.getAdventureTitle());
+        showToastMessage(selectedAdventure.getAdventureTitle()
+                + " - " + selectedAdventure.getAdventureId());
 
         //Create intent to go to adventure detail
         Intent adventureDetail = new Intent(this, AdventureDetailActivity.class);
+        adventureDetail.putExtra(AdventureDetailActivity.ADVENTURE_DETAIL_ID,
+                selectedAdventure.getAdventureId());
         startActivity(adventureDetail);
     }
 }
