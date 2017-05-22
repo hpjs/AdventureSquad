@@ -34,6 +34,11 @@
             android:name=".activity.NavigationActivity"
             android:label="@string/title_activity_navigation">
         </activity>
+        <activity
+            android:name=".activity.AdventureDetailActivity"
+            android:label="@string/title_activity_adventure_detail"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
