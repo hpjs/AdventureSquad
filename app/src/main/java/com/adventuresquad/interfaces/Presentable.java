@@ -6,4 +6,6 @@ package com.adventuresquad.interfaces;
  */
 public interface Presentable {
 
+    public void displayError(String errorMessage);
+
 }

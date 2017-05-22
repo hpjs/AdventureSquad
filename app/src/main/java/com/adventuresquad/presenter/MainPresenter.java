@@ -2,8 +2,8 @@ package com.adventuresquad.presenter;
 
 import android.util.Log;
 
-import com.adventuresquad.activity.MainActivity;
 import com.adventuresquad.api.AdventureApi;
+import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MainPresenter implements AdventureApiPresenter {
 
     //Dependencies
-    private MainActivity mActivity;
+    private PresentableAdventureListActivity mActivity;
     private AdventureApi mApi;
     //Data Fields
     private List<Adventure> mAdventureList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class MainPresenter implements AdventureApiPresenter {
      * @param activity The activity this presenter should be attached to
      * @param api      The api instance that this presenter should call to get data
      */
-    public MainPresenter(MainActivity activity, AdventureApi api) {
+    public MainPresenter(PresentableAdventureListActivity activity, AdventureApi api) {
         //Dependency injections
         mActivity = activity;
         mApi = api;

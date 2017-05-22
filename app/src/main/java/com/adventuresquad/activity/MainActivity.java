@@ -13,7 +13,7 @@ import com.adventuresquad.R;
 import com.adventuresquad.adapter.AdventureFeedAdapter;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.api.AdventureApi;
-import com.adventuresquad.interfaces.PresentableMainActivity;
+import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.MainPresenter;
 
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Activity class for the main adventure feed
  */
-public class MainActivity extends AppCompatActivity implements PresentableMainActivity, ItemClickSupport.OnItemClickListener /*View.OnClickListener*/ {
+public class MainActivity extends AppCompatActivity implements PresentableAdventureListActivity, ItemClickSupport.OnItemClickListener /*View.OnClickListener*/ {
 
     private MainPresenter mPresenter;
 

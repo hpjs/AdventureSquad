@@ -2,7 +2,6 @@ package com.adventuresquad.presenter;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.Register1Activity;
@@ -36,7 +35,7 @@ public class Register1Presenter {
         AuthApi.registerUser(email, pass1, new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
-                        Log.d(AuthApi.DEBUG_LOGIN, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                        Log.d(AuthApi.DEBUG_AUTH, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -44,7 +43,7 @@ public class Register1Presenter {
                         if (!task.isSuccessful()) {
                             mActivity.showToastMessage(R.string.registration_auth_failed);
                             //use exception details here:
-                            Log.w(AuthApi.DEBUG_LOGIN, task.getException());
+                            Log.w(AuthApi.DEBUG_AUTH, task.getException());
                         }
                         else {
                             mActivity.goToNextPage();
