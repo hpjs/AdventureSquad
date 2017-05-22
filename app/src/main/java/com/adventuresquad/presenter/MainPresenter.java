@@ -2,7 +2,6 @@ package com.adventuresquad.presenter;
 
 import android.util.Log;
 
-import com.adventuresquad.R;
 import com.adventuresquad.activity.MainActivity;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.model.Adventure;
@@ -120,7 +119,7 @@ public class MainPresenter implements AdventureApiPresenter {
     public void onRetrieveAdventureList(List<Adventure> adventureList) {
         mAdventureList = adventureList;
         //TODO - pass this back up to activity
-
+        mActivity.onRetrieveAdventureList(mAdventureList);
     }
 
     /**

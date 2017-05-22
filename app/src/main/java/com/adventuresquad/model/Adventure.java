@@ -19,8 +19,8 @@ public class Adventure {
     //Other adventure attributes, e.g. location, tags
 
     //Location
-    private long mLatitude;
-    private long mLongitude;
+    private double mLatitude;
+    private double mLongitude;
 
     //Types that an adventure matches
     private List<AdventureType> mAdventureTypes;
@@ -37,20 +37,20 @@ public class Adventure {
      * @param latitude       Location latitude of the adventure
      * @param longitude      Location longitude of the adventure
      */
-    public Adventure(String adventureTitle, long latitude, long longitude) {
-        mAdventureTitle = adventureTitle;
-        mLatitude = latitude;
-        mLongitude = longitude;
+    public Adventure(String adventureTitle, double latitude, double longitude) {
+        setAdventureTitle(adventureTitle);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     /**
      * Extended constructor
      * Still does not have image (which will be from Firebase storage)
      */
-    public Adventure(String adventureTitle, long latitude, long longitude,
+    public Adventure(String adventureTitle, double latitude, double longitude,
                      List<AdventureType> adventureTypes) {
         this(adventureTitle, latitude, longitude);
-        mAdventureTypes = adventureTypes;
+        setAdventureTypes(adventureTypes);
     }
 
     /*public String getAdventureId() {
@@ -61,16 +61,32 @@ public class Adventure {
         return mAdventureTitle;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return mLatitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return mLongitude;
     }
 
     public List<AdventureType> getAdventureTypes() {
         return mAdventureTypes;
+    }
+
+    public void setAdventureTitle(String adventureTitle) {
+        mAdventureTitle = adventureTitle;
+    }
+
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
+    }
+
+    public void setAdventureTypes(List<AdventureType> adventureTypes) {
+        mAdventureTypes = adventureTypes;
     }
 
     //TODO - add image storage for the images

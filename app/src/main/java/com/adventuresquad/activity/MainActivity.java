@@ -74,6 +74,20 @@ public class MainActivity extends AppCompatActivity implements PresentableMainAc
     }
 
     /**
+     * Displays fullscreen loading icon
+     */
+    public void showLoadingIcon() {
+
+    }
+
+    /**
+     * Hides full-screen loading icon
+     */
+    public void hideLoadingIcon() {
+
+    }
+
+    /**
      * Shows a given string resource as a toast
      */
     public void showToastMessage(String string) {
