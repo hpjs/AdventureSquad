@@ -6,14 +6,10 @@ package com.adventuresquad.presenter;
  * Nutshell: Provides callback methods for the Api to use when stuff happens
  * Goal: Should not be any actual database code in the presenter. Makes code swapping easier.
  */
-public interface AuthApiPresenter {
+public interface LoginApiPresenter {
 
     public void onLoginSuccess();
 
     public void onLoginFail();
 
-    //TODO - potentially split these off into a register presenter interface
-    //public void onAccountCreateSuccess();
-
-    //public void onAccountCreateFail();
 }

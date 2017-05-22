@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,39 +9,42 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
-import com.adventuresquad.presenter.Register1Presenter;
+import com.adventuresquad.api.AuthApi;
+import com.adventuresquad.interfaces.PresentableRegisterActivity;
+import com.adventuresquad.presenter.RegisterPresenter;
 
-public class Register1Activity extends AppCompatActivity implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class Register1Activity extends AppCompatActivity implements PresentableRegisterActivity {
 
     //UI objects
-    private EditText mEditEmail;
-    private EditText mEditPassword;
-    private EditText mEditPassword2;
-    private Button mButtonNext;
+    @BindView(R.id.register_one_edit_email)
+    EditText mEditEmail;
+    @BindView(R.id.register_one_edit_password)
+    EditText mEditPassword;
+    @BindView(R.id.register_one_edit_password2)
+    EditText mEditPassword2;
+    @BindView(R.id.register_one_button_next)
+    Button mButtonNext;
 
     //DefaultPresenter
-    private Register1Presenter mPresenter;
+    private RegisterPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_1);
 
-        //Set up the layout
-        mEditEmail = (EditText)findViewById(R.id.register_one_edit_email);
-        mEditPassword = (EditText)findViewById(R.id.register_one_edit_password);
-        mEditPassword2 = (EditText)findViewById(R.id.register_one_edit_password2);
-        mButtonNext = (Button)findViewById(R.id.register_one_button_next);
-
-        //Set listeners
-        mButtonNext.setOnClickListener(this);
+        ButterKnife.bind(this);
 
         //Create a new presenter object for this layout
-        mPresenter = new Register1Presenter(this);
+        mPresenter = new RegisterPresenter(this, new AuthApi());
     }
 
 
-    @Override
+    @OnClick(R.id.register_one_button_next)
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register_one_button_next:
@@ -69,22 +73,31 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     /**
      * Shows a given string resource as a toast
      */
-    public void showToastMessage(int stringResourceId) {
-        Toast.makeText(Register1Activity.this, stringResourceId,
+    public void showToastMessage(String message) {
+        Toast.makeText(Register1Activity.this, message,
                 Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Shows an error message under the login section
-     */
-    public void showErrorMessage(String message) {
-        //TODO - fill in this method
+    @Override
+    public void onRegisterSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
-    /**
-     * Progresses to the next registration page
-     */
-    public void goToNextPage() {
+    @Override
+    public void onRegisterFail() {
+        showToastMessage("registration failed");
+    }
+
+    @Override
+    public void validationFail() {
+        //TODO - implement error text display
+        //getString(R.id.registration_password_mismatch)
+        showToastMessage("validation failed");
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
 
     }
 }

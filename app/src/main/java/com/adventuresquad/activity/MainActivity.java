@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -127,5 +128,9 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         Adventure selectedAdventure = mAdventureFeedAdapter.getListItem(position);
         //TODO - go to adventure details
         showToastMessage("Item clicked - " + selectedAdventure.getAdventureTitle());
+
+        //Create intent to go to adventure detail
+        Intent adventureDetail = new Intent(this, AdventureDetailActivity.class);
+        startActivity(adventureDetail);
     }
 }

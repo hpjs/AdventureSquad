@@ -36,7 +36,6 @@ public interface AdventureApiPresenter {
      * Called if there was a generic issue with retrieving a certain request for data
      */
     public void onRetrieveError(Exception e);
-
     /**
      * Called when there is a specific Firebase error that occcurs.
      * NOTE: Avoid where possible, will likely be deprecated later.

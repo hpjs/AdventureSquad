@@ -3,7 +3,8 @@ package com.adventuresquad.api;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.adventuresquad.presenter.AuthApiPresenter;
+import com.adventuresquad.presenter.LoginApiPresenter;
+import com.adventuresquad.presenter.RegisterApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,6 +22,10 @@ public class AuthApi {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     public static final String DEBUG_AUTH = "auth";
+
+    public AuthApi() {
+        //initialiseAuthService();
+    }
 
     /**
      * Initialises the AuthApi object with a listener for various state changes, including log-ins
@@ -54,23 +59,31 @@ public class AuthApi {
         }
     }
 
-
     /**
      * Registers a given email/password into the firebase auth system.
      * @param email
      * @param password
      */
     public void registerUser(String email, String password,
-                                    OnCompleteListener listener) {
+                                    final RegisterApiPresenter callback) {
         Log.d(AuthApi.DEBUG_AUTH, "Attempting to register user");
-        //Create user with email and password will return a 'promise'
         if (mAuth == null) {
             mAuth = FirebaseAuth.getInstance();
         }
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(listener);
 
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            callback.onRegisterSuccess();
+                        } else {
+                            callback.onRegisterFail();
+                        }
+                    }
+                });
     }
+
     /* HS 10/05/2017 register currently throws this erro:
     05-10 23:45:53.302 24710-24710/com.adventuresquad D/login: Attempting to register user
 05-10 23:45:57.767 24710-24710/com.adventuresquad E/AndroidRuntime: FATAL EXCEPTION: main
@@ -92,7 +105,6 @@ public class AuthApi {
 
      */
 
-
     /**
      * Checks if the user is logged in or not (i.e. getting current user is null or not)
      * @return
@@ -112,7 +124,7 @@ public class AuthApi {
      * Should pass in an anonymous inner class with logic for successful/not successful login
      * @return Whether the email/pw were validated (i.e. login was 'started' or not)
      */
-    public void emailPasswordLogin(final AuthApiPresenter callback, String email, String password) {
+    public void emailPasswordLogin(final LoginApiPresenter callback, String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 

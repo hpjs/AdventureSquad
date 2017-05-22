@@ -21,14 +21,14 @@
             android:text="@string/app_name"/>
 
         <EditText
-            android:id="@+id/register_one_edit_email"
+            android:id="@+id/login_edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_edit_email"
             android:inputType="textEmailAddress"/>
 
         <EditText
-            android:id="@+id/register_one_edit_password"
+            android:id="@+id/login_edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_edit_password"

@@ -10,23 +10,30 @@ import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableAuthActivity;
-import com.adventuresquad.presenter.AuthPresenter;
+import com.adventuresquad.interfaces.PresentableLoginActivity;
+import com.adventuresquad.presenter.LoginPresenter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Activity for logging in to the application, or going to the registration page
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PresentableAuthActivity {
+public class LoginActivity extends AppCompatActivity implements PresentableLoginActivity {
 
     //UI items
-    //TODO - rebind using Butterknife
-    private EditText mEditEmail;
-    private EditText mEditPassword;
-    private Button mLoginButton;
-    private Button mRegisterButton;
+    @BindView(R.id.login_edit_email)
+    EditText mEditEmail;
+    @BindView(R.id.login_edit_password)
+    EditText mEditPassword;
+    @BindView(R.id.login_button_login)
+    Button mLoginButton;
+    @BindView(R.id.login_button_register)
+    Button mRegisterButton;
 
     //DefaultPresenter
-    private AuthPresenter mPresenter;
+    private LoginPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +41,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         //Set up UI code.
-        mEditEmail = (EditText)findViewById(R.id.register_one_edit_email);
-        mEditPassword = (EditText)findViewById(R.id.register_one_edit_password);
-        mLoginButton = (Button)findViewById(R.id.login_button_login);
-        mRegisterButton = (Button)findViewById(R.id.login_button_register);
-
-        //Set on click listener for UI objects
-        mLoginButton.setOnClickListener(this);
-        mRegisterButton.setOnClickListener(this);
+        ButterKnife.bind(this);
 
         //Set up presenter
-        mPresenter = new AuthPresenter(this, new AuthApi());
+        AuthApi api = new AuthApi();
+        api.initialiseAuthService();
+        mPresenter = new LoginPresenter(this, api);
     }
 
     /**
      * Handles any onClick events on this activity
      * @param v
      */
-    @Override
+    @OnClick({R.id.login_button_login, R.id.login_button_register})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_button_login :
@@ -60,15 +62,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.login_button_register:
                 //Start registration process
-                mPresenter.startRegistration();
+                startRegistration();
                 break;
         }
     }
 
     /**
-     * Starts goToRegister Activity
+     * Starts startRegistration Activity
      */
-    public void goToRegister() {
+    public void startRegistration() {
         Intent startRegisterActivity = new Intent();
         startRegisterActivity.setClass(getApplicationContext(), Register1Activity.class);
         startActivity(startRegisterActivity);
@@ -106,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onLoginFail() {
-
+        showToastMessage(getString(R.string.login_auth_failed));
     }
 
     @Override
