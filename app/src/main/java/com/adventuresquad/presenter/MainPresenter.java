@@ -138,7 +138,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
 
     //TODO - remove this method (testing method only)
     public void addSampleImage(Uri imagePath, Adventure adventure) {
-        mApiStore.storeAdventureImage(imagePath, adventure, "adventureimage.jpg");
+        mApiStore.storeAdventureImage(imagePath, adventure);
     }
 
     //TODO - Test method - remove later

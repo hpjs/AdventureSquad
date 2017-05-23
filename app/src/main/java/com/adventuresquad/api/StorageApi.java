@@ -22,6 +22,7 @@ public class StorageApi {
     private AdventureApi mApi;
 
     public static final String ADVENTURE_IMAGE_STORE = "/adventures";
+    public static final String ADVENTURE_IMAGE_TITLE = "adventureimage.jpg";
     public static final String DEBUG_STORAGE_API = "storage_api";
 
     private StorageApi() {
@@ -38,25 +39,32 @@ public class StorageApi {
         //mUploadsImageStore = mStorage.getReference("images/users")
     }
 
+    public String getAdventureImagePath(String adventureId) {
+        return ADVENTURE_IMAGE_STORE + "/" + adventureId + "/" + ADVENTURE_IMAGE_TITLE;
+    }
+
     /**
      * Stores an image related to a specific adventure
      * @param pathToImage The image to upload
      * @param adventureId The adventure that this image is for
      * @param imageTitle The title of this image
      */
-    public void storeAdventureImage(Uri pathToImage, final Adventure adventure, String imageTitle) {
-        String filePath = ADVENTURE_IMAGE_STORE + "/" + adventure.getAdventureId() + "/" + imageTitle;
+    public void storeAdventureImage(Uri pathToImage, final Adventure adventure) {
 
-        //Set up success listener for when complete
+        String filePath = getAdventureImagePath(adventure.getAdventureId());
+
+        //Prepare success listener for when storage is complete
         OnSuccessListener successListener = new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // Get a URL to the uploaded content
                 //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                @SuppressWarnings("VisibleForTests") String imageUri = taskSnapshot.getDownloadUrl().toString();
+                @SuppressWarnings("VisibleForTests") Uri imageUri = taskSnapshot.getDownloadUrl();
+                String imagePath = "";
+                if (imageUri != null) { imagePath = imageUri.toString(); }
 
                 //Store this download URL on a specific Adventure in the database
-                adventure.setAdventureImageUri(imageUri);
+                adventure.setAdventureImageUri(imagePath);
                 mApi.putAdventure(adventure, adventure.getAdventureId());
 
                 Log.d(DEBUG_STORAGE_API, "Image uploaded successfully, for adventure " + adventure.getAdventureId());
@@ -94,12 +102,19 @@ public class StorageApi {
      * Adds an image download URL to a specific adventure
      */
 
+    public void retrieveAdventureImage(String adventureId) {
+        String filePath = getAdventureImagePath(adventureId);
+        StorageReference imageRef = mImageStore.child(filePath);
+        //note: need to pass information back up to view so it can load it using GLIDE
+        //https://stackoverflow.com/questions/37699688/cache-images-local-from-google-firebase-storage
+        //TODO - go back to this and fix image loading
+    }
+
     /**
      * Retrieves a given image from firebase
      */
     public void retrieveImage() {
-        /*
-        File localFile = File.createTempFile("images", "jpg");
+
         riversRef.getFile(localFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
@@ -113,7 +128,7 @@ public class StorageApi {
                 // Handle failed download
                 // ...
             }
-        });*/
+        });
         //StorageReference load = getImage(id);
     }
 }
