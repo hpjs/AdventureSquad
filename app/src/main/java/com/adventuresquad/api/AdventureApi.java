@@ -1,9 +1,12 @@
 package com.adventuresquad.api;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.AdventureApiPresenter;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,11 +24,10 @@ import java.util.List;
  * TODO - Convert other API classes to match this architecture (dependency injection)
  */
 public class AdventureApi {
-
     //NOTE: This key is not really the same thing as it is in SQL.
-    //This is literally the identifier for an object
+    //This is literally the identifier for an object in the FireBase tree
     //So every object underneath this needs a new unique identifier (which you can generate)
-    //Every object in the database is just a key/value pair (literally just a big JSON file)
+    //Every object in the database is just a key/value pair (literally just a huge JSON file)
     //'Database' here just means that it holds all of the individual adventure objects underneath it
     public static final String ADVENTURES_LIST = "adventures";
 
@@ -33,8 +35,6 @@ public class AdventureApi {
 
     private FirebaseDatabase mDatabaseInstance;
     private DatabaseReference mAdventuresDatabase;
-    private FirebaseStorage mStorage;
-    private StorageReference mImageStore;
 
     /**
      * Constructor, initialises database references
@@ -42,19 +42,22 @@ public class AdventureApi {
     public AdventureApi() {
         mDatabaseInstance = FirebaseDatabase.getInstance();
         mAdventuresDatabase = mDatabaseInstance.getReference(ADVENTURES_LIST);
-        mStorage = FirebaseStorage.getInstance();
-        mImageStore = mStorage.getReference("images");
     }
 
     /**
-     * Store new adventure in database (RECOMMEND: USE putAdventure(adventure) INSTEAD)
-     * @param adventure The adventure to store in the DB
-     * @param key The key to store the adventure under
+     * Put updated adventure object at a given location (NOTE: Also has the power to create new ones if ID is not found)
+     * TODO - only allow it to update an existing entry, instead of create new ones
+     * @param adventure The updated Adventure object to store in the DB
+     * @param adventureId The key of the adventure object (data point to put the adventure)
      */
-    public void putAdventure(Adventure adventure, String key) {
-        //TODO - convert this to use 'push' instead of setValue (read the docs on list read/write)
-        DatabaseReference mNewAdventureRef = mAdventuresDatabase.child(key);
-        mNewAdventureRef.setValue(adventure);
+    public void putAdventure(Adventure adventure, String adventureId) {
+        DatabaseReference mAdventureRef = mAdventuresDatabase.child(adventureId);
+        mAdventureRef.setValue(adventure).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(DEBUG_ADVENTURE_API, "Error - could not update Adventure object");
+            }
+        });
     }
 
     /**
@@ -62,10 +65,29 @@ public class AdventureApi {
      * @param adventure Adventure to store in DB
      */
     public void putAdventure(Adventure adventure) {
-        //putAdventure(adventure, "INSERT_UNIQUE_ID_HERE");
+        //Creates data point, adds unique key to the Adventure
+        // and then stores adventure object at new data point
         DatabaseReference mNewAdventureRef = mAdventuresDatabase.push();
         adventure.setAdventureId(mNewAdventureRef.getKey());
+        //prepare callback method for when this task is complete
+        //Set the actual data
         mNewAdventureRef.setValue(adventure);
+
+        /*Currently don't need to listen for create completion
+        mNewAdventureRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //TODO - this might not actually work as expected
+                //It apparently triggers when it's actually attached for the first time
+                //As well as for any subsequent data changes
+                //dataSnapshot.getKey();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
     }
 
     /**
@@ -129,8 +151,6 @@ public class AdventureApi {
         });
 
     }
-
-    public void storeImage()
 
     /*
      * Manually marshals the given data snapshot into an adventure object (should not be needed)

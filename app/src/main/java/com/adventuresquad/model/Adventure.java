@@ -1,5 +1,7 @@
 package com.adventuresquad.model;
 
+import android.net.Uri;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,9 @@ public class Adventure {
     private String mAdventureId;
     private String mAdventureTitle;
     private String mAdventureDetail;
+
+    //Image URI
+    private String mAdventureImageUri;
 
     //Other adventure attributes, e.g. location, tags
     //Location
@@ -104,6 +109,14 @@ public class Adventure {
 
     public void setAdventureDetail(String adventureDetail) {
         mAdventureDetail = adventureDetail;
+    }
+
+    public String getAdventureImageUri() {
+        return mAdventureImageUri;
+    }
+
+    public void setAdventureImageUri(String adventureImageUri) {
+        mAdventureImageUri = adventureImageUri;
     }
 
     //TODO - add image storage for the images

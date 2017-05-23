@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:drawable/picture_frame"
     android:orientation="horizontal"
+    android:background="@android:drawable/picture_frame"
     android:layout_margin="12dp">
 
     <ImageView
         android:id="@+id/item_adventure_image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -40,15 +40,16 @@
         android:text="@string/placeholder_text_short"/>
 
     <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:id="@+id/item_adventure_match"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentEnd="true"
+        android:layout_width="100sp"
+        android:layout_height="20sp"
+        android:indeterminate="false"
+        android:layout_alignBottom="@+id/item_adventure_distance"
+        android:layout_alignTop="@+id/item_adventure_title"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/item_adventure_image"
-        android:layout_toEndOf="@id/item_adventure_title"
-        android:layout_toRightOf="@id/item_adventure_title"
-        android:indeterminate="false"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15sp"
+        android:layout_marginRight="15sp"/>
 
 </RelativeLayout>

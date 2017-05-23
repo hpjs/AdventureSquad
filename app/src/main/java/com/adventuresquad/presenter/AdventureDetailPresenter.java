@@ -19,6 +19,16 @@ public class AdventureDetailPresenter implements AdventureApiPresenter {
     }
 
     @Override
+    public void onCreateAdventure(String adventureId) {
+
+    }
+
+    @Override
+    public void onCreateAdventureError(Exception e) {
+
+    }
+
+    @Override
     public void onRetrieveAdventure(Adventure adventure) {
         mActivity.onRetrieveAdventure(adventure);
     }

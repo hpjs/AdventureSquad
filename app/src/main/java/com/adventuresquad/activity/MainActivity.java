@@ -1,6 +1,9 @@
 package com.adventuresquad.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +17,12 @@ import com.adventuresquad.R;
 import com.adventuresquad.adapter.AdventureFeedAdapter;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.api.AdventureApi;
+import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.MainPresenter;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,8 +61,12 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
-        //Set up presenter
-        mPresenter = new MainPresenter(this, new AdventureApi());
+        //Set up presenter4
+        AdventureApi api = new AdventureApi();
+        mPresenter = new MainPresenter(this, api, new StorageApi(api));
+
+        //Store an image with a particular adventure
+        //
     }
 
     @OnClick(R.id.activity_main_fab)
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
 //                mPresenter.storeSampleData(getString(R.string.placeholder_text_short)
 //                        + getString(R.string.placeholder_text_large));
                 mPresenter.retrieveAdventureList();
+
                 break;
         }
     }
@@ -102,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     public void onRetrieveAdventureList(List<Adventure> adventureList) {
         mAdventureFeedAdapter.setAdventureList(adventureList);
         mAdventureFeedAdapter.notifyDataSetChanged();
+
+        //TODO - test storing images in FireBase
+        //Add images to all of the adventures
+        Uri imagePath = Uri.parse("android.resource://com.adventuresquad/" + R.drawable.firebase_adventure_placeholder);
+        mPresenter.addSampleImages(imagePath);
     }
 
     /**
@@ -112,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
      */
     @Override
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+        //Get adventure that corresponds to
         Adventure selectedAdventure = mAdventureFeedAdapter.getListItem(position);
         //TODO - go to adventure details
         showToastMessage(selectedAdventure.getAdventureTitle()

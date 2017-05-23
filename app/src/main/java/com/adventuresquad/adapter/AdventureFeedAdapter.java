@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.model.Adventure;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +83,17 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         //Get correct adventure item
         Adventure adventure = getListItem(position);
 
+        //holder.mImage.setImageResource(R.drawable.adventure_placeholder_small);
+        //Load image
+        Context imageContext = holder.mImage.getContext();
+        //TODO - change this to use adventure URL
+        //Picasso.with(imageContext).load(R.drawable.adventure_placeholder_small).into(holder.mImage);
+        Picasso.with(imageContext)
+                .load(R.drawable.adventure_placeholder_small)
+                .fit().centerCrop()
+                .into(holder.mImage);
+
         //Populate view with text
-        holder.mImage.setImageResource(R.drawable.adventure_placeholder);
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter
         holder.mMatch.setMax(10);

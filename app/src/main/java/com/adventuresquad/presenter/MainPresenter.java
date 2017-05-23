@@ -1,10 +1,13 @@
 package com.adventuresquad.presenter;
 
 import android.content.res.Resources;
+import android.media.Image;
+import android.net.Uri;
 import android.util.Log;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
+import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 
@@ -15,11 +18,12 @@ import java.util.List;
  * MainActivity Presenter class to read data from API and present data to main activity
  * Created by Harrison on 11/05/2017.
  */
-public class MainPresenter implements AdventureApiPresenter {
+public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter {
 
     //Dependencies
     private PresentableAdventureListActivity mActivity;
     private AdventureApi mApi;
+    private StorageApi mApiStore;
     //Data Fields
     private List<Adventure> mAdventureList = new ArrayList<>();
     //Debugging
@@ -31,10 +35,11 @@ public class MainPresenter implements AdventureApiPresenter {
      * @param activity The activity this presenter should be attached to
      * @param api      The api instance that this presenter should call to get data
      */
-    public MainPresenter(PresentableAdventureListActivity activity, AdventureApi api) {
+    public MainPresenter(PresentableAdventureListActivity activity, AdventureApi api, StorageApi store) {
         //Dependency injections
         mActivity = activity;
         mApi = api;
+        mApiStore = store;
     }
 
     /**
@@ -88,6 +93,17 @@ public class MainPresenter implements AdventureApiPresenter {
 
     //Adventure API presenter callback methods
 
+    @Override
+    public void onCreateAdventure(String adventureId) {
+        //Adventure created successfully, pass back to the activity
+        // so it can add a picture to the adventure as well
+    }
+
+    @Override
+    public void onCreateAdventureError(Exception e) {
+        //Fail - could not
+    }
+
     /**
      * Returns a specific adventure, may not be used here (maybe add to the current list)
      *
@@ -118,5 +134,22 @@ public class MainPresenter implements AdventureApiPresenter {
     public void onRetrieveError(Exception e) {
         Log.d(DEBUG_MAIN_PRESENTER, e.toString());
         mActivity.displayError(e.toString());
+    }
+
+    //TODO - remove this method (testing method only)
+    public void addSampleImage(Uri imagePath, Adventure adventure) {
+        mApiStore.storeAdventureImage(imagePath, adventure, "adventureimage.jpg");
+    }
+
+    //TODO - Test method - remove later
+
+    /**
+     * Loops over current list of adventures and adds images to them
+     * @param imagePath
+     */
+    public void addSampleImages(Uri imagePath) {
+        for (Adventure adventure : mAdventureList) {
+            addSampleImage(imagePath, adventure);
+        }
     }
 }

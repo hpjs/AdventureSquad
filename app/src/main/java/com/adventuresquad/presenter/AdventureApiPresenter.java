@@ -18,6 +18,18 @@ public interface AdventureApiPresenter {
     //Methods
 
     /**
+     * Called when creating an adventure has completed successfully
+     * @param adventureId
+     */
+    public void onCreateAdventure(String adventureId);
+
+    /**
+     * Called when creating a new adventure object has failed
+     * @param e
+     */
+    public void onCreateAdventureError(Exception e);
+
+    /**
      * Callback after an API request for a specific adventure
      * TODO: Should consider sending an identifier, so presenter knows what adventure it's getting
      *
