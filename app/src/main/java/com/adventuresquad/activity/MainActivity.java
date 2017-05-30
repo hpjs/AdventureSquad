@@ -34,6 +34,7 @@ import butterknife.OnClick;
  */
 public class MainActivity extends AppCompatActivity implements PresentableAdventureListActivity, ItemClickSupport.OnItemClickListener /*View.OnClickListener*/ {
     //Dependencies (set up in onCreate)
+    //TODO -  change this to be an interface?
     private MainPresenter mPresenter;
     private AdventureFeedAdapter mAdventureFeedAdapter;
 
@@ -51,8 +52,12 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         //Bind views
         ButterKnife.bind(this);
 
+        //Set up presenter4
+        AdventureApi api = new AdventureApi();
+        mPresenter = new MainPresenter(this, api, new StorageApi(api));
+
         //Set up recycler view adapter & manager etc
-        mAdventureFeedAdapter = new AdventureFeedAdapter(this);
+        mAdventureFeedAdapter = new AdventureFeedAdapter(this, mPresenter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -61,9 +66,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
-        //Set up presenter4
-        AdventureApi api = new AdventureApi();
-        mPresenter = new MainPresenter(this, api, new StorageApi(api));
 
         //Store an image with a particular adventure
         //
@@ -115,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
 
         //TODO - test storing images in FireBase
         //Add images to all of the adventures
-        Uri imagePath = Uri.parse("android.resource://com.adventuresquad/" + R.drawable.firebase_adventure_placeholder);
-        mPresenter.addSampleImages(imagePath);
+        //Uri imagePath = Uri.parse("android.resource://com.adventuresquad/" + R.drawable.firebase_adventure_placeholder);
+        //mPresenter.addSampleImages(imagePath);
     }
 
     /**

@@ -4,9 +4,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -111,10 +114,26 @@ public class StorageApi {
     }
 
     /**
-     * Retrieves a given image from firebase
+     * Gets a formatted URL to download an image
+     */
+    public void retrieveAdventureImageUri(String adventureId, final RetrieveImageUriRequest callback) {
+        String filePath = getAdventureImagePath(adventureId);
+        StorageReference imageRef = mImageStore.child(filePath);
+        imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                Uri downloadUri = task.getResult();
+                callback.onRetrieveImageUri(downloadUri);
+            }
+        });
+    }
+
+    /**
+     * Retrieves a given image from firebase (NON-FUNCTIONAL CURRENTLY)
      */
     public void retrieveImage() {
 
+        /*
         riversRef.getFile(localFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
@@ -128,7 +147,7 @@ public class StorageApi {
                 // Handle failed download
                 // ...
             }
-        });
+        });*/
         //StorageReference load = getImage(id);
     }
 }

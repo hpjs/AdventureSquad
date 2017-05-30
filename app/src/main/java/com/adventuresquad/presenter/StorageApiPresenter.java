@@ -6,5 +6,5 @@ package com.adventuresquad.presenter;
  */
 interface StorageApiPresenter {
 
-
+    public void onRetrieveAdventureImageUri(String uri);
 }

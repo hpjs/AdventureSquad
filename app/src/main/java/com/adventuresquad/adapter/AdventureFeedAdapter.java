@@ -1,6 +1,7 @@
 package com.adventuresquad.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adventuresquad.R;
+import com.adventuresquad.api.GlideApp;
+import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
-import com.squareup.picasso.Picasso;
+import com.adventuresquad.presenter.*;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ import java.util.List;
  */
 public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdapter.AdventureViewHolder> {
 
+    private MainPresenter mPresenter;
     private Context mContext;
     private List<Adventure> mAdventureList;
 
@@ -47,9 +53,11 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     /**
      * Constructor
      */
-    public AdventureFeedAdapter(Context context) {
+    public AdventureFeedAdapter(Context context, MainPresenter presenter) {
         mContext = context;
         mAdventureList = new ArrayList<>();
+        //TODO - come back and make this less nasty later (should go through Activity class ideally)
+        mPresenter = presenter;
     }
 
 
@@ -79,23 +87,44 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
      * @param position The position in the list of the item
      */
     @Override
-    public void onBindViewHolder(AdventureFeedAdapter.AdventureViewHolder holder, int position) {
+    public void onBindViewHolder(final AdventureFeedAdapter.AdventureViewHolder holder, int position) {
         //Get correct adventure item
         Adventure adventure = getListItem(position);
 
         //holder.mImage.setImageResource(R.drawable.adventure_placeholder_small);
         //Load image
-        Context imageContext = holder.mImage.getContext();
+        final Context imageContext = holder.mImage.getContext();
         //TODO - change this to use adventure URL
         //Picasso.with(imageContext).load(R.drawable.adventure_placeholder_small).into(holder.mImage);
-        Picasso.with(imageContext)
-                .load(R.drawable.adventure_placeholder_small)
-                .fit().centerCrop()
-                .into(holder.mImage);
+
+        mPresenter.retrieveAdventureImageUri(adventure.getAdventureId(), new RetrieveImageUriRequest() {
+            @Override
+            public void onRetrieveImageUri(Uri uri) {
+                GlideApp
+                    .with(mContext)
+                    .load(uri)
+                    .placeholder(R.color.colorPrimary)
+                    .error(R.drawable.ic_broken_image_black_24dp)
+                    .fitCenter()
+                    .into(holder.mImage);
+                //Hide loading icon?
+            }
+
+            @Override
+            public void onRetrieveImageUriFail(Exception e) {
+
+            }
+        });
+
+//        Picasso.with(imageContext)
+//                .load(R.drawable.adventure_placeholder_small)
+//                .fit().centerCrop()
+//                .into(holder.mImage);
 
         //Populate view with text
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter
+        // and put into adventure object?
         holder.mMatch.setMax(10);
         holder.mMatch.setProgress(4);
         //TODO - Calculate the distance itself

@@ -1,13 +1,11 @@
 package com.adventuresquad.presenter;
 
-import android.content.res.Resources;
-import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
 
-import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.StorageApi;
+import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 
@@ -151,5 +149,24 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
         for (Adventure adventure : mAdventureList) {
             addSampleImage(imagePath, adventure);
         }
+    }
+
+    /**
+     * Retrieves an image URI for a particular adventure
+     */
+    public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback) {
+
+        mApiStore.retrieveAdventureImageUri(adventureId, callback);
+    }
+
+    /**
+     * Called when a specific adventure image is retrieved
+     * @param uri
+     */
+    @Override
+    public void onRetrieveAdventureImageUri(String uri) {
+        //NOTE: Needs to know where to give this back to
+        //Only way to do this would be to store a mapping of callbacks to the relevant adventure ID
+        //This is probably not really safe or smart. Therefore
     }
 }
