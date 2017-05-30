@@ -1,6 +1,7 @@
 package com.adventuresquad.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
+import com.adventuresquad.api.GlideApp;
+import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureActivity;
+import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.AdventureDetailPresenter;
 
@@ -51,12 +55,32 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         ButterKnife.bind(this);
 
         //Set up presenter
-        mPresenter = new AdventureDetailPresenter(this, new AdventureApi());
+        AdventureApi api = new AdventureApi();
+        mPresenter = new AdventureDetailPresenter(this, api, new StorageApi(api));
 
         //Retrieve specific adventure
-        //Intent currentIntent = getIntent();
         String adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
         mPresenter.retrieveAdventure(adventureId);
+
+        //Retrieve adventure image
+        mPresenter.retrieveAdventureImageUri(adventureId, new RetrieveImageUriRequest() {
+            @Override
+            public void onRetrieveImageUri(Uri uri) {
+                GlideApp
+                        .with(mImage.getContext())
+                        .load(uri)
+                        .placeholder(R.color.colorPrimary)
+                        .error(R.drawable.ic_broken_image_black_24dp)
+                        .fitCenter()
+                        .into(mImage);
+                //Hide loading icon?
+            }
+
+            @Override
+            public void onRetrieveImageUriFail(Exception e) {
+
+            }
+        });
     }
 
     /**

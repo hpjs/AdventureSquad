@@ -129,7 +129,7 @@ public class StorageApi {
     }
 
     /**
-     * Retrieves a given image from firebase (NON-FUNCTIONAL CURRENTLY)
+     * Retrieves a given image from firebase (NON-FUNCTIONAL CURRENTLY, USE GLIDE INSTEAD)
      */
     public void retrieveImage() {
 

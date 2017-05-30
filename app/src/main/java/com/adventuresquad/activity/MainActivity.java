@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         //Bind views
         ButterKnife.bind(this);
 
-        //Set up presenter4
+        //Set up presenter
         AdventureApi api = new AdventureApi();
         mPresenter = new MainPresenter(this, api, new StorageApi(api));
 
@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
 
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
-
-
-        //Store an image with a particular adventure
-        //
     }
 
     @OnClick(R.id.activity_main_fab)
@@ -115,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         mAdventureFeedAdapter.setAdventureList(adventureList);
         mAdventureFeedAdapter.notifyDataSetChanged();
 
-        //TODO - test storing images in FireBase
-        //Add images to all of the adventures
+        //Add images to all of the adventures (debug / testing only)
         //Uri imagePath = Uri.parse("android.resource://com.adventuresquad/" + R.drawable.firebase_adventure_placeholder);
         //mPresenter.addSampleImages(imagePath);
     }

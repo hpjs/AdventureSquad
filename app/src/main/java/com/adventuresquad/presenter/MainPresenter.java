@@ -160,7 +160,8 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
     }
 
     /**
-     * Called when a specific adventure image is retrieved
+     * Called when a specific adventure image uri is retrieved
+     * CURRENTLY NOT NEEDED, as you pass in a callback as part of the retrieve method
      * @param uri
      */
     @Override
