@@ -1,4 +1,4 @@
-package com.adventuresquad.presenter;
+package com.adventuresquad.presenter.interfaces;
 
 /**
  * Created by Harrison on 22/05/2017.

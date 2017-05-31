@@ -3,8 +3,10 @@ package com.adventuresquad.api;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.adventuresquad.presenter.LoginApiPresenter;
-import com.adventuresquad.presenter.RegisterApiPresenter;
+import com.adventuresquad.presenter.interfaces.LoginApiPresenter;
+import com.adventuresquad.presenter.interfaces.LogoutApiPresenter;
+import com.adventuresquad.presenter.interfaces.RegisterApiPresenter;
+import com.google.android.gms.auth.api.credentials.PasswordSpecification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,6 +37,8 @@ public class AuthApi {
         mAuth = FirebaseAuth.getInstance();
 
         //Initialise authlistener
+        //NOTE - this would only be needed if there are certain actions
+        //that need to be taken from a global point of view within the app
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -84,39 +88,19 @@ public class AuthApi {
                 });
     }
 
-    /* HS 10/05/2017 register currently throws this erro:
-    05-10 23:45:53.302 24710-24710/com.adventuresquad D/login: Attempting to register user
-05-10 23:45:57.767 24710-24710/com.adventuresquad E/AndroidRuntime: FATAL EXCEPTION: main
-                                                                    Process: com.adventuresquad, PID: 24710
-                                                                    java.lang.NullPointerException: Attempt to invoke virtual method 'com.google.android.gms.tasks.Task com.google.firebase.auth.FirebaseAuth.createUserWithEmailAndPassword(java.lang.String, java.lang.String)' on a null object reference
-                                                                        at com.adventuresquad.api.AuthApi.registerUser(AuthApi.java:70)
-                                                                        at com.adventuresquad.Activity.Register1Activity.register(Register1Activity.java:55)
-                                                                        at com.adventuresquad.Activity.Register1Activity.onClick(Register1Activity.java:47)
-                                                                        at android.view.View.performClick(View.java:5226)
-                                                                        at android.view.View$PerformClick.run(View.java:21266)
-                                                                        at android.os.Handler.handleCallback(Handler.java:739)
-                                                                        at android.os.Handler.dispatchMessage(Handler.java:95)
-                                                                        at android.os.Looper.loop(Looper.java:168)
-                                                                        at android.app.ActivityThread.main(ActivityThread.java:5845)
-                                                                        at java.lang.reflect.Method.invoke(Native Method)
-                                                                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:797)
-                                                                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:687)
-
-
-     */
-
     /**
      * Checks if the user is logged in or not (i.e. getting current user is null or not)
      * @return
      */
     public boolean checkUserLoggedIn() {
-        try {
-            setCurrentUser(mAuth.getCurrentUser());
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            setCurrentUser(user);
             return true;
-        } catch (Exception e) {
-            //Couldn't get currently logged in user
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     /**
@@ -139,6 +123,11 @@ public class AuthApi {
                         }
                     }
                 });
+    }
+
+    public void signOut(LogoutApiPresenter callback) {
+        mAuth.signOut();
+        callback.onLogoutSuccess();
     }
 
     /**

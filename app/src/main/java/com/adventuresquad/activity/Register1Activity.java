@@ -39,7 +39,7 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
 
         ButterKnife.bind(this);
 
-        //Create a new presenter object for this layout
+        //Create a new mPresenter object for this layout
         mPresenter = new RegisterPresenter(this, new AuthApi());
     }
 
@@ -97,7 +97,7 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
     }
 
     @Override
-    public void displayError(String errorMessage) {
+    public void displayMessage(String errorMessage) {
 
     }
 }

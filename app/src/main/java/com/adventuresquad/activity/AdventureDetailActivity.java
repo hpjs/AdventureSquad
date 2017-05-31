@@ -54,7 +54,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         //Bind views
         ButterKnife.bind(this);
 
-        //Set up presenter
+        //Set up mPresenter
         AdventureApi api = new AdventureApi();
         mPresenter = new AdventureDetailPresenter(this, api, new StorageApi(api));
 
@@ -103,7 +103,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     }
 
     @Override
-    public void displayError(String errorMessage) {
+    public void displayMessage(String errorMessage) {
 
     }
 }

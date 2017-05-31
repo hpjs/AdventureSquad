@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_create"
+        android:checked="false"
+        android:icon="@drawable/ic_add_box_black_24dp"
+        android:title="@string/title_create"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/navigation_squads"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:title="@string/title_squad"
+        android:checked="false"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home"
+        android:checked="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/navigation_myTrips"
+        android:icon="@drawable/ic_terrain_black_24dp"
+        android:title="@string/title_my_trips"
+        android:checked="false"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:checked="false"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/title_profile"
+        app:showAsAction="ifRoom"/>
+
+</menu>

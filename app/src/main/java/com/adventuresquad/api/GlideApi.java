@@ -9,4 +9,4 @@ import com.bumptech.glide.module.AppGlideModule;
  * Created by Harrison on 26/05/2017.
  */
 @GlideModule
-public class GlideApi extends AppGlideModule {}
+public final class GlideApi extends com.bumptech.glide.module.AppGlideModule {}

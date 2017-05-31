@@ -1,4 +1,4 @@
-package com.adventuresquad.presenter;
+package com.adventuresquad.presenter.interfaces;
 
 import com.adventuresquad.model.Adventure;
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--&lt;!&ndash;Color selector for bottom navigation menu&ndash;&gt;-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--&lt;!&ndash;<item android:color="@color/colorPrimary" android:state_enabled="true" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item android:color="@color/colorAccent" android:state_enabled="false" />&ndash;&gt;-->
+    <!--&lt;!&ndash;Apparently may need to use state_checked instead of state enabled&ndash;&gt;-->
+    <!--&lt;!&ndash;https://gist.github.com/hitherejoe/cc0dbc84c5397ee630d0b9298112d54c#file-selector-xml&ndash;&gt;-->
+    <item android:color="@color/colorPrimaryDark" android:state_checked="true" />
+    <item android:color="@color/colorAccent" android:state_checked="false" />
+</selector>

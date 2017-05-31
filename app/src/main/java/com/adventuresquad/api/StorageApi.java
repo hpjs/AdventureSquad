@@ -31,14 +31,14 @@ public class StorageApi {
     private StorageApi() {
         mStorage = FirebaseStorage.getInstance();
         mImageStore = mStorage.getReference("images");
-        //mProfileImageStore = mStorage.getReference("images/users/profile");
+        //mProfileImageStore = mStorage.getReference("images/users/ProfileActivity");
         //mUploadsImageStore = mStorage.getReference("images/users")
     }
 
     public StorageApi(AdventureApi api) {
         this();
         mApi = api;
-        //mProfileImageStore = mStorage.getReference("images/users/profile");
+        //mProfileImageStore = mStorage.getReference("images/users/ProfileActivity");
         //mUploadsImageStore = mStorage.getReference("images/users")
     }
 

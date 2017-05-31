@@ -1,4 +1,4 @@
-package com.adventuresquad.presenter;
+package com.adventuresquad.presenter.interfaces;
 
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 
@@ -6,7 +6,7 @@ import com.adventuresquad.interfaces.RetrieveImageUriRequest;
  *
  * Created by Harrison on 23/05/2017.
  */
-interface StorageApiPresenter {
+public interface StorageApiPresenter {
 
     public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback);
 

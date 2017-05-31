@@ -2,6 +2,7 @@ package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.interfaces.PresentableLoginActivity;
+import com.adventuresquad.presenter.interfaces.LoginApiPresenter;
 
 /**
  * DefaultPresenter class for Login activity'
@@ -15,6 +16,20 @@ public class LoginPresenter implements LoginApiPresenter {
     public LoginPresenter(PresentableLoginActivity activity, AuthApi api) {
         mActivity = activity;
         mApi = api;
+        //TODO - check if initialiseAuthService is really needed
+        mApi.initialiseAuthService();
+        checkLoggedIn();
+    }
+
+    /**
+     *
+     */
+    public void checkLoggedIn() {
+        if (mApi.checkUserLoggedIn()) {
+            mActivity.onLoginSuccess();
+        } else {
+            //User was not already logged in, do nothing.
+        }
     }
 
     /**

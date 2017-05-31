@@ -1,19 +1,16 @@
 package com.adventuresquad.api;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.adventuresquad.model.Adventure;
-import com.adventuresquad.presenter.AdventureApiPresenter;
+import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;

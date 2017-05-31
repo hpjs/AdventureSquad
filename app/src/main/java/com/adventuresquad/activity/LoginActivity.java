@@ -43,9 +43,8 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
         //Set up UI code.
         ButterKnife.bind(this);
 
-        //Set up presenter
+        //Set up mPresenter
         AuthApi api = new AuthApi();
-        api.initialiseAuthService();
         mPresenter = new LoginPresenter(this, api);
     }
 
@@ -101,9 +100,11 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
 
     @Override
     public void onLoginSuccess() {
+        showToastMessage("Login successful");
         //Go to main page, put any necessary extras
         Intent intentMainActivity = new Intent(this, MainActivity.class);
         startActivity(intentMainActivity);
+        finish();
     }
 
     @Override
@@ -112,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
     }
 
     @Override
-    public void displayError(String errorMessage) {
+    public void displayMessage(String errorMessage) {
         showToastMessage(errorMessage);
     }
 }

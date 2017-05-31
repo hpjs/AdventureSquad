@@ -8,6 +8,8 @@ import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
+import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
+import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
         mActivity = activity;
         mApi = api;
         mApiStore = store;
+        retrieveAdventureList();
+        //TODO - do we need to check authentication again here? E.g. going from logout -> main without finish()
     }
 
     /**
@@ -70,6 +74,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
      * @return
      */
     public void retrieveAdventureList() {
+        mActivity.displayMessage("Refreshing adventure list...");
         mApi.getAdventureList(this);
     }
 
@@ -81,16 +86,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
         //TODO - pass adventure back up
     }
 
-    /**
-     * Returns the locally-held list of adventures that was retrieved by the Api (on demand)
-     * @return
-     */
-    public List<Adventure> getAdventureList() {
-        return mAdventureList;
-    }
-
     //Adventure API presenter callback methods
-
     @Override
     public void onCreateAdventure(String adventureId) {
         //Adventure created successfully, pass back to the activity
@@ -131,7 +127,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
     @Override
     public void onRetrieveError(Exception e) {
         Log.d(DEBUG_MAIN_PRESENTER, e.toString());
-        mActivity.displayError(e.toString());
+        mActivity.displayMessage(e.toString());
     }
 
     //TODO - remove this method (testing method only)

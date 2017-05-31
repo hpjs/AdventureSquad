@@ -1,15 +1,13 @@
 package com.adventuresquad.presenter;
 
-import android.util.Log;
-
-import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.interfaces.PresentableRegisterActivity;
+import com.adventuresquad.presenter.interfaces.RegisterApiPresenter;
 
 /**
  * Created by Harrison on 11/05/2017.
  */
-public class RegisterPresenter implements RegisterApiPresenter{
+public class RegisterPresenter implements RegisterApiPresenter {
     private PresentableRegisterActivity mActivity;
     private AuthApi mApi;
 
@@ -37,6 +35,6 @@ public class RegisterPresenter implements RegisterApiPresenter{
 
     @Override
     public void onRegisterFail() {
-        mActivity.displayError("Registration failed");
+        mActivity.displayMessage("Registration failed");
     }
 }

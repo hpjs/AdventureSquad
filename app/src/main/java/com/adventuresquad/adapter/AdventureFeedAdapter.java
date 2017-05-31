@@ -83,6 +83,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     /**
      * Called once the view holder has been initialised and 'bound' properly,
      * to start populating a card with details of a particular adventure
+     * Needs to be as fast as possible
      * @param holder   The view holder object to use
      * @param position The position in the list of the item
      */

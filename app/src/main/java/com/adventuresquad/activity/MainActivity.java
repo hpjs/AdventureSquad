@@ -1,15 +1,15 @@
 package com.adventuresquad.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,7 +22,6 @@ import com.adventuresquad.interfaces.PresentableAdventureListActivity;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.MainPresenter;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         //Bind views
         ButterKnife.bind(this);
 
-        //Set up presenter
+        //Set up mPresenter
         AdventureApi api = new AdventureApi();
         mPresenter = new MainPresenter(this, api, new StorageApi(api));
 
@@ -65,6 +64,32 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
 
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
+
+        //TEMP: Get stuff working for bottom nav bar
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_create:
+                                break;
+                            case R.id.navigation_squads:
+                                break;
+                            case R.id.navigation_home:
+                                //Already on this page
+                                break;
+                            case R.id.navigation_myTrips:
+                                break;
+                            case R.id.navigation_profile:
+                                navigateProfile();
+                                break;
+                        }
+                        return true;
+                    }
+                });
     }
 
     @OnClick(R.id.activity_main_fab)
@@ -74,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
 //                mPresenter.storeSampleData(getString(R.string.placeholder_text_short)
 //                        + getString(R.string.placeholder_text_large));
                 mPresenter.retrieveAdventureList();
-
                 break;
         }
     }
@@ -102,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     }
 
     @Override
-    public void displayError(String errorMessage) {
+    public void displayMessage(String errorMessage) {
         showToastMessage(errorMessage);
     }
 
@@ -117,7 +141,9 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     }
 
     /**
-     * When an item in the recycler view is clicked, go to that adventure in detail
+     * Handles when an item in the recycler view is clicked
+     * Click listener moved to here to allow better intent creation & navigation
+     * Result: Navigates to AdventureDetail for that specific adventure
      * @param recyclerView
      * @param position
      * @param v
@@ -126,9 +152,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
         //Get adventure that corresponds to
         Adventure selectedAdventure = mAdventureFeedAdapter.getListItem(position);
-        //TODO - go to adventure details
-        showToastMessage(selectedAdventure.getAdventureTitle()
-                + " - " + selectedAdventure.getAdventureId());
 
         //Create intent to go to adventure detail
         Intent adventureDetail = new Intent(this, AdventureDetailActivity.class);
@@ -136,4 +159,14 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
                 selectedAdventure.getAdventureId());
         startActivity(adventureDetail);
     }
+
+    /**
+     * Navigate to the profile page
+     */
+    public void navigateProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

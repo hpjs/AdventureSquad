@@ -5,6 +5,8 @@ import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureActivity;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
+import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
+import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
 
     @Override
     public void onRetrieveError(Exception e) {
-        mActivity.displayError(e.toString());
+        mActivity.displayMessage(e.toString());
     }
 
     /**
