@@ -66,9 +66,15 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
         //TEMP: Get stuff working for bottom nav bar
+        initialiseNavbar();
+    }
+
+    private void initialiseNavbar() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
+        //Set correct item to be selected
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        //Set up click listener
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
                     }
                 });
     }
+
 
     @OnClick(R.id.activity_main_fab)
     public void onClick(View v) {
@@ -168,5 +175,4 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         startActivity(intent);
         finish();
     }
-
 }

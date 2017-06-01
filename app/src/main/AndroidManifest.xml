@@ -44,6 +44,11 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".activity.PlanAdventureActivity"
+            android:label="@string/title_activity_plan_adventure"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
