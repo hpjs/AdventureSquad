@@ -17,18 +17,28 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"/>
 
-    <Button
-        android:id="@+id/plan_adventure_create"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/plan_adventure_myself"/>
+        android:layout_height="wrap_content">
 
-    <DatePicker
-        android:id="@+id/plan_adventure_date_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/plan_adventure_create"
-        android:layout_below="@+id/section_label"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <DatePicker
+            android:id="@+id/plan_adventure_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/plan_adventure_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/plan_adventure_date_picker"
+            android:text="@string/plan_create_adventure"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

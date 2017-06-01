@@ -224,4 +224,5 @@
     <string name="plan_adventure_date_title">Choose a date for your adventure</string>
     <string name="plan_adventure_squad_title">Invite a squad</string>
     <string name="plan_adventure_myself">Adventure By Myself</string>
+    <string name="plan_create_adventure">Create Adventure</string>
 </resources>

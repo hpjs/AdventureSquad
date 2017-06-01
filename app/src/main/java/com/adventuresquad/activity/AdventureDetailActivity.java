@@ -36,6 +36,10 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     //@BindView(R.id.adventure_detail_mapview)
     //private MapView mapView;
 
+    //TODO - move this into presenter to clean up business logic
+    //This is only here so the adventure plan will work correctly
+    private String adventureId;
+
     //Presenter
     private AdventureDetailPresenter mPresenter;
 
@@ -59,7 +63,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         mPresenter = new AdventureDetailPresenter(this, api, new StorageApi(api));
 
         //Retrieve specific adventure
-        String adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
+        adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
         mPresenter.retrieveAdventure(adventureId);
 
         //Retrieve adventure image
@@ -88,7 +92,9 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
      */
     @OnClick(R.id.adventure_detail_fab)
     public void createPlan() {
-
+        Intent plan = new Intent(this, PlanAdventureActivity.class);
+        plan.putExtra("adventureId", adventureId);
+        startActivity(plan);
     }
 
     @Override
