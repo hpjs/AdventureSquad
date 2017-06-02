@@ -2,35 +2,41 @@ package com.adventuresquad.activity.interfaces;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.adventuresquad.R;
+import com.adventuresquad.activity.PlanAdventureActivity;
 
 /**
  * Created by Harrison on 2/06/2017.
  */
 
 public class PlanDateFragment extends Fragment implements View.OnClickListener {
-    //Note - none of the fields can be private apparently
-    Button mButton;
+    //Fields
+    private Button mButton;
+
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private int mSectionNumber;
 
     /**
      * Create a new instance of CountingFragment, providing "num"
      * as an argument.
      */
-    public static PlanSquadFragment newInstance(/*int num,
+    public static PlanSquadFragment newInstance(int sectionNumber/*int num,
                                                 insert your 'constructor' arguments here
                                                 can't use normal constructor stuff apparently*/) {
         PlanSquadFragment fragmentInstance = new PlanSquadFragment();
 
         // Inject arguments into the new fragmentInstance
         Bundle args = new Bundle();
-        //args.putInt("num", num);
-        fragmentInstance.setArguments(args);
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 
+        //Set arguments on new fragment and return to
+        fragmentInstance.setArguments(args);
         return fragmentInstance;
     }
 
@@ -42,6 +48,7 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         //Shows how to use the given arguments to set local variables
+        mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
         //mNum = getArguments() != null ? getArguments().getInt("num") : 1;
     }
 
@@ -81,7 +88,14 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener {
      * Activity should then change fragments
      */
     public void onCompleteButtonClick() {
-        getActivity().onBackPressed();
+        try { //Attempt to cast the parent activity as a SwipeFragmentHolder
+            SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
+            parent.onNextButtonClicked(mSectionNumber);
+        } catch (ClassCastException castException){
+            Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
+                    "Could not cast fragment parent as a 'SwipeFragmentHolder'!",
+                    castException);
+        }
     }
 
     //TODO - check if the fragment should be handling user input, or the activity

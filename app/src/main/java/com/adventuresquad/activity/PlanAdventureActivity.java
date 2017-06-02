@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.adventuresquad.R;
+import com.adventuresquad.activity.interfaces.PlanDateFragment;
 import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
 import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 
@@ -54,22 +55,28 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     }
 
     //TODO - override plan activity onBackPressed() to not close if on Date fragment
-
     @Override
-    public void onNextButtonClicked() {
+    public void onBackPressed() {
+        //Check the current fragment
+    }
+
+    /**
+     * TODO - change this to be more flexible, instead of fragment passing it's position
+     */
+    @Override
+    public void onNextButtonClicked(int currentSection) {
         int totalSections = mSectionsPagerAdapter.getCount();
+        currentSection = currentSection + 1;
         //Gets whichever fragment is the current one
-        int currentSection = mSectionsPagerAdapter.getCurrentSectionPosition() + 1;
+        //int currentSection = mSectionsPagerAdapter.getCurrentSectionPosition() + 1;
 
         //If current section is the last one (same as the totalSections), then finish up
         //Otherwise then go to the next fragment along
         if (currentSection >= totalSections) {
             //That fragment was the last one
             //Continue with creating the plan
-            finish(); //TODO - replace with presenter logic
+            finish(); //TODO - replace with presenter logic to create adventure
         } else {
-            //Transition to next fragment (current + 1)
-            //TODO - check that this is not 0 based (this might cause issues)
             mViewPager.setCurrentItem(currentSection);
         }
     }
@@ -80,7 +87,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private int currentSectionPosition;
+        private int currentSectionPosition = 0;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -95,20 +102,20 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+
+            //NOTE - both things are inflated at the same time, therefore 'current position' is not accurate
+            //Figure out a better way to do this
+//            setCurrentSectionPosition(position);
             switch(position) {
                 case 0:
-                    currentSectionPosition = 0;
-                    //return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_squad);
-                    //Create a new PlanSquadFragment (hopefully it works!).
-                    return PlanSquadFragment.newInstance(position +1);
+                    //Create a new PlanSquadFragment instead of placeholder(it works!!).
+                    return PlanSquadFragment.newInstance(position);
                 case 1:
-                    currentSectionPosition = 1;
-                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_date);
+                    return PlanDateFragment.newInstance(position);
                 default:
                     Log.w(PLAN_ADVENTURE_DEBUG, "Plan FragmentPagerAdapter tried to make a fragment out of bounds at position " + position);
-                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_date);
+                    return PlaceholderFragment.newInstance(position, R.layout.fragment_plan_adventure_date);
             }
-            //return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -134,6 +141,10 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
          */
         public int getCurrentSectionPosition() {
             return currentSectionPosition;
+        }
+
+        private void setCurrentSectionPosition(int currentSectionPosition) {
+            this.currentSectionPosition = currentSectionPosition;
         }
     }
 

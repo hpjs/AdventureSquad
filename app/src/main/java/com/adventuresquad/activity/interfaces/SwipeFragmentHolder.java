@@ -10,6 +10,6 @@ public interface SwipeFragmentHolder {
      * Used when the 'next' button is clicked on any of the fragments
      * If it's the final fragment in the set, the Activity should finish the swipe fragment flow
      */
-    public void onNextButtonClicked();
+    public void onNextButtonClicked(int sectionPosition);
 
 }

@@ -16,7 +16,7 @@ import com.adventuresquad.activity.PlanAdventureActivity;
  * Created by Harrison on 2/06/2017.
  */
 public class PlanSquadFragment extends Fragment implements View.OnClickListener {
-    int mNum;
+    //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
@@ -94,7 +94,7 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener 
     public void onNextButtonClick() {
         try { //Attempt to cast the parent activity as a SwipeFragmentHolder
             SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
-            parent.onNextButtonClicked();
+            parent.onNextButtonClicked(mSectionNumber);
         } catch (ClassCastException castException){
             Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
                     "Could not cast fragment parent as a 'SwipeFragmentHolder'!",
