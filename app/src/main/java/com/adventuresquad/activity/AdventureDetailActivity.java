@@ -13,7 +13,7 @@ import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.GlideApp;
 import com.adventuresquad.api.StorageApi;
-import com.adventuresquad.interfaces.PresentableAdventureActivity;
+import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.AdventureDetailPresenter;
@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AdventureDetailActivity extends AppCompatActivity implements PresentableAdventureActivity {
+public class AdventureDetailActivity extends AppCompatActivity implements PresentableAdventureView {
 
     //Views
     @BindView(R.id.adventure_detail_fab)
@@ -98,7 +98,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     }
 
     @Override
-    public void onRetrieveAdventure(Adventure adventure) {
+    public void displayAdventure(Adventure adventure) {
         //Put adventure contents into view (like a RecyclerView view bind)
         //Load image
         mTitle.setText(adventure.getAdventureTitle());

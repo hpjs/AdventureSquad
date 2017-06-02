@@ -18,11 +18,20 @@ import com.adventuresquad.R;
 import com.adventuresquad.activity.interfaces.PlanDateFragment;
 import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
 import com.adventuresquad.activity.interfaces.PlanSquadFragment;
+import com.adventuresquad.api.PlanApi;
+import com.adventuresquad.interfaces.PresentablePlanView;
+import com.adventuresquad.model.Squad;
+import com.adventuresquad.presenter.PlanPresenter;
 
-public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder {
+import java.util.List;
+
+public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
 
     public static final String PLAN_ADVENTURE_DEBUG = "plan_adventure";
 
+    PlanPresenter mPresenter;
+
+    //Fragment presenter sections
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -32,7 +41,6 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -52,6 +60,10 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.plan_fragment_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        //Set up presenter and back end logic
+        PlanApi api = new PlanApi();
+        mPresenter = new PlanPresenter(api, this);
     }
 
     //TODO - override plan activity onBackPressed() to not close if on Date fragment
@@ -61,24 +73,35 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     }
 
     /**
-     * TODO - change this to be more flexible, instead of fragment passing it's position
+     * TODO - change this to be more flexible,
+     * instead of fragment passing it's position, should probably retrieve from adapter somehow?
      */
     @Override
     public void onNextButtonClicked(int currentSection) {
         int totalSections = mSectionsPagerAdapter.getCount();
-        currentSection = currentSection + 1;
-        //Gets whichever fragment is the current one
-        //int currentSection = mSectionsPagerAdapter.getCurrentSectionPosition() + 1;
+        currentSection = currentSection + 1; //Converting from zero-indexed to 'normal' numbers
 
-        //If current section is the last one (same as the totalSections), then finish up
-        //Otherwise then go to the next fragment along
         if (currentSection >= totalSections) {
-            //That fragment was the last one
-            //Continue with creating the plan
+            //Fragment was the last one, plan creation is complete
             finish(); //TODO - replace with presenter logic to create adventure
         } else {
             mViewPager.setCurrentItem(currentSection);
         }
+    }
+
+    @Override
+    public void displayMessage(String errorMessage) {
+
+    }
+
+    @Override
+    public void displaySquadList(List<Squad> userSquads) {
+
+    }
+
+    @Override
+    public void completePlanCreation() {
+
     }
 
     /**

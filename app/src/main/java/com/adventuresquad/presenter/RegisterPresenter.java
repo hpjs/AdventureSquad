@@ -1,17 +1,17 @@
 package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableRegisterActivity;
+import com.adventuresquad.interfaces.PresentableRegisterView;
 import com.adventuresquad.presenter.interfaces.RegisterApiPresenter;
 
 /**
  * Created by Harrison on 11/05/2017.
  */
 public class RegisterPresenter implements RegisterApiPresenter {
-    private PresentableRegisterActivity mActivity;
+    private PresentableRegisterView mActivity;
     private AuthApi mApi;
 
-    public RegisterPresenter(PresentableRegisterActivity activity, AuthApi api) {
+    public RegisterPresenter(PresentableRegisterView activity, AuthApi api) {
         mActivity = activity;
         mApi = api;
     }

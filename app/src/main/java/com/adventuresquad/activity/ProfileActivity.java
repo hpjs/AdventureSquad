@@ -11,13 +11,13 @@ import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableProfileActivity;
+import com.adventuresquad.interfaces.PresentableProfileView;
 import com.adventuresquad.presenter.ProfilePresenter;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProfileActivity extends AppCompatActivity implements PresentableProfileActivity {
+public class ProfileActivity extends AppCompatActivity implements PresentableProfileView {
 
     ProfilePresenter mPresenter;
 

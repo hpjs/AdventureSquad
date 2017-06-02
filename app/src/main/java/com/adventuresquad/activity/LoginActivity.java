@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableLoginActivity;
+import com.adventuresquad.interfaces.PresentableLoginView;
 import com.adventuresquad.presenter.LoginPresenter;
 
 import butterknife.BindView;
@@ -20,7 +20,7 @@ import butterknife.OnClick;
 /**
  * Activity for logging in to the application, or going to the registration page
  */
-public class LoginActivity extends AppCompatActivity implements PresentableLoginActivity {
+public class LoginActivity extends AppCompatActivity implements PresentableLoginView {
 
     //UI items
     @BindView(R.id.login_edit_email)

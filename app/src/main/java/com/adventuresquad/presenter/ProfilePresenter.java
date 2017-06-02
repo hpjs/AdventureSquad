@@ -1,7 +1,7 @@
 package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableProfileActivity;
+import com.adventuresquad.interfaces.PresentableProfileView;
 import com.adventuresquad.presenter.interfaces.LogoutApiPresenter;
 
 /**
@@ -10,10 +10,10 @@ import com.adventuresquad.presenter.interfaces.LogoutApiPresenter;
  * Created by Harrison on 30/05/2017.
  */
 public class ProfilePresenter implements LogoutApiPresenter {
-    private PresentableProfileActivity mActivity;
+    private PresentableProfileView mActivity;
     private AuthApi mAuthApi;
 
-    public ProfilePresenter(AuthApi authApi, PresentableProfileActivity activity) {
+    public ProfilePresenter(AuthApi authApi, PresentableProfileView activity) {
         mAuthApi = authApi;
         mActivity = activity;
         //TODO - check if initialiseAuthService is really needed

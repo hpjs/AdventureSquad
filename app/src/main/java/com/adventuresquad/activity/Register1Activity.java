@@ -10,14 +10,14 @@ import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableRegisterActivity;
+import com.adventuresquad.interfaces.PresentableRegisterView;
 import com.adventuresquad.presenter.RegisterPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Register1Activity extends AppCompatActivity implements PresentableRegisterActivity {
+public class Register1Activity extends AppCompatActivity implements PresentableRegisterView {
 
     //UI objects
     @BindView(R.id.register_one_edit_email)

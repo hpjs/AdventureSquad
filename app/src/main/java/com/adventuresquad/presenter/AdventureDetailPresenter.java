@@ -2,7 +2,7 @@ package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.StorageApi;
-import com.adventuresquad.interfaces.PresentableAdventureActivity;
+import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
@@ -14,11 +14,11 @@ import java.util.List;
  * Created by Harrison on 22/05/2017.
  */
 public class AdventureDetailPresenter implements AdventureApiPresenter, StorageApiPresenter {
-    private PresentableAdventureActivity mActivity;
+    private PresentableAdventureView mActivity;
     private AdventureApi mApi;
     private StorageApi mApiStore;
 
-    public AdventureDetailPresenter(PresentableAdventureActivity activity, AdventureApi api, StorageApi store) {
+    public AdventureDetailPresenter(PresentableAdventureView activity, AdventureApi api, StorageApi store) {
         mActivity = activity;
         mApi = api;
         mApiStore = store;
@@ -36,7 +36,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
 
     @Override
     public void onRetrieveAdventure(Adventure adventure) {
-        mActivity.onRetrieveAdventure(adventure);
+        mActivity.displayAdventure(adventure);
     }
 
     @Override

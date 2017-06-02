@@ -9,10 +9,41 @@ import java.util.List;
  */
 public class Squad {
 
-    private long squadId;
-    private String squadName;
+    private long mSquadId;
+    private String mSquadName;
     //Note: Uses the string class for UUID of user
-    private ArrayList<User> mSquadUsers;
+    private ArrayList<String> mSquadUsers;
+    private List<String> mSquadPlans;
 
-    private List<Plan> mPlannedAdventures;
+    public long getSquadId() {
+        return mSquadId;
+    }
+
+    public void setSquadId(long squadId) {
+        this.mSquadId = squadId;
+    }
+
+    public String getSquadName() {
+        return mSquadName;
+    }
+
+    public void setSquadName(String squadName) {
+        this.mSquadName = squadName;
+    }
+
+    public ArrayList<User> getSquadUsers() {
+        return mSquadUsers;
+    }
+
+    public void setSquadUsers(ArrayList<User> squadUsers) {
+        mSquadUsers = squadUsers;
+    }
+
+    public List<String> getPlans() {
+        return mPlans;
+    }
+
+    public void setPlans(List<String> plans) {
+        mPlans = plans;
+    }
 }

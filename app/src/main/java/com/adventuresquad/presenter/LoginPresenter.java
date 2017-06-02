@@ -1,7 +1,7 @@
 package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AuthApi;
-import com.adventuresquad.interfaces.PresentableLoginActivity;
+import com.adventuresquad.interfaces.PresentableLoginView;
 import com.adventuresquad.presenter.interfaces.LoginApiPresenter;
 
 /**
@@ -10,10 +10,10 @@ import com.adventuresquad.presenter.interfaces.LoginApiPresenter;
  * Created by Harrison on 11/05/2017.
  */
 public class LoginPresenter implements LoginApiPresenter {
-    private PresentableLoginActivity mActivity; //Shouldn't know what the activity is doing
+    private PresentableLoginView mActivity; //Shouldn't know what the activity is doing
     private AuthApi mApi;
 
-    public LoginPresenter(PresentableLoginActivity activity, AuthApi api) {
+    public LoginPresenter(PresentableLoginView activity, AuthApi api) {
         mActivity = activity;
         mApi = api;
         //TODO - check if initialiseAuthService is really needed

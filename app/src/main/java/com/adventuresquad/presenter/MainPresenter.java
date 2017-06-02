@@ -6,7 +6,7 @@ import android.util.Log;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
-import com.adventuresquad.interfaces.PresentableAdventureListActivity;
+import com.adventuresquad.interfaces.PresentableAdventureListView;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
 import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
@@ -21,7 +21,7 @@ import java.util.List;
 public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter {
 
     //Dependencies
-    private PresentableAdventureListActivity mActivity;
+    private PresentableAdventureListView mActivity;
     private AdventureApi mApi;
     private StorageApi mApiStore;
     //Data Fields
@@ -35,7 +35,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
      * @param activity The activity this presenter should be attached to
      * @param api      The api instance that this presenter should call to get data
      */
-    public MainPresenter(PresentableAdventureListActivity activity, AdventureApi api, StorageApi store) {
+    public MainPresenter(PresentableAdventureListView activity, AdventureApi api, StorageApi store) {
         //Dependency injections
         mActivity = activity;
         mApi = api;
