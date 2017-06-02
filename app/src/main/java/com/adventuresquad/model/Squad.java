@@ -14,5 +14,5 @@ public class Squad {
     //Note: Uses the string class for UUID of user
     private ArrayList<User> mSquadUsers;
 
-    private List<AdventurePlan> mPlannedAdventures;
+    private List<Plan> mPlannedAdventures;
 }
