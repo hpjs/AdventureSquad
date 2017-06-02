@@ -225,4 +225,5 @@
     <string name="plan_adventure_squad_title">Invite a squad</string>
     <string name="plan_adventure_myself">Adventure By Myself</string>
     <string name="plan_create_adventure">Create Adventure</string>
+    <string name="profile_image_highlight_description">Image of this user\'s adventure</string>
 </resources>
