@@ -52,7 +52,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         setContentView(R.layout.activity_adventure_detail);
 
         //Set up toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.plan_toolbar);
         setSupportActionBar(toolbar);
 
         //Bind views

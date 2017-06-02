@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.plan_toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

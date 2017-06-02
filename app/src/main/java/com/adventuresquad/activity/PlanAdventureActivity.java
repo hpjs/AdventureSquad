@@ -1,7 +1,5 @@
 package com.adventuresquad.activity;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -10,15 +8,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.adventuresquad.R;
+import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
+import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 
-public class PlanAdventureActivity extends AppCompatActivity {
+public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder {
+
+    public static final String PLAN_ADVENTURE_DEBUG = "plan_adventure";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,43 +42,105 @@ public class PlanAdventureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_adventure);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.plan_toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.plan_fragment_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
     }
 
+    //TODO - override plan activity onBackPressed() to not close if on Date fragment
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_plan_adventure, menu);
-        return true;
+    public void onNextButtonClicked() {
+        int totalSections = mSectionsPagerAdapter.getCount();
+        //Gets whichever fragment is the current one
+        int currentSection = mSectionsPagerAdapter.getCurrentSectionPosition() + 1;
+
+        //If current section is the last one (same as the totalSections), then finish up
+        //Otherwise then go to the next fragment along
+        if (currentSection >= totalSections) {
+            //That fragment was the last one
+            //Continue with creating the plan
+            finish(); //TODO - replace with presenter logic
+        } else {
+            //Transition to next fragment (current + 1)
+            //TODO - check that this is not 0 based (this might cause issues)
+            mViewPager.setCurrentItem(currentSection);
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        private int currentSectionPosition;
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
-        return super.onOptionsItemSelected(item);
+        /**
+         * This method is the thing that makes the fragment depending on the position.
+         * @param position
+         * @return
+         */
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            switch(position) {
+                case 0:
+                    currentSectionPosition = 0;
+                    //return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_squad);
+                    //Create a new PlanSquadFragment (hopefully it works!).
+                    return PlanSquadFragment.newInstance(position +1);
+                case 1:
+                    currentSectionPosition = 1;
+                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_date);
+                default:
+                    Log.w(PLAN_ADVENTURE_DEBUG, "Plan FragmentPagerAdapter tried to make a fragment out of bounds at position " + position);
+                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_date);
+            }
+            //return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 2 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "SECTION 1";
+                case 1:
+                    return "SECTION 2";
+            }
+            return null;
+        }
+
+        /**
+         * Returns the number of the currently activated section
+         * @return
+         */
+        public int getCurrentSectionPosition() {
+            return currentSectionPosition;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
+     * TODO - remove this, and fully replace with your own fragment system.
+     * This should only be a temporary thing.
      */
     public static class PlaceholderFragment extends Fragment {
         /**
@@ -85,6 +149,8 @@ public class PlanAdventureActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_FRAGMENT_TO_LOAD = "fragment_to_load";
+
+        private static Button mButton;
 
         public PlaceholderFragment() {
         }
@@ -111,48 +177,11 @@ public class PlanAdventureActivity extends AppCompatActivity {
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
-    }
+//        NOTE: DEPRECATED, try something different
+//        @Override
+//        public void onAttach(Activity activity) {
+//
+//        }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            switch(position) {
-                case 0:
-                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_squad);
-                case 1:
-                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_date);
-                default:
-                    return PlaceholderFragment.newInstance(position + 1, R.layout.fragment_plan_adventure_squad);
-            }
-            //return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-            }
-            return null;
-        }
     }
 }

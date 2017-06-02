@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/plan_adventure_create"
+            android:id="@+id/plan_adventure_create_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/plan_adventure_date_picker"

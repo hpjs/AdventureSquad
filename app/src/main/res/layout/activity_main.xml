@@ -13,7 +13,7 @@
 
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/plan_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
@@ -49,6 +49,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/adventure_list_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ProgressBar
@@ -61,7 +62,6 @@
             android:id="@+id/activity_main_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
             android:scrollbars="vertical"
             android:visibility="visible"
             tools:layout="@layout/activity_main_item_adventure">

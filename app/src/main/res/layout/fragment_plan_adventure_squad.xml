@@ -18,19 +18,21 @@
         android:textSize="20sp"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/plan_adventure_squad_list"
+        android:id="@+id/plan_squad_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/plan_adventure_squad_next">
+        android:layout_below="@+id/plan_squad_next_button"
+        android:layout_marginBottom="@dimen/fab_navbar_margin">
         <!--Recycler view for Squad items goes here-->
 
     </android.support.v7.widget.RecyclerView>
 
+    <!--Temporary link to top -->
     <Button
-        android:id="@+id/plan_adventure_squad_next"
+        android:id="@+id/plan_squad_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/section_label"
+        android:layout_below="@id/section_label"
         android:text="@string/plan_adventure_myself"/>
 
 </RelativeLayout>
