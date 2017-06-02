@@ -8,18 +8,22 @@ import java.util.List;
  * Created by Harrison on 8/05/2017.
  */
 public class Squad {
-
-    private long mSquadId;
+    //Note: Uses the string class for UUID for items
+    private String mSquadId;
     private String mSquadName;
-    //Note: Uses the string class for UUID of user
-    private ArrayList<String> mSquadUsers;
+    private List<String> mSquadUsers;
     private List<String> mSquadPlans;
 
-    public long getSquadId() {
+    /**
+     * Empty constructor (for FireBase / other marshal & unmarshalling)
+     */
+    public Squad() {}
+
+    public String getSquadId() {
         return mSquadId;
     }
 
-    public void setSquadId(long squadId) {
+    public void setSquadId(String squadId) {
         this.mSquadId = squadId;
     }
 
@@ -31,19 +35,23 @@ public class Squad {
         this.mSquadName = squadName;
     }
 
-    public ArrayList<User> getSquadUsers() {
+    public List<String> getSquadUsers() {
         return mSquadUsers;
     }
 
-    public void setSquadUsers(ArrayList<User> squadUsers) {
+    /**
+     * Setter for users who are in this squad
+     * @param squadUsers
+     */
+    public void setSquadUsers(List<String> squadUsers) {
         mSquadUsers = squadUsers;
     }
 
-    public List<String> getPlans() {
-        return mPlans;
+    public List<String> getSquadPlans() {
+        return mSquadPlans;
     }
 
-    public void setPlans(List<String> plans) {
-        mPlans = plans;
+    public void setPlans(List<String> squadPlans) {
+        mSquadPlans = squadPlans;
     }
 }

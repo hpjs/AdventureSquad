@@ -6,15 +6,6 @@ package com.adventuresquad.presenter.interfaces;
  */
 public interface PlanApiPresenter {
 
-    /**
-     * Used to ask the API for a list of squads
-     */
-    public void retrieveSquads();
-
-    /**
-     * Called when API has successfully retrieved squads
-     */
-    public void onRetrieveSquads();
 
     /**
      * Called when API failed to get squads for some reason
