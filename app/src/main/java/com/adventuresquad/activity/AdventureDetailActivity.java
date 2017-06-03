@@ -38,7 +38,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
 
     //TODO - move this into presenter to clean up business logic
     //This is only here so the adventure plan will work correctly
-    private String adventureId;
+    private String mAdventureId;
 
     //Presenter
     private AdventureDetailPresenter mPresenter;
@@ -63,11 +63,11 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         mPresenter = new AdventureDetailPresenter(this, api, new StorageApi(api));
 
         //Retrieve specific adventure
-        adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
-        mPresenter.retrieveAdventure(adventureId);
+        mAdventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
+        mPresenter.retrieveAdventure(mAdventureId);
 
         //Retrieve adventure image
-        mPresenter.retrieveAdventureImageUri(adventureId, new RetrieveImageUriRequest() {
+        mPresenter.retrieveAdventureImageUri(mAdventureId, new RetrieveImageUriRequest() {
             @Override
             public void onRetrieveImageUri(Uri uri) {
                 GlideApp
@@ -93,7 +93,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     @OnClick(R.id.adventure_detail_fab)
     public void createPlan() {
         Intent plan = new Intent(this, PlanAdventureActivity.class);
-        plan.putExtra("adventureId", adventureId);
+        plan.putExtra(PlanAdventureActivity.ADVENTURE_DETAIL_ID, mAdventureId);
         startActivity(plan);
     }
 

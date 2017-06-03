@@ -19,6 +19,7 @@ import com.adventuresquad.activity.interfaces.PlanDateFragment;
 import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
 import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 import com.adventuresquad.api.PlanApi;
+import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.interfaces.PresentablePlanView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.PlanPresenter;
@@ -27,6 +28,8 @@ import java.util.List;
 
 public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
 
+    //Constants
+    public static final String ADVENTURE_DETAIL_ID = "ADVENTURE_DETAIL_ID";
     public static final String PLAN_ADVENTURE_DEBUG = "plan_adventure";
 
     PlanPresenter mPresenter;
@@ -61,9 +64,11 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         mViewPager = (ViewPager) findViewById(R.id.plan_fragment_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        //Get specific adventure ID
+        String adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
+
         //Set up presenter and back end logic
-        PlanApi api = new PlanApi();
-        mPresenter = new PlanPresenter(api, this);
+        mPresenter = new PlanPresenter(new PlanApi(), this, adventureId, , new SquadApi());
     }
 
     //TODO - override plan activity onBackPressed() to not close if on Date fragment
