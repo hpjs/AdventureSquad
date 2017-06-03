@@ -6,7 +6,7 @@ package com.adventuresquad.interfaces;
 
 public interface PresentableRegisterView extends Presentable {
 
-    public void onRegisterSuccess();
+    public void registrationComplete();
 
     public void onRegisterFail();
 

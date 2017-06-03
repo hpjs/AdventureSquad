@@ -45,12 +45,12 @@ public class LoginPresenter implements LoginApiPresenter {
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onLoginSuccess(String userId) {
         mActivity.onLoginSuccess();
     }
 
     @Override
-    public void onLoginFail() {
+    public void onLoginFail(Exception exception) {
 
     }
 }

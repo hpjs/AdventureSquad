@@ -49,8 +49,7 @@ public class StorageApi {
     /**
      * Stores an image related to a specific adventure
      * @param pathToImage The image to upload
-     * @param adventureId The adventure that this image is for
-     * @param imageTitle The title of this image
+     * @param adventure The adventure that this image is for
      */
     public void storeAdventureImage(Uri pathToImage, final Adventure adventure) {
 

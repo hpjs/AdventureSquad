@@ -5,8 +5,11 @@ package com.adventuresquad.presenter.interfaces;
  */
 public interface RegisterApiPresenter {
 
-    public void onRegisterSuccess();
+    //Made redundant by newer onRegisterSuccess
+    //public void onRegisterSuccess(String userId);
 
-    public void onRegisterFail();
+    void onRegisterSuccess(String userId, String userEmail);
+
+    public void onRegisterFail(Exception exception);
 
 }

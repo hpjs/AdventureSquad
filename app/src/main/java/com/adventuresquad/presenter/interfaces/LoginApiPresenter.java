@@ -8,8 +8,8 @@ package com.adventuresquad.presenter.interfaces;
  */
 public interface LoginApiPresenter {
 
-    public void onLoginSuccess();
+    public void onLoginSuccess(String userId);
 
-    public void onLoginFail();
+    public void onLoginFail(Exception exception);
 
 }

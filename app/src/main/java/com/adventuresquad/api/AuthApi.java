@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class AuthApi {
 
     private FirebaseAuth mAuth;
-    private FirebaseUser mCurrentUser;
+    //private FirebaseUser mCurrentUser; //This is not really needed because you can get current user at any time anyway
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     public static final String DEBUG_AUTH = "auth";
@@ -42,15 +42,14 @@ public class AuthApi {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                setCurrentUser(firebaseAuth.getCurrentUser());
-                if (getCurrentUser() != null) {
+                //setCurrentUser(firebaseAuth.getCurrentUser());
+                if (getUser() != null) {
                     // User is signed in
-                    Log.d(DEBUG_AUTH, "onAuthStateChanged:signed_in:" + getCurrentUser().getUid());
+                    Log.d(DEBUG_AUTH, "onAuthStateChanged:signed_in:" + getUser().getUid());
                 } else {
                     // User is signed out
                     Log.d(DEBUG_AUTH, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -65,8 +64,8 @@ public class AuthApi {
 
     /**
      * Registers a given email/password into the firebase auth system.
-     * @param email
-     * @param password
+     * @param email New user's email
+     * @param password New user's password
      */
     public void registerUser(String email, String password,
                                     final RegisterApiPresenter callback) {
@@ -80,9 +79,10 @@ public class AuthApi {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            callback.onRegisterSuccess();
+                            //TODO - return the users' generated UID
+                            callback.onRegisterSuccess(getUser().getUid(), getUser().getEmail());
                         } else {
-                            callback.onRegisterFail();
+                            callback.onRegisterFail(task.getException());
                         }
                     }
                 });
@@ -95,7 +95,7 @@ public class AuthApi {
     public boolean checkUserLoggedIn() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            setCurrentUser(user);
+            //setCurrentUser(user);
             return true;
         }
         else {
@@ -116,10 +116,10 @@ public class AuthApi {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(DEBUG_AUTH,"signInWithEmail:onComplete");
-                            callback.onLoginSuccess();
+                            callback.onLoginSuccess(getUser().getUid());
                         } else {
                             Log.d(DEBUG_AUTH,"signInWithEmail:failed", task.getException());
-                            callback.onLoginFail();
+                            callback.onLoginFail(task.getException());
                         }
                     }
                 });
@@ -134,14 +134,14 @@ public class AuthApi {
      * Handles user creation with database
      */
     public FirebaseUser getUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
+        return mAuth.getCurrentUser();
     }
 
-    public FirebaseUser getCurrentUser() {
-        return mCurrentUser;
-    }
-
-    public void setCurrentUser(FirebaseUser mCurrentUser) {
-        mCurrentUser = mCurrentUser;
-    }
+//    public FirebaseUser getCurrentUser() {
+//        return mCurrentUser;
+//    }
+//
+//    public void setCurrentUser(FirebaseUser mCurrentUser) {
+//        mCurrentUser = mCurrentUser;
+//    }
 }

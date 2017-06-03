@@ -9,10 +9,9 @@ public class User {
     private String mUserName;
     private String mUserEmail;
     //To link this user object to the authentication
-    //TODO - may not actually need this as a field itself here (may still be useful to have another copy though)
     private String mUserId;
-    //Password stored in authentication, not in app
-
+    //User's personal squad for their own private adventures
+    private String mUserSquadId;
     //List of preferred adventure types
     private List<AdventureType> mPreferredAdventureType;
 
@@ -69,5 +68,13 @@ public class User {
 
     public void setPreferredAdventureType(List<AdventureType> mPreferredAdventureType) {
         this.mPreferredAdventureType = mPreferredAdventureType;
+    }
+
+    public String getUserSquadId() {
+        return mUserSquadId;
+    }
+
+    public void setUserSquadId(String userSquadId) {
+        mUserSquadId = userSquadId;
     }
 }

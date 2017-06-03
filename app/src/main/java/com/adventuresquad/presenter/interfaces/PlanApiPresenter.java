@@ -6,13 +6,6 @@ package com.adventuresquad.presenter.interfaces;
  */
 public interface PlanApiPresenter {
 
-
-    /**
-     * Called when API failed to get squads for some reason
-     */
-    public void onRetrieveSquadsFail(Exception e);
-
-
     /**
      * Called when...?
      */
@@ -28,4 +21,6 @@ public interface PlanApiPresenter {
      * @param e The exception that occurred
      */
     void onCreatePlanFail(Exception e);
+
+    void onRetrieveCurrentUserFail(Exception exception);
 }

@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
+import com.adventuresquad.api.SquadApi;
+import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentableRegisterView;
 import com.adventuresquad.presenter.RegisterPresenter;
 
@@ -40,7 +42,7 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
         ButterKnife.bind(this);
 
         //Create a new mPresenter object for this layout
-        mPresenter = new RegisterPresenter(this, new AuthApi());
+        mPresenter = new RegisterPresenter(this, new AuthApi(), new UserApi(), new SquadApi());
     }
 
 
@@ -79,7 +81,7 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
     }
 
     @Override
-    public void onRegisterSuccess() {
+    public void registrationComplete() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

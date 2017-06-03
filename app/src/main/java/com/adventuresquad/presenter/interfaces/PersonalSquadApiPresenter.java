@@ -7,8 +7,6 @@ package com.adventuresquad.presenter.interfaces;
  */
 public interface PersonalSquadApiPresenter {
 
-    public void createPersonalSquad(String userId);
-
     /**
      * Called when a squad is successfully created
      */
