@@ -17,6 +17,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
     private PresentableAdventureView mActivity;
     private AdventureApi mApi;
     private StorageApi mApiStore;
+    private Adventure mAdventure;
 
     public AdventureDetailPresenter(PresentableAdventureView activity, AdventureApi api, StorageApi store) {
         mActivity = activity;
@@ -36,6 +37,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
 
     @Override
     public void onRetrieveAdventure(Adventure adventure) {
+        mAdventure = adventure;
         mActivity.displayAdventure(adventure);
     }
 
@@ -69,5 +71,13 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
     @Override
     public void onRetrieveAdventureImageUri(String uri) {
 
+    }
+
+    /**
+     * Called when button is clicked
+     * Provides details to plan basically
+     */
+    public void createPlan() {
+        mActivity.startCreatePlan(mAdventure.getAdventureId(), mAdventure.getAdventureTitle());
     }
 }

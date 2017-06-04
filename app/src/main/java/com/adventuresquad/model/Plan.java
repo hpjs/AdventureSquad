@@ -11,6 +11,7 @@ public class Plan {
     private String mPlanId;
     private String mAdventureId; //The adventure that this plan is for
     private String mSquadId; //The ID of the squad that this trip is for
+    private String mPlanTitle; //The title of the plan. Default: Same as adventure title.
     private long bookingDate; //Booking date as Unix time (milliseconds since 'epoch')
 
     public Plan() {
@@ -47,5 +48,13 @@ public class Plan {
 
     public void setSquadId(String squadId) {
         mSquadId = squadId;
+    }
+
+    public String getPlanTitle() {
+        return mPlanTitle;
+    }
+
+    public void setPlanTitle(String planTitle) {
+        mPlanTitle = planTitle;
     }
 }

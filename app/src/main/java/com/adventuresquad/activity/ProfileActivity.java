@@ -35,6 +35,31 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
         initialiseNavbar();
     }
 
+    @OnClick(R.id.profile_fab_logout)
+    public void logout() {
+        mPresenter.logout();
+    }
+
+    @Override
+    public void completeLogout() {
+        Intent intentLogin = new Intent(this, LoginActivity.class);
+        startActivity(intentLogin);
+        finish();
+    }
+
+    @Override
+    public void displayMessage(String errorMessage) {
+        showToastMessage(errorMessage);
+    }
+
+    /**
+     * Shows a given string resource as a toast
+     */
+    public void showToastMessage(String string) {
+        Toast.makeText(this, string,
+                Toast.LENGTH_SHORT).show();
+    }
+
     private void initialiseNavbar() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -64,36 +89,20 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
                 });
     }
 
-    @OnClick(R.id.profile_fab_logout)
-    public void logout() {
-        mPresenter.logout();
-    }
-
-    @Override
-    public void completeLogout() {
-        Intent intentLogin = new Intent(this, LoginActivity.class);
-        startActivity(intentLogin);
-        finish();
-    }
-
-    @Override
-    public void displayMessage(String errorMessage) {
-        showToastMessage(errorMessage);
-    }
-
-    /**
-     * Shows a given string resource as a toast
-     */
-    public void showToastMessage(String string) {
-        Toast.makeText(this, string,
-                Toast.LENGTH_SHORT).show();
-    }
-
     /**
      * Navigate to the profile page
      */
     public void navigateHome() {
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the profile page
+     */
+    public void navigateMyTrips() {
+        Intent intent = new Intent(this, MyTripsActivity.class);
         startActivity(intent);
         finish();
     }

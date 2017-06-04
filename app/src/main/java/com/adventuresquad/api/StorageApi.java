@@ -28,7 +28,7 @@ public class StorageApi {
     public static final String ADVENTURE_IMAGE_TITLE = "adventureimage.jpg";
     public static final String DEBUG_STORAGE_API = "storage_api";
 
-    private StorageApi() {
+    public StorageApi() {
         mStorage = FirebaseStorage.getInstance();
         mImageStore = mStorage.getReference("images");
         //mProfileImageStore = mStorage.getReference("images/users/ProfileActivity");
@@ -67,6 +67,7 @@ public class StorageApi {
 
                 //Store this download URL on a specific Adventure in the database
                 adventure.setAdventureImageUri(imagePath);
+                //TODO - this is probably not a good idea:
                 mApi.putAdventure(adventure, adventure.getAdventureId());
 
                 Log.d(DEBUG_STORAGE_API, "Image uploaded successfully, for adventure " + adventure.getAdventureId());
@@ -104,13 +105,13 @@ public class StorageApi {
      * Adds an image download URL to a specific adventure
      */
 
-    public void retrieveAdventureImage(String adventureId) {
-        String filePath = getAdventureImagePath(adventureId);
-        StorageReference imageRef = mImageStore.child(filePath);
-        //note: need to pass information back up to view so it can load it using GLIDE
-        //https://stackoverflow.com/questions/37699688/cache-images-local-from-google-firebase-storage
-        //TODO - go back to this and fix image loading
-    }
+//    public void retrieveAdventureImage(String adventureId) {
+//        String filePath = getAdventureImagePath(adventureId);
+//        StorageReference imageRef = mImageStore.child(filePath);
+//        //note: need to pass information back up to view so it can load it using GLIDE
+//        //https://stackoverflow.com/questions/37699688/cache-images-local-from-google-firebase-storage
+//        //TODO - go back to this and fix image loading
+//    }
 
     /**
      * Gets a formatted URL to download an image

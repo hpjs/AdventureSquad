@@ -31,7 +31,6 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
 
     /**
      * CONSTRUCTOR
-     *
      * @param activity The activity this presenter should be attached to
      * @param api      The api instance that this presenter should call to get data
      */
@@ -136,7 +135,6 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
     }
 
     //TODO - Test method - remove later
-
     /**
      * Loops over current list of adventures and adds images to them
      * @param imagePath
@@ -153,17 +151,5 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
     public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback) {
 
         mApiStore.retrieveAdventureImageUri(adventureId, callback);
-    }
-
-    /**
-     * Called when a specific adventure image uri is retrieved
-     * CURRENTLY NOT NEEDED, as you pass in a callback as part of the retrieve method
-     * @param uri
-     */
-    @Override
-    public void onRetrieveAdventureImageUri(String uri) {
-        //NOTE: Needs to know where to give this back to
-        //Only way to do this would be to store a mapping of callbacks to the relevant adventure ID
-        //This is probably not really safe or smart. Therefore
     }
 }

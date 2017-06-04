@@ -10,5 +10,7 @@ public interface StorageApiPresenter {
 
     public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback);
 
-    public void onRetrieveAdventureImageUri(String uri);
+    //This has been made redundant by passing down a custom 'image request' object
+    // instead of using this standard system of callbacks
+    //public void onRetrieveAdventureImageUri(String uri);
 }

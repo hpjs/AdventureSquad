@@ -91,9 +91,20 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
      * Starts the flow to create a plan for an adventure
      */
     @OnClick(R.id.adventure_detail_fab)
-    public void createPlan() {
+    public void onCreatePlanClicked() {
+        mPresenter.createPlan();
+    }
+
+    /**
+     * Begins the intent to open the plan activity
+     * @param adventureId The ID of the adventure
+     * @param adventureTitle The Title of the adventure (helps avoid excessive DB lookups)
+     */
+    @Override
+    public void startCreatePlan(String adventureId, String adventureTitle) {
         Intent plan = new Intent(this, PlanAdventureActivity.class);
-        plan.putExtra(PlanAdventureActivity.ADVENTURE_DETAIL_ID, mAdventureId);
+        plan.putExtra(PlanAdventureActivity.ADVENTURE_DETAIL_ID, adventureId);
+        plan.putExtra(PlanAdventureActivity.ADVENTURE_TITLE, adventureTitle);
         startActivity(plan);
     }
 
@@ -102,10 +113,9 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         //Put adventure contents into view (like a RecyclerView view bind)
         //Load image
         mTitle.setText(adventure.getAdventureTitle());
-
         mInfo.setText(adventure.getAdventureDetail());
 
-        //Set map view
+        //Set map view...
     }
 
     @Override

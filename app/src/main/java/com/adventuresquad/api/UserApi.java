@@ -2,14 +2,11 @@ package com.adventuresquad.api;
 
 import android.support.annotation.NonNull;
 
-import com.adventuresquad.model.Squad;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,7 +57,16 @@ public class UserApi {
         });
     }
 
-    public void retrieveUser(String userId, final UserApiPresenter callbackPresenter) {
+    /**
+     * Provides a simple interface to retrieve a single user and callback
+     * TODO - move this interface out into it's own file
+     */
+    public interface RetrieveUserListener {
+        public void onGetUser(User user);
+        public void onGetUserFail(Exception e);
+    }
+
+    public void retrieveUser(String userId, final RetrieveUserListener callback) {
         //Uses the user's id to retrieve a specific user
         DatabaseReference mUserRef = mUsersData.child(userId);
 
@@ -69,25 +75,47 @@ public class UserApi {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
                 User retrievedUser = dataSnapshot.getValue(User.class);
-                callbackPresenter.onRetrieveCurrentUser(retrievedUser);
+                callback.onGetUser(retrievedUser);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callbackPresenter.onRetrieveCurrentUserFail(databaseError.toException());
+                callback.onGetUserFail(databaseError.toException());
+            }
+        });
+    }
+
+    /**
+     * Retrieves the current user by first getting the user's id,
+     * then retrieving user object from the database
+     * @param callback The presenter to return to on completion
+     */
+    public void retrieveCurrentUser(final UserApiPresenter callback) {
+        //Retrieves the current user from firebase auth
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        retrieveUser(currentUserId, new RetrieveUserListener() {
+            @Override
+            public void onGetUser(User user) {
+                callback.onRetrieveCurrentUser(user);
+            }
+
+            @Override
+            public void onGetUserFail(Exception e) {
+                callback.onRetrieveCurrentUserFail(e);
             }
         });
     }
 
     /**
      * Returns the current user to the callback
-     * @param callback
+     * @param callback The user listener to notify when complete
      */
-    public void retrieveCurrentUser(UserApiPresenter callback) {
+    public void retrieveCurrentUser(RetrieveUserListener callback) {
         //Retrieves the current user from firebase auth
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         retrieveUser(currentUserId, callback);
     }
+
 
     /**
      * Updates the ID of the squad on a given user object

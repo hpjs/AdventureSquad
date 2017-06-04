@@ -69,36 +69,6 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         initialiseNavbar();
     }
 
-    private void initialiseNavbar() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-        //Set correct item to be selected
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-        //Set up click listener
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_create:
-                                break;
-                            case R.id.navigation_squads:
-                                break;
-                            case R.id.navigation_home:
-                                //Already on this page
-                                break;
-                            case R.id.navigation_myTrips:
-                                break;
-                            case R.id.navigation_profile:
-                                navigateProfile();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-    }
-
-
     @OnClick(R.id.activity_main_fab)
     public void onClick(View v) {
         switch (v.getId()) {
@@ -109,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
                 break;
         }
     }
+
 
     /**
      * Displays fullscreen loading icon
@@ -167,11 +138,51 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         startActivity(adventureDetail);
     }
 
+    //NAVBAR CODE
+    private void initialiseNavbar() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+        //Set correct item to be selected
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        //Set up click listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_create:
+                                break;
+                            case R.id.navigation_squads:
+                                break;
+                            case R.id.navigation_home:
+                                //Already on this page
+                                break;
+                            case R.id.navigation_myTrips:
+                                navigateMyTrips();
+                                break;
+                            case R.id.navigation_profile:
+                                navigateProfile();
+                                break;
+                        }
+                        return true;
+                    }
+                });
+    }
+
     /**
      * Navigate to the profile page
      */
     public void navigateProfile() {
         Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the profile page
+     */
+    public void navigateMyTrips() {
+        Intent intent = new Intent(this, MyTripsActivity.class);
         startActivity(intent);
         finish();
     }

@@ -126,10 +126,8 @@ public class AdventureApi {
      * @param callbackPresenter The presenter to call back methods on when complete
      */
     public void getAdventureList(final AdventureApiPresenter callbackPresenter) {
-        //TODO - try and convert this to a normal firebase listener to see what happens
         mAdventuresDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             //Data retrieved
-            //TODO - test this method
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Adventure> list = new ArrayList<Adventure>();

@@ -14,4 +14,10 @@ public interface PresentableAdventureView extends Presentable {
      */
     public void displayAdventure(Adventure adventure);
 
+    /**
+     * Called from the presenter to begin the create plan flow
+     * @param adventureId
+     * @param adventureTitle
+     */
+    public void startCreatePlan(String adventureId, String adventureTitle);
 }

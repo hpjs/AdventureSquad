@@ -11,7 +11,7 @@ public interface PlanApiPresenter {
     /**
      * Called when...?
      */
-    //public void createPlan();
+    //public void startCreatePlan();
 
     /**
      * Called when a plan is successfully made

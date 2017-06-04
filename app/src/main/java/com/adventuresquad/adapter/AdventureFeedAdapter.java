@@ -117,11 +117,6 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
             }
         });
 
-//        Picasso.with(imageContext)
-//                .load(R.drawable.adventure_placeholder_small)
-//                .fit().centerCrop()
-//                .into(holder.mImage);
-
         //Populate view with text
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter

@@ -34,6 +34,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     //Constants
     public static final String ADVENTURE_DETAIL_ID = "ADVENTURE_DETAIL_ID";
     public static final String PLAN_ADVENTURE_DEBUG = "plan_adventure";
+    public static final String ADVENTURE_TITLE = "ADVENTURE_TITLE";
 
     PlanPresenter mPresenter;
 
@@ -71,9 +72,10 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
 
         //Get specific adventure ID
         String adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
+        String adventureTitle = getIntent().getStringExtra(ADVENTURE_TITLE);
 
         //Set up presenter and back end logic
-        mPresenter = new PlanPresenter(this, adventureId, new PlanApi(), new UserApi(), new SquadApi());
+        mPresenter = new PlanPresenter(this, adventureId, adventureTitle, new PlanApi(), new UserApi(), new SquadApi());
     }
 
     //TODO - override plan activity onBackPressed() to not close if on Date fragment

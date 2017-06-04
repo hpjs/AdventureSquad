@@ -6,13 +6,16 @@ import android.util.Log;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.interfaces.PersonalSquadApiPresenter;
-import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
 import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,5 +98,39 @@ public class SquadApi {
         //if (plan.getSquadId() != null && !plan.getSquadId().isEmpty()) {        }
         //TODO - not sure how to add to an existing list of objects - use push() ?
         callback.onAddPlanToSquad();
+    }
+
+    /**
+     * Provides a simple callback interface for retrieving a list of plan strings
+     */
+    public interface RetrievePlanListListener {
+        public void onGetPlanList(List<String> planIdList);
+        public void onGetPlanListFail(Exception e);
+    }
+
+    /**
+     * Gets a list of all the of the plan IDs of a particular squad
+     * @param squadId
+     */
+    public void getPlanList(String squadId, final RetrievePlanListListener callback) {
+        //Uses the user's id to retrieve a specific user
+        DatabaseReference mUserRef = mSquadsData.child(squadId + "/squadPlans");
+
+        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Set up data type to read a list of string from Firebase
+                GenericTypeIndicator<List<String>> stringList
+                        = new GenericTypeIndicator<List<String>>() {};
+
+                List<String> squadPlans = dataSnapshot.getValue(stringList);
+                callback.onGetPlanList(squadPlans);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onGetPlanListFail(databaseError.toException());
+            }
+        });
     }
 }

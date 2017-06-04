@@ -23,13 +23,14 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
     private Plan mCurrentPlan;
 
     /**
-     * @param planApi A new planApi object to access the plans
      * @param view The view that this presenter is managing
      * @param adventureId The adventure that the plan is for (relates to)
+     * @param adventureTitle
+     * @param planApi A new planApi object to access the plans
      * @param userApi User API so this presenter can access current user
      * @param squadApi New squad API so this presenter can access the list of user's squads
      */
-    public PlanPresenter(PresentablePlanView view, String adventureId, PlanApi planApi, UserApi userApi, SquadApi squadApi) {
+    public PlanPresenter(PresentablePlanView view, String adventureId, String adventureTitle, PlanApi planApi, UserApi userApi, SquadApi squadApi) {
         mView = view;
         mPlanApi = planApi;
         mUserApi = userApi;
@@ -37,6 +38,7 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
 
         mCurrentPlan = new Plan();
         mCurrentPlan.setAdventureId(adventureId);
+        mCurrentPlan.setPlanTitle(adventureTitle);
     }
 
     /**
