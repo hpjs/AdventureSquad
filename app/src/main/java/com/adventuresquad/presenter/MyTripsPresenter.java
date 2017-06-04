@@ -99,7 +99,8 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
     @Override
     public void onRetrieveUserPlan(Plan plan) {
         mPlanList.add(plan);
-        mView.updatePlanList(mPlanList);
+        //mView.updatePlanList(mPlanList);
+        mView.addPlanToList(plan);
     }
 
     @Override

@@ -48,7 +48,20 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
     public PlansAdapter(Context context, MyTripsPresenter presenter) {
         mContext = context;
         mPlanList = new ArrayList<>();
+        mPlanList.add(newTestPlan());
+        mPlanList.add(newTestPlan());
+        notifyDataSetChanged();
         mPresenter = presenter;
+    }
+
+    public Plan newTestPlan() {
+        //Test example with some test values from the database
+        Plan p = new Plan();
+        p.setPlanTitle("Test plan");
+        p.setAdventureId("-KkkNhRwWpeZPnVhmR2f");
+        p.setSquadId("-KlldxAhPIx9Vl6GluRh");
+        p.setBookingDate(0);
+        return p;
     }
 
 
@@ -113,7 +126,7 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mPlanList.size();
     }
 
     /**

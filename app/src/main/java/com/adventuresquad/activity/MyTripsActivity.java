@@ -3,6 +3,7 @@ package com.adventuresquad.activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyTripsActivity extends AppCompatActivity implements PresentablePlanListView, ItemClickSupport.OnItemClickListener {
 
@@ -33,8 +35,10 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
     private PlansAdapter mPlansAdapter;
 
     //Views
-    @BindView(R.id.activity_main_recycler_view)
+    @BindView(R.id.my_trips_recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.my_trips_fab)
+    FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,14 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
 
         //Initialise navbar
         initialiseNavbar();
+    }
+
+    /**
+     * Gets the updated list of
+     */
+    @OnClick(R.id.my_trips_fab)
+    public void refreshList() {
+        mPresenter.retrievePlans();
     }
 
     /**

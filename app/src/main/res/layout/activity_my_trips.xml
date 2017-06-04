@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.CoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +21,7 @@
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_trips_list"
+            android:id="@+id/my_trips_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
@@ -29,6 +29,17 @@
             tools:layout="@layout/activity_main_item_adventure"/>
 
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/my_trips_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_navbar_margin"
+        app:layout_anchor="@+id/bottom_navigation"
+        app:layout_anchorGravity="right|top|end"
+        app:srcCompat="@android:drawable/ic_search_category_default"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -41,4 +52,4 @@
         app:itemTextColor="@color/colorAccent"
         app:menu="@menu/bottom_navigation_menu"/>
 
-</android.support.constraint.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>
