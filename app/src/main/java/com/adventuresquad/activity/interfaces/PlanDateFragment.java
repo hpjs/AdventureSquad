@@ -32,10 +32,10 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener, 
      * Create a new instance of CountingFragment, providing "num"
      * as an argument.
      */
-    public static PlanSquadFragment newInstance(int sectionNumber/*int num,
+    public static PlanDateFragment newInstance(int sectionNumber/*int num,
                                                 insert your 'constructor' arguments here
                                                 can't use normal constructor stuff apparently*/) {
-        PlanSquadFragment fragmentInstance = new PlanSquadFragment();
+        PlanDateFragment fragmentInstance = new PlanDateFragment();
 
         // Inject arguments into the new fragmentInstance
         Bundle args = new Bundle();
@@ -67,10 +67,11 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate current view
-        View v = inflater.inflate(R.layout.fragment_plan_adventure_squad, container, false);
+        View v = inflater.inflate(R.layout.fragment_plan_adventure_date, container, false);
 
         //Bind views
-        mButton = (Button)v.findViewById(R.id.plan_squad_next_button);
+        mButton = (Button)v.findViewById(R.id.plan_adventure_create_button);
+        mButton.setOnClickListener(this);
         mDatePicker = (DatePicker)v.findViewById(R.id.plan_adventure_date_picker);
 
         return v;

@@ -96,6 +96,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
             //Note: If you add more fragments, add a switch statement here.
             mPresenter.addPersonalSquadToPlan();
             //TODO - this may break if plan completion starts before add personal squad is done
+            //NOTE - should probably change this to use names instead of numbers
             mViewPager.setCurrentItem(currentSection + 1);
         } else {
             //Fragment was the last one, add date to plan and complete plan
@@ -155,6 +156,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
                     //Create a new PlanSquadFragment instead of placeholder(it works!!).
                     return PlanSquadFragment.newInstance(position);
                 case 1:
+                    return PlanDateFragment.newInstance(position);
+                case 2:
                     return PlanDateFragment.newInstance(position);
                 default:
                     Log.w(PLAN_ADVENTURE_DEBUG, "Plan FragmentPagerAdapter tried to make a fragment out of bounds at position " + position);
