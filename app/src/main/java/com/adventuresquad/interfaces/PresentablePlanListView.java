@@ -15,4 +15,6 @@ public interface PresentablePlanListView extends Presentable{
      * @param planList
      */
     void updatePlanList(List<Plan> planList);
+
+    void addPlanToList(Plan plan);
 }

@@ -22,18 +22,18 @@ import java.util.List;
 /**
  * Created by Harrison on 4/06/2017.
  */
-public class MyTripsAdapter extends RecyclerView.Adapter<MyTripsAdapter.TripViewHolder>{
+public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHolder>{
 
     private MyTripsPresenter mPresenter;
     private Context mContext;
     private List<Plan> mPlanList;
 
-    public class TripViewHolder extends RecyclerView.ViewHolder {
+    public class PlansViewHolder extends RecyclerView.ViewHolder {
         //View objects here
         public TextView mTitle, mDate;
         public ImageView mImage;
 
-        public TripViewHolder(View view) {
+        public PlansViewHolder(View view) {
             super(view);
             //Set up the view classes with view.findViewById here
             mTitle = (TextView) view.findViewById(R.id.item_trip_title);
@@ -45,7 +45,7 @@ public class MyTripsAdapter extends RecyclerView.Adapter<MyTripsAdapter.TripView
     /**
      * Constructor
      */
-    public MyTripsAdapter(Context context, MyTripsPresenter presenter) {
+    public PlansAdapter(Context context, MyTripsPresenter presenter) {
         mContext = context;
         mPlanList = new ArrayList<>();
         mPresenter = presenter;
@@ -53,15 +53,32 @@ public class MyTripsAdapter extends RecyclerView.Adapter<MyTripsAdapter.TripView
 
 
     @Override
-    public TripViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlansViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_my_trips_item, parent, false);
 
-        return new TripViewHolder(itemView);
+        return new PlansViewHolder(itemView);
+    }
+
+    public void setPlanList(List<Plan> newList) {
+        mPlanList = newList;
+    }
+
+    /**
+     * Adds an item dynamically to the recycler view
+     * @param plan The plan to add to the list
+     */
+    public void addItem(Plan plan) {
+        mPlanList.add(plan);
+        //NOTE - add could potentially cause synchronous problems
+        // if also updated at same time from somewhere else.
+        //Checking the index here will increase overhead but should help avoid a threading issue.
+        int newIndex = mPlanList.indexOf(plan);
+        notifyItemInserted(newIndex);
     }
 
     @Override
-    public void onBindViewHolder(final TripViewHolder holder, int position) {
+    public void onBindViewHolder(final PlansViewHolder holder, int position) {
         //Get correct adventure item
         Plan plan = getListItem(position);
 

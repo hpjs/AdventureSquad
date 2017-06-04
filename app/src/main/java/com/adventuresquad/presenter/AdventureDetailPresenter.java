@@ -65,15 +65,6 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
     }
 
     /**
-     * CURRENTLY NOT NEEDED, as retrieveAdventureImageUri contains a callback in it's methods
-     * @param uri
-     */
-    @Override
-    public void onRetrieveAdventureImageUri(String uri) {
-
-    }
-
-    /**
      * Called when button is clicked
      * Provides details to plan basically
      */

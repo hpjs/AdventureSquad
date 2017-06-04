@@ -107,12 +107,6 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
         mView.displayMessage("Could not retrieve all of your plans.");
     }
 
-//    @Override
-//    public void onRetrieveUserPlans(List<Plan> userPlans) {}
-//
-//    @Override
-//    public void onRetrieveUserPlansFail(Exception exception) {}
-
     /**
      * Retrieves an image URI for a particular adventure
      * @param adventureId The adventure to retrieve the image URL for
