@@ -1,5 +1,7 @@
 package com.adventuresquad.activity.interfaces;
 
+import android.support.v4.app.Fragment;
+
 /**
  * Specific fragment holder for the 'Plan Adventure' flow
  * Allows the fragments to communicate specific data / actions back to the activity
@@ -7,5 +9,5 @@ package com.adventuresquad.activity.interfaces;
  */
 public interface PlanFragmentHolder extends SwipeFragmentHolder {
 
-
+    void onNextButtonClicked(int currentSection, PlanFragment fragment);
 }

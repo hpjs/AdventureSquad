@@ -16,14 +16,17 @@ import android.widget.Button;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.interfaces.PlanDateFragment;
+import com.adventuresquad.activity.interfaces.PlanFragment;
 import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
 import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
+import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentablePlanView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.PlanPresenter;
 
+import java.util.Date;
 import java.util.List;
 
 public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
@@ -48,6 +51,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private int mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,13 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.plan_fragment_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mCurrentFragment = 0;
 
         //Get specific adventure ID
         String adventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
 
         //Set up presenter and back end logic
-        mPresenter = new PlanPresenter(new PlanApi(), this, adventureId, , new SquadApi());
+        mPresenter = new PlanPresenter(this, adventureId, new PlanApi(), new UserApi(), new SquadApi());
     }
 
     //TODO - override plan activity onBackPressed() to not close if on Date fragment
@@ -82,16 +87,31 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
      * instead of fragment passing it's position, should probably retrieve from adapter somehow?
      */
     @Override
-    public void onNextButtonClicked(int currentSection) {
+    public void onNextButtonClicked(int currentSection, PlanFragment planFragment) {
         int totalSections = mSectionsPagerAdapter.getCount();
-        currentSection = currentSection + 1; //Converting from zero-indexed to 'normal' numbers
+        mCurrentFragment = currentSection;
 
-        if (currentSection >= totalSections) {
-            //Fragment was the last one, plan creation is complete
-            finish(); //TODO - replace with presenter logic to create adventure
+        //Converting from zero-indexed to compare if it's the last fragment in the set
+        if ((currentSection + 1) < totalSections) {
+            //Note: If you add more fragments, add a switch statement here.
+            mPresenter.addPersonalSquadToPlan();
+            //TODO - this may break if plan completion starts before add personal squad is done
+            mViewPager.setCurrentItem(currentSection + 1);
         } else {
-            mViewPager.setCurrentItem(currentSection);
+            //Fragment was the last one, add date to plan and complete plan
+            long date = planFragment.getDate();
+            mPresenter.addDateToPlan(date);
+            mPresenter.createPlan();
         }
+    }
+
+    /**
+     * Called when adding a squad to a plan is complete (locally)
+     */
+    @Override
+    public void onAddSquadToPlan() {
+        //Squad adding to plan is complete
+        //TODO - figure out how to put fragment change here instead of in 'onNextButtonClicked'
     }
 
     @Override
@@ -106,7 +126,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
 
     @Override
     public void completePlanCreation() {
-
+        //Finish activity
+        finish();
     }
 
     /**
@@ -129,11 +150,6 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-
-            //NOTE - both things are inflated at the same time, therefore 'current position' is not accurate
-            //Figure out a better way to do this
-//            setCurrentSectionPosition(position);
             switch(position) {
                 case 0:
                     //Create a new PlanSquadFragment instead of placeholder(it works!!).

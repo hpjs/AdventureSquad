@@ -14,4 +14,9 @@ public interface PresentablePlanView extends Presentable {
 
     public void completePlanCreation();
 
+    /**
+     * Used when the data has completed adding a squad to a plan
+     * View should navigate to next view (date) planning
+     */
+    public void onAddSquadToPlan();
 }

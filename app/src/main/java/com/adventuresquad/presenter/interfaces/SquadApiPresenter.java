@@ -29,5 +29,8 @@ public interface SquadApiPresenter {
      */
     public void onRetrieveSquads();
 
-
+    /**
+     * Called when plan has successfully been added to squad
+     */
+    public void onAddPlanToSquad();
 }

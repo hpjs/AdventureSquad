@@ -5,34 +5,33 @@ import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentablePlanView;
 import com.adventuresquad.model.Plan;
-import com.adventuresquad.model.Squad;
 import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
+import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 
 /**
  * Presenter for the PlanAdventure activity
  * Created by Harrison on 2/06/2017.
  */
-public class PlanPresenter implements PlanApiPresenter, UserApiPresenter {
+public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadApiPresenter {
     private PresentablePlanView mView;
-    private PlanApi mApi;
+    private PlanApi mPlanApi;
     private UserApi mUserApi;
     private SquadApi mSquadApi;
 
     private Plan mCurrentPlan;
-//    private
 
     /**
-     * @param api A new api object to access the plans
+     * @param planApi A new planApi object to access the plans
      * @param view The view that this presenter is managing
      * @param adventureId The adventure that the plan is for (relates to)
-     * @param userApi
-     * @param squadApi
+     * @param userApi User API so this presenter can access current user
+     * @param squadApi New squad API so this presenter can access the list of user's squads
      */
-    public PlanPresenter(PlanApi api, PresentablePlanView view, String adventureId, UserApi userApi, SquadApi squadApi) {
-        mApi = api;
+    public PlanPresenter(PresentablePlanView view, String adventureId, PlanApi planApi, UserApi userApi, SquadApi squadApi) {
         mView = view;
+        mPlanApi = planApi;
         mUserApi = userApi;
         mSquadApi = squadApi;
 
@@ -43,67 +42,72 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter {
     /**
      * User does not want to
      */
-    public void noSquadSelected() {
-        //Move view on to date selection if possible
+    public void addPersonalSquadToPlan() {
         //TODO - ask Guil if controlling view should be in the presenter or in the activity
-        //create new squad with user in it if not already existing
-
-
-        //Get current user object from the database.
         mUserApi.retrieveCurrentUser(this);
-
-        //SQUAD / PLAN LOGIC CONTINUES IN 'onRetrieveCurrentUser'
-        //TODO - should potentially convert this to use anon inner class instead
     }
 
     /**
-     *
+     * Retrieves current user and adds their personal squad to the plan
+     * @param user
+     */
+    @Override
+    public void onRetrieveCurrentUser(User user) {
+        //Local user was retrieved successfully, continue with making a plan for them
+        //Get user's personal squad and set plan to it
+        String userSquadId = user.getUserSquadId();
+        if (userSquadId != null && !userSquadId.isEmpty()) {
+            //Set squad ID correctly
+            mCurrentPlan.setSquadId(userSquadId);
+            //Move view on to next page
+            mView.onAddSquadToPlan();
+        } else {
+            //User does not have a squad ID, need to create their personal squad for adventuring
+            //ERROR - issue because there's no personal squad ID, should have been made in in user registration
+            mView.displayMessage("Error - your user wasn't set up properly with a personal squad");
+        }
+    }
+
+    /**
+     * Used when user has selected a squad for the plan to be added to
      * @param squadId
      */
-    public void squadSelected(String squadId) {
+    public void addSquadToPlan(String squadId) {
 
     }
 
+    public void addDateToPlan(long date) {
+        //Adds the date to the plan
+        mCurrentPlan.setBookingDate(date);
+    }
+
+    /**
+     * Creates a plan in DB using the local Plan object
+     * Flow: createPlan() -> onCompletePlanCreation() -> addPlanToSquad() -> onAddPlanToSquad()
+     */
     public void createPlan() {
         //TODO - Show loading icon on view
         //Start creation with the API
-        mApi.putPlan(mCurrentPlan, this);
+        mPlanApi.createPlan(mCurrentPlan, this);
     }
 
     @Override
-    public void onCreatePlan() {
+    public void onCompletePlanCreation(Plan plan) {
         //TODO - hide loading icon
+        mCurrentPlan = plan;
+        mSquadApi.addPlanToSquad(plan, this);
+    }
+
+    @Override
+    public void onAddPlanToSquad() {
+        //FINALLY the flow is finished,
+        //mCurrentPlan = null;
         mView.completePlanCreation();
     }
 
     @Override
     public void onCreatePlanFail(Exception e) {
         mView.displayMessage(e.toString());
-    }
-
-    /**
-     * Current user was retrieved from the database
-     * @param user
-     */
-    @Override
-    public void onRetrieveCurrentUser(User user) {
-        String userSquadId = user.getUserSquadId();
-        if (userSquadId != null && !userSquadId.isEmpty()) {
-            //
-            //Create plan
-
-            //Continue as normal
-        } else {
-            //User does not have a squad ID, need to create their personal squad for adventuring
-            //ERROR - issue because there's no personal squad ID, should have been made in in user registration
-
-            mSquadApi.createPersonalSquad(userId);
-        }
-        //Check if it has a squad ID
-        //If not, then create a new personal squad.
-        //Update the user with the newly created personal squad ID
-
-        //Update (LOCAL!) plan with user's personal squad ID
     }
 
     /**
@@ -116,12 +120,47 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter {
     }
 
     @Override
+    public void onUpdateUserSquad() {
+
+    }
+
+    @Override
+    public void onUpdateUserSquadFail() {
+
+    }
+
+    @Override
     public void onAddUser() {
 
     }
 
     @Override
     public void onAddUserFail(Exception e) {
+
+    }
+
+    @Override
+    public void createSquad() {
+
+    }
+
+    @Override
+    public void onCreateSquad() {
+
+    }
+
+    @Override
+    public void onCreateSquadFail(Exception e) {
+
+    }
+
+    @Override
+    public void retrieveSquads() {
+
+    }
+
+    @Override
+    public void onRetrieveSquads() {
 
     }
 }

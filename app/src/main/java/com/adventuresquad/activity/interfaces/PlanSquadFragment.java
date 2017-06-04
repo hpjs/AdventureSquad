@@ -11,11 +11,13 @@ import android.widget.Button;
 import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
 
+import java.util.Date;
+
 /**
  * Fragment for the squad list
  * Created by Harrison on 2/06/2017.
  */
-public class PlanSquadFragment extends Fragment implements View.OnClickListener {
+public class PlanSquadFragment extends Fragment implements View.OnClickListener, PlanFragment {
     //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -94,7 +96,7 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener 
     public void onNextButtonClick() {
         try { //Attempt to cast the parent activity as a SwipeFragmentHolder
             SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
-            parent.onNextButtonClicked(mSectionNumber);
+            parent.onNextButtonClicked(mSectionNumber, this);
         } catch (ClassCastException castException){
             Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
                     "Could not cast fragment parent as a 'SwipeFragmentHolder'!",
@@ -111,6 +113,24 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener 
                 onNextButtonClick();
                 break;
         }
+    }
+
+    /**
+     * Retrieve the user's selected squad in the list
+     * @return The user's selected squad to make this plan for
+     */
+    @Override
+    public String getSquadId() {
+        return null;
+    }
+
+    /**
+     * Only for date fragment, should return null here
+     * @return
+     */
+    @Override
+    public long getDate() {
+        return 0;
     }
 
     /*

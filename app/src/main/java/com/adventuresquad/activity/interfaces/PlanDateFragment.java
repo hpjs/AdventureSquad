@@ -7,18 +7,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Harrison on 2/06/2017.
  */
 
-public class PlanDateFragment extends Fragment implements View.OnClickListener {
-    //Fields
+public class PlanDateFragment extends Fragment implements View.OnClickListener, PlanFragment {
+    //Fragment views
     private Button mButton;
+    private DatePicker mDatePicker;
 
+    //Fragment section number details
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
 
@@ -63,12 +69,10 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener {
         //Inflate current view
         View v = inflater.inflate(R.layout.fragment_plan_adventure_squad, container, false);
 
-        //Bind view objects to code
+        //Bind views
         mButton = (Button)v.findViewById(R.id.plan_squad_next_button);
+        mDatePicker = (DatePicker)v.findViewById(R.id.plan_adventure_date_picker);
 
-        //Example to bind objects
-        //View tv = v.findViewById(R.id.text);
-        //((TextView)tv).setText("Fragment #" + mNum);
         return v;
     }
 
@@ -90,7 +94,7 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener {
     public void onCompleteButtonClick() {
         try { //Attempt to cast the parent activity as a SwipeFragmentHolder
             SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
-            parent.onNextButtonClicked(mSectionNumber);
+            parent.onNextButtonClicked(mSectionNumber, this);
         } catch (ClassCastException castException){
             Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
                     "Could not cast fragment parent as a 'SwipeFragmentHolder'!",
@@ -107,6 +111,24 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener {
                 onCompleteButtonClick();
                 break;
         }
+    }
+
+    @Override
+    public String getSquadId() {
+        return null;
+    }
+
+    @Override
+    public long getDate() {
+        //Get the date from the date picker
+        int year = mDatePicker.getYear();
+        int month = mDatePicker.getMonth() + 1;
+        int dayOfMonth = mDatePicker.getDayOfMonth();
+
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, dayOfMonth, 0, 0);
+
+        return c.getTimeInMillis();
     }
 
     /*

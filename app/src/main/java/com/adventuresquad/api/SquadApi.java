@@ -76,7 +76,7 @@ public class SquadApi {
                         userApi.updateUserSquad(userId, newSquadId, (UserApiPresenter) callback);
                     } catch(ClassCastException exception) {
                         Log.d(DEBUG_SQUAD_API, "Couldn't cast 'callback' from PersonalSquadApiPresenter to UserApiPresenter!");
-                        Log.d(DEBUG_SQUAD_API, "Make sure the callback class implements both interfaces!!");
+                        Log.d(DEBUG_SQUAD_API, "Make sure the presenter implements both interfaces!!");
                     }
                     //TODO - Add 'callback.onCreateSquad()' here??
 
@@ -88,10 +88,12 @@ public class SquadApi {
     }
 
     /**
-     * Adds a new planId to the squad's list of plans
-     * @param userSquadId
+     * Adds the plan to the plan's squad id
+     * @param plan The plan (with populated IDs)
      */
-    public void addPlan(String userSquadId) {
-
+    public void addPlanToSquad(Plan plan, SquadApiPresenter callback) {
+        //if (plan.getSquadId() != null && !plan.getSquadId().isEmpty()) {        }
+        //TODO - not sure how to add to an existing list of objects - use push() ?
+        callback.onAddPlanToSquad();
     }
 }

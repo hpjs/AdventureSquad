@@ -11,7 +11,7 @@ public class Plan {
     private String mPlanId;
     private String mAdventureId; //The adventure that this plan is for
     private String mSquadId; //The ID of the squad that this trip is for
-    private Date bookingDate;
+    private long bookingDate; //Booking date as Unix time (milliseconds since 'epoch')
 
     public Plan() {
 
@@ -33,11 +33,11 @@ public class Plan {
         mAdventureId = adventureId;
     }
 
-    public Date getBookingDate() {
+    public long getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Date bookingDate) {
+    public void setBookingDate(long bookingDate) {
         this.bookingDate = bookingDate;
     }
 
