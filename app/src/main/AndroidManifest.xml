@@ -49,6 +49,8 @@
             android:label="@string/title_activity_plan_adventure"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.MyTripsActivity">
+        </activity>
     </application>
 
 </manifest>
