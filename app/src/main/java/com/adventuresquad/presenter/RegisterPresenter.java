@@ -57,8 +57,7 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
         mUser = new User();
         mUser.setUserId(userId);
         mUser.setUserEmail(userEmail);
-        //user.setName
-        //TODO - add email to user object itself later for looking up a user more easily
+        //Add the user object to the database
         mUserApi.addUser(mUser, this);
     }
 
@@ -67,7 +66,6 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
         //User adding to database complete.
         //Add personal squad to this user so they can make plans
         mSquadApi.createPersonalSquad(mUser.getUserId(), mUserApi, this);
-        //
     }
 
     @Override
@@ -75,6 +73,22 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
         mActivity.displayMessage("User creation failed - " + e.toString());
         //TODO - check if this is the right place to put this
         mUser = null;
+    }
+
+    @Override
+    public void onCreatePersonalSquad() {
+        //Create personal squad finished. However, Squad API will call User API to update the user squad.
+    }
+
+    @Override
+    public void onCreatePersonalSquadFail(Exception e) {
+
+    }
+
+    @Override
+    public void onUpdateUserSquad() {
+        //TODO - come back here and finish this code
+        mActivity.registrationComplete();
     }
 
     @Override
@@ -88,23 +102,7 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
     }
 
     @Override
-    public void onUpdateUserSquad() {
-        //TODO - come back here and finish this coede
-        mActivity.registrationComplete();
-    }
-
-    @Override
     public void onUpdateUserSquadFail() {
-
-    }
-
-    @Override
-    public void onCreatePersonalSquad() {
-
-    }
-
-    @Override
-    public void onCreatePersonalSquadFail(Exception e) {
 
     }
 }
