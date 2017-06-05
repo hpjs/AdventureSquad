@@ -15,8 +15,7 @@
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-        android:scaleType="centerCrop"
-        android:src="@drawable/adventure_placeholder_small"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/item_adventure_title"

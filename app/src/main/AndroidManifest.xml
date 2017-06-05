@@ -26,14 +26,14 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_main">
         </activity>
         <activity android:name=".activity.Register1Activity">
         </activity>
         <activity
             android:name=".activity.NavigationActivity"
-            android:label="@string/title_activity_navigation">
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.AdventureDetailActivity"
@@ -50,12 +50,13 @@
             android:label="@string/title_activity_plan_adventure"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.MyTripsActivity">
+        <activity
+            android:name=".activity.MyTripsActivity"
+            android:label="@string/title_activity_my_trips">
         </activity>
         <activity
             android:name=".activity.TripDetailsActivity"
-            android:label="@string/title_activity_trip_details"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_trip_details">
         </activity>
         <activity android:name=".activity.AddAdventureActivity"
                   android:label="@string/title_activity_add_adventure">

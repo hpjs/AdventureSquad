@@ -29,14 +29,31 @@
         Binary XML file line #36: Binary XML file line #26: Error inflating class android.support.v4.widget.CircleImageView-->
         <ImageView
             android:id="@+id/profile_image_person"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="119dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/profile_placeholder"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="176dp"/>
+            android:layout_alignLeft="@+id/profile_text"
+            android:layout_alignStart="@+id/profile_text"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:text="@string/placeholder_text_loading"
+            android:layout_marginBottom="13dp"
+            android:layout_alignBottom="@+id/profile_image_highlight"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/profile_text"

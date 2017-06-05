@@ -40,7 +40,7 @@
         android:layout_marginBottom="@dimen/fab_navbar_margin"
         app:layout_anchor="@+id/bottom_navigation"
         app:layout_anchorGravity="right|top|end"
-        app:srcCompat="@android:drawable/ic_search_category_default"/>
+        app:srcCompat="@android:drawable/ic_popup_sync"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

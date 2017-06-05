@@ -63,6 +63,9 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
 
         //Initialise navbar
         initialiseNavbar();
+
+        //Pull from database
+        refreshList();
     }
 
     /**

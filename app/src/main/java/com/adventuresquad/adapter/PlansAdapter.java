@@ -49,9 +49,9 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
     public PlansAdapter(Context context, MyTripsPresenter presenter) {
         mContext = context;
         mPlanList = new ArrayList<>();
-        mPlanList.add(newTestPlan());
-        mPlanList.add(newTestPlan());
-        notifyDataSetChanged();
+//        mPlanList.add(newTestPlan());
+//        mPlanList.add(newTestPlan());
+//        notifyDataSetChanged();
         mPresenter = presenter;
     }
 

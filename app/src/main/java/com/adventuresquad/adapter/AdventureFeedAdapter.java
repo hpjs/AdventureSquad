@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adventuresquad.R;
+import com.adventuresquad.api.GlideApi;
 import com.adventuresquad.api.GlideApp;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
@@ -106,7 +107,6 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
                     .load(uri)
                     .placeholder(R.color.colorPrimary)
                     .error(R.drawable.ic_broken_image_black_24dp)
-                    .fitCenter()
                     .into(holder.mImage);
                 //Hide loading icon?
             }
