@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         startActivity(adventureDetail);
     }
 
-    //NAVBAR CODE
+    //region Navbar code
     private void initialiseNavbar() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -151,11 +151,13 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_create:
+                                navigateAddAdventure();
                                 break;
                             case R.id.navigation_squads:
+                                navigateSquads();
                                 break;
                             case R.id.navigation_home:
-                                //Already on this page
+                                //navigateHome();
                                 break;
                             case R.id.navigation_myTrips:
                                 navigateMyTrips();
@@ -170,10 +172,28 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     }
 
     /**
+     * Navigate to the add adventure page
+     */
+    public void navigateAddAdventure() {
+        Intent intent = new Intent(this, AddAdventureActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the add adventure page
+     */
+    public void navigateSquads() {
+        Intent intent = new Intent(this, SquadsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
      * Navigate to the profile page
      */
-    public void navigateProfile() {
-        Intent intent = new Intent(this, ProfileActivity.class);
+    public void navigateHome() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -186,4 +206,14 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         startActivity(intent);
         finish();
     }
+
+    /**
+     * Navigate to the profile page
+     */
+    public void navigateProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    //endregion
 }

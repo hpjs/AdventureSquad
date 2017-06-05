@@ -115,46 +115,75 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
 
     //region NAVBAR CODE
     private void initialiseNavbar() {
-    BottomNavigationView bottomNavigationView = (BottomNavigationView)
-    findViewById(R.id.bottom_navigation);
-    //Set correct item to be selected
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+        //Set correct item to be selected
         bottomNavigationView.setSelectedItemId(R.id.navigation_myTrips);
-    //Set up click listener
+        //Set up click listener
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                        case R.id.navigation_create:
-                        break;
-                        case R.id.navigation_squads:
-                        break;
-                        case R.id.navigation_home:
-                        navigateHome();
-                        break;
-                        case R.id.navigation_myTrips:
-                        //DO nothing, already here
-                        break;
-                        case R.id.navigation_profile:
-                        navigateProfile();
-                        break;
-                    }
+                            case R.id.navigation_create:
+                                navigateAddAdventure();
+                                break;
+                            case R.id.navigation_squads:
+                                navigateSquads();
+                                break;
+                            case R.id.navigation_home:
+                                navigateHome();
+                                break;
+                            case R.id.navigation_myTrips:
+                                //navigateMyTrips();
+                                break;
+                            case R.id.navigation_profile:
+                                navigateProfile();
+                                break;
+                        }
                         return true;
-                }
-    });
+                    }
+                });
     }
 
     /**
-      * Navigate to the profile page
+     * Navigate to the add adventure page
+     */
+    public void navigateAddAdventure() {
+        Intent intent = new Intent(this, AddAdventureActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the add adventure page
+     */
+    public void navigateSquads() {
+        Intent intent = new Intent(this, SquadsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the profile page
      */
     public void navigateHome() {
-    Intent intent = new Intent(this, MainActivity.class);
-    startActivity(intent);
-    finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**
-      * Navigate to the profile page
+     * Navigate to the profile page
+     */
+    public void navigateMyTrips() {
+        Intent intent = new Intent(this, MyTripsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Navigate to the profile page
      */
     public void navigateProfile() {
         Intent intent = new Intent(this, ProfileActivity.class);
