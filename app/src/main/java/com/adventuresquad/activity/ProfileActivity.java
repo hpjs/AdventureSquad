@@ -7,19 +7,29 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
+import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentableProfileView;
+import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.ProfilePresenter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity implements PresentableProfileView {
 
     ProfilePresenter mPresenter;
+
+    @BindView(R.id.profile_name)
+    TextView mProfileName;
+
+    @BindView(R.id.profile_text)
+    TextView mProfileText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +40,11 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
 
         ButterKnife.bind(this);
 
-        mPresenter = new ProfilePresenter(new AuthApi(), this);
+        mPresenter = new ProfilePresenter(this, new AuthApi(), new UserApi());
 
         initialiseNavbar();
+
+        mPresenter.retrieveCurrentUser();
     }
 
     @OnClick(R.id.profile_fab_logout)
@@ -45,6 +57,17 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
         Intent intentLogin = new Intent(this, LoginActivity.class);
         startActivity(intentLogin);
         finish();
+    }
+
+    @Override
+    public void displayProfile(User user) {
+        //Put adventure contents into view (like a RecyclerView view bind)
+        //Load image
+        mProfileName.setText(user.getUserName());
+        mProfileText.setText(getString(R.string.profile_no_text));
+
+        //Set map view...
+        
     }
 
     @Override

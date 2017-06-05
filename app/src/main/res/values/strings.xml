@@ -234,5 +234,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_my_trips">My Trips</string>
+    <string name="profile_no_text">This user prefers to keep an air of mystery around themselves.</string>
+    <string name="error_retrieve_profile">Couldn\'t retrieve your profile.</string>
 
 </resources>
