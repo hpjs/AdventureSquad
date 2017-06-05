@@ -21,9 +21,8 @@
             android:background="?android:attr/panelFullBackground"
             android:contentDescription="@string/profile_image_highlight_description"
             android:scaleType="centerCrop"
-            android:src="@drawable/adventure_placeholder"/>
+            android:src="@drawable/adventure_placeholder_small"/>
 
-        <!--TODO - replace with circle image view-->
         <!--java.lang.RuntimeException: Unable to start activity ComponentInfo{com.adventuresquad/com.adventuresquad.activity.ProfileActivity}:
         android.view.InflateException:
         Binary XML file line #36: Binary XML file line #26: Error inflating class android.support.v4.widget.CircleImageView-->

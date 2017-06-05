@@ -15,6 +15,7 @@
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
+        android:src="@color/colorPrimary"
         android:scaleType="centerCrop"/>
 
     <TextView

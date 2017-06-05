@@ -75,7 +75,12 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
             public void onGetPlanList(List<String> planIdList) {
                 //Successfully retrieved list of plan IDs from user's squad
                 //Now use plan API to retrieve them
-                retrieveUserPlans(planIdList);
+                if (planIdList != null && planIdList.size() > 0) {
+                    retrieveUserPlans(planIdList);
+                } else {
+                    //User doesn't have any plans
+                    mView.displayMessage("You don't have any plans to display!");
+                }
             }
 
             @Override

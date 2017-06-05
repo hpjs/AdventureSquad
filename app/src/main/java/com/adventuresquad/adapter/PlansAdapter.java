@@ -15,9 +15,11 @@ import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.presenter.MyTripsPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Adapter class for a list of plan objects
@@ -126,7 +128,8 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         //Populate view with text
         holder.mTitle.setText(plan.getPlanTitle());
         Date date = new Date(plan.getBookingDate());
-        holder.mDate.setText(date.toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEEEEEE, d MMMMMMMMMM yyyy", Locale.ENGLISH);
+        holder.mDate.setText(dateFormat.format(date));
     }
 
     @Override

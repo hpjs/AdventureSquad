@@ -19,8 +19,8 @@
             android:id="@+id/adventure_detail_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/adventure_placeholder"/>
+            android:src="@color/colorPrimary"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/adventure_detail_title"

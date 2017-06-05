@@ -104,6 +104,7 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
     public void onAddPlanToSquad() {
         //FINALLY the flow is finished,
         //mCurrentPlan = null;
+
         mView.completePlanCreation();
     }
 

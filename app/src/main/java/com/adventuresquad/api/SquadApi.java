@@ -94,10 +94,55 @@ public class SquadApi {
      * Adds the plan to the plan's squad id
      * @param plan The plan (with populated IDs)
      */
-    public void addPlanToSquad(Plan plan, SquadApiPresenter callback) {
-        //if (plan.getSquadId() != null && !plan.getSquadId().isEmpty()) {        }
-        //TODO - not sure how to add to an existing list of objects - use push() ?
-        callback.onAddPlanToSquad();
+    public void addPlanToSquad(Plan plan, final SquadApiPresenter callback) {
+        final String squadId = plan.getSquadId();
+        final String newPlanId = plan.getPlanId();
+        //retrieve plan list
+        getPlanList(squadId, new RetrievePlanListListener() {
+
+            //Plan list was retrieved succesfully
+            @Override
+            public void onGetPlanList(List<String> planIdList) {
+                //Add plan to list and store
+                if (planIdList == null) {
+                    //List was empty
+                    planIdList = new ArrayList<String>();
+                }
+                planIdList.add(newPlanId);
+                storePlanList(squadId, planIdList, new StorePlanListListener() {
+                    @Override
+                    public void onStorePlanList(List<String> planIdList) {
+                        //Updated plan list was complete, finsih up
+                        callback.onAddPlanToSquad();
+                    }
+
+                    @Override
+                    public void onStorePlanListFail(Exception e) {
+                        //Fail
+                    }
+                });
+            }
+
+            @Override
+            public void onGetPlanListFail(Exception e) {
+                List<String> newList = new ArrayList<String>();
+                newList.add(newPlanId);
+                //Store the new list on that squad
+                storePlanList(squadId, newList, new StorePlanListListener() {
+                    @Override
+                    public void onStorePlanList(List<String> planIdList) {
+                        //Updated plan list was complete, finsih up
+                        callback.onAddPlanToSquad();
+                    }
+
+                    @Override
+                    public void onStorePlanListFail(Exception e) {
+                        //Fail
+                        //TODO - implement fail safe code here
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -115,7 +160,7 @@ public class SquadApi {
     public void getPlanList(String squadId, final RetrievePlanListListener callback) {
         //Uses the user's id to retrieve a specific user
         DatabaseReference mUserRef = mSquadsData.child(squadId + "/squadPlans");
-
+        //Retrieve the plan list and return to callback when complete
         mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,6 +175,35 @@ public class SquadApi {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 callback.onGetPlanListFail(databaseError.toException());
+            }
+        });
+    }
+
+    /**
+     * Provides a simple callback interface for storing a list of plan strings
+     */
+    public interface StorePlanListListener {
+        public void onStorePlanList(List<String> planIdList);
+        public void onStorePlanListFail(Exception e);
+    }
+
+    /**
+     *
+     * @param squadId
+     * @param planIds
+     * @param listener
+     */
+    public void storePlanList(String squadId, final List<String> planIds, final StorePlanListListener listener) {
+        DatabaseReference planListRef = mSquadsData.child(squadId + "/squadPlans");
+
+        planListRef.setValue(planIds).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    listener.onStorePlanList(planIds);
+                } else {
+                    listener.onStorePlanListFail(task.getException());
+                }
             }
         });
     }

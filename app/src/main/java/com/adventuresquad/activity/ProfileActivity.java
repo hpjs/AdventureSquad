@@ -67,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
         mProfileText.setText(getString(R.string.profile_no_text));
 
         //Set map view...
-        
+
     }
 
     @Override
