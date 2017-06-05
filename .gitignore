@@ -38,3 +38,5 @@ captures/
 
 # Keystore files
 *.jks
+~$D Software design doc 8-5-2017.docx
+*.tmp
