@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Adapter class for a list of plan objects
  * Created by Harrison on 4/06/2017.
  */
 public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHolder>{
@@ -73,6 +74,10 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         return new PlansViewHolder(itemView);
     }
 
+    /**
+     * Sets the entire plan list and notifies a data set change
+     * @param newList
+     */
     public void setPlanList(List<Plan> newList) {
         mPlanList = newList;
     }

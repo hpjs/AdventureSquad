@@ -50,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/adventure_list_padding"
+        android:layout_marginBottom="@dimen/fab_navbar_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ProgressBar
