@@ -57,6 +57,12 @@ public class SquadApi {
         });
     }
 
+    /**
+     * Creates a new squad in the database for a user
+     * @param userId The user that this squad is for
+     * @param userApi The user API object to update the user
+     * @param callback
+     */
     public void createPersonalSquad(final String userId, final UserApi userApi, final PersonalSquadApiPresenter callback) {
         //Set up new squad object with the user ID in it
         Squad newUserSquad = new Squad();
@@ -91,18 +97,19 @@ public class SquadApi {
     }
 
     /**
-     * Adds the plan to the plan's squad id
+     * Adds a given plan to a Squad (the one that is referred to in the plan)
      * @param plan The plan (with populated IDs)
      */
     public void addPlanToSquad(Plan plan, final SquadApiPresenter callback) {
+        //Get IDs as necessary
         final String squadId = plan.getSquadId();
         final String newPlanId = plan.getPlanId();
-        //retrieve plan list
-        getPlanList(squadId, new RetrievePlanListListener() {
+        //Get the plan list
+        retrievePlanList(squadId, new RetrieveDataRequest<List<String>>() {
 
-            //Plan list was retrieved succesfully
+            //Plan list was retrieved successfully, add plan to list and push back to squad
             @Override
-            public void onGetPlanList(List<String> planIdList) {
+            public void onRetrieveData(List<String> planIdList) {
                 //Add plan to list and store
                 if (planIdList == null) {
                     //List was empty
@@ -123,8 +130,9 @@ public class SquadApi {
                 });
             }
 
+            //List was not successfully pulled, create a new one and push it
             @Override
-            public void onGetPlanListFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
                 List<String> newList = new ArrayList<String>();
                 newList.add(newPlanId);
                 //Store the new list on that squad
@@ -146,18 +154,10 @@ public class SquadApi {
     }
 
     /**
-     * Provides a simple callback interface for retrieving a list of plan strings
-     */
-    public interface RetrievePlanListListener {
-        public void onGetPlanList(List<String> planIdList);
-        public void onGetPlanListFail(Exception e);
-    }
-
-    /**
      * Gets a list of all the of the plan IDs of a particular squad
      * @param squadId
      */
-    public void getPlanList(String squadId, final RetrievePlanListListener callback) {
+    public void retrievePlanList(String squadId, final RetrieveDataRequest<List<String>> callback) {
         //Uses the user's id to retrieve a specific user
         DatabaseReference mUserRef = mSquadsData.child(squadId + "/squadPlans");
         //Retrieve the plan list and return to callback when complete
@@ -169,12 +169,12 @@ public class SquadApi {
                         = new GenericTypeIndicator<List<String>>() {};
 
                 List<String> squadPlans = dataSnapshot.getValue(stringList);
-                callback.onGetPlanList(squadPlans);
+                callback.onRetrieveData(squadPlans);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callback.onGetPlanListFail(databaseError.toException());
+                callback.onRetrieveDataFail(databaseError.toException());
             }
         });
     }

@@ -36,7 +36,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
         mApi.getAdventure(new RetrieveDataRequest<Adventure>() {
             @Override
             public void onRetrieveData(Adventure data) {
-                onRetrieveData(data);
+                onRetrieveAdventure(data);
             }
 
             @Override
@@ -46,14 +46,23 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
         }, adventureId);
     }
 
-    @Override
-    public void onRetrieveAdventure(Adventure adventure) {
-        mAdventure = adventure;
-        mActivity.displayAdventure(adventure);
-    }
 
-    public void retrieveAdventureImageUri(String adventureId, RetrieveDataRequest<Uri> callback) {
-        mApiStore.retrieveAdventureImageUri(adventureId, callback);
+    @Override
+    public void onRetrieveAdventure(final Adventure adventure) {
+        mAdventure = adventure;
+        //Get image request
+        mApiStore.retrieveAdventureImageUri(adventure.getAdventureId(), new RetrieveDataRequest<Uri>() {
+            @Override
+            public void onRetrieveData(Uri data) {
+                adventure.setAdventureImageUri(data.toString());
+                mActivity.displayAdventure(adventure);
+            }
+
+            @Override
+            public void onRetrieveDataFail(Exception e) {
+                mActivity.displayMessage("Couldn't load adventure!");
+            }
+        });
     }
 
     /**

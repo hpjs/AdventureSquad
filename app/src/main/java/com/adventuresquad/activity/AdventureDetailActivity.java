@@ -63,29 +63,26 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         AdventureApi api = new AdventureApi();
         mPresenter = new AdventureDetailPresenter(this, api, new StorageApi(api));
 
-        //Retrieve specific adventure
+        //Start retrieving the adventure
         mAdventureId = getIntent().getStringExtra(ADVENTURE_DETAIL_ID);
         mPresenter.retrieveAdventure(mAdventureId);
+    }
 
-        //Retrieve adventure image
-        mPresenter.retrieveAdventureImageUri(mAdventureId, new RetrieveDataRequest<Uri>() {
-            @Override
-            public void onRetrieveData(Uri uri) {
-                GlideApp
-                        .with(mImage.getContext())
-                        .load(uri)
-                        .placeholder(R.color.colorPrimary)
-                        .error(R.drawable.ic_broken_image_black_24dp)
-                        .fitCenter()
-                        .into(mImage);
-                //Hide loading icon?
-            }
+    @Override
+    public void displayAdventure(Adventure adventure) {
+        //Put adventure contents into view (like a RecyclerView view bind)
+        //Load image
+        mTitle.setText(adventure.getAdventureTitle());
+        mInfo.setText(adventure.getAdventureDetail());
 
-            @Override
-            public void onRetrieveDataFail(Exception e) {
-
-            }
-        });
+        GlideApp
+                .with(mImage.getContext())
+                .load(adventure.getAdventureImageUri())
+                .placeholder(R.color.colorPrimary)
+                .error(R.drawable.ic_broken_image_black_24dp)
+                .fitCenter()
+                .into(mImage);
+        //Set map view...
     }
 
     /**
@@ -107,16 +104,6 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         plan.putExtra(PlanAdventureActivity.ADVENTURE_DETAIL_ID, adventureId);
         plan.putExtra(PlanAdventureActivity.ADVENTURE_TITLE, adventureTitle);
         startActivity(plan);
-    }
-
-    @Override
-    public void displayAdventure(Adventure adventure) {
-        //Put adventure contents into view (like a RecyclerView view bind)
-        //Load image
-        mTitle.setText(adventure.getAdventureTitle());
-        mInfo.setText(adventure.getAdventureDetail());
-
-        //Set map view...
     }
 
     @Override

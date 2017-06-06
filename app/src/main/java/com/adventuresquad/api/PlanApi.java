@@ -60,19 +60,11 @@ public class PlanApi {
     }
 
     /**
-     * Simple callback interface for retrieving a plan easily
-     */
-    private interface RetrievePlanListener {
-        public void onRetrievePlan(Plan plan);
-        public void onRetrievePlanFail(Exception e);
-    }
-
-    /**
      * Retrieves a plan from the Firebase database
      * @param planId The ID of the specific plan to retrieve
-     * @param listener The listener to refer back to when operation complete
+     * @param callback The callback to refer back to when operation complete
      */
-    public void retrievePlan(String planId, final RetrievePlanListener listener) {
+    public void retrievePlan(String planId, final RetrieveDataRequest<Plan> callback) {
         DatabaseReference mPlanRef = mPlansData.child(planId);
 
         mPlanRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -80,12 +72,12 @@ public class PlanApi {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
                 Plan retrievedPlan = dataSnapshot.getValue(Plan.class);
-                listener.onRetrievePlan(retrievedPlan);
+                callback.onRetrieveData(retrievedPlan);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                listener.onRetrievePlanFail(databaseError.toException());
+                callback.onRetrieveDataFail(databaseError.toException());
             }
         });
     }
@@ -93,33 +85,25 @@ public class PlanApi {
     /**
      * Retrieves a given list of adventures from the online database
      * @param planIds The list of specific plan objects to get from the database
-     * @param callbackPresenter The presenter to call back methods on when complete
+     * @param callback The request to return to when task complete
      */
-    public void getPlanList(List<String> planIds, final PlanApiListPresenter callbackPresenter) {
+    public void getPlanList(List<String> planIds, final RetrieveDataRequest<Plan> callback) {
         //Loop over the list of IDs to get each plan in succession
         for (String planId : planIds) {
             //When each one is complete, call back to the class to update the list with another entry
             //NOTE: This could potentially retrieve list objects out of order.
-            retrievePlan(planId, new RetrievePlanListener() {
+            retrievePlan(planId, new RetrieveDataRequest<Plan>() {
                 @Override
-                public void onRetrievePlan(Plan plan) {
-                    callbackPresenter.onRetrieveUserPlan(plan);
+                public void onRetrieveData(Plan plan) {
+                    callback.onRetrieveData(plan);
                 }
 
                 @Override
-                public void onRetrievePlanFail(Exception e) {
-                    callbackPresenter.onRetrieveUserPlanFail(e);
+                public void onRetrieveDataFail(Exception e) {
+                    callback.onRetrieveDataFail(e);
                 }
             });
 
         }
     }
-
-    //Interfaces for other API classes to access this one
-    public interface retrieveSquadPlansListener {
-        public void onRetrieveSquadPlans();
-
-        public void onRetrieveSquadPlansFail();
-    }
-
 }

@@ -8,7 +8,6 @@ import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentablePlanListView;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.StorageApi;
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.PlanApiListPresenter;
@@ -48,7 +47,7 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
 
     /**
      * Begins process to retrieve a list of the user's plans.
-     * Callback method: onRetrievePlans
+     * Progresses to retrieveUserPlanIds
      */
     public void retrievePlans() {
         mView.displayMessage("Refreshing Plan list...");
@@ -74,9 +73,9 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
     public void retrieveUserPlanIds() {
         String userSquadId = mCurrentUser.getUserSquadId();
         //Retrieves a plan list from a squad
-        mSquadApi.getPlanList(userSquadId, new SquadApi.RetrievePlanListListener() {
+        mSquadApi.retrievePlanList(userSquadId, new RetrieveDataRequest<List<String>>() {
             @Override
-            public void onGetPlanList(List<String> planIdList) {
+            public void onRetrieveData(List<String> planIdList) {
                 //Successfully retrieved list of plan IDs from user's squad
                 //Now use plan API to retrieve them one by one
                 if (planIdList != null && planIdList.size() > 0) {
@@ -88,7 +87,7 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
             }
 
             @Override
-            public void onGetPlanListFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
                 mView.displayMessage("User plans error: " + e.toString());
             }
         });
@@ -98,7 +97,17 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
      * Uses a list of planIds to retrieve a list of plans from the database
      */
     public void retrieveUserPlans(List<String> planIds) {
-        mPlanApi.getPlanList(planIds, this);
+        mPlanApi.getPlanList(planIds, new RetrieveDataRequest<Plan>() {
+            @Override
+            public void onRetrieveData(Plan data) {
+                onRetrieveUserPlan(data);
+            }
+
+            @Override
+            public void onRetrieveDataFail(Exception e) {
+                onRetrieveUserPlanFail(e);
+            }
+        });
     }
 
     /**
