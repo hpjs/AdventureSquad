@@ -92,7 +92,6 @@ public class AdventureApi {
      * @param adventureList
      */
     public void putAdventureList(List<Adventure> adventureList) {
-        //mAdventuresDatabase.setValue(adventureList);
         for (Adventure a : adventureList) {
             putAdventure(a);
         }

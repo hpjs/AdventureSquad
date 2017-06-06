@@ -16,11 +16,10 @@ public class AddAdventureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_adventure);
 
-
-        initialiseNavbar();
+        new NavbarHelper(this, R.id.navigation_create);
     }
 
-    //region Navbar code
+    //region NavbarHelper code
     private void initialiseNavbar() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
