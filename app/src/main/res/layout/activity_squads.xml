@@ -20,8 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         app:itemBackground="@color/white"
-        app:itemIconTint="@color/colorAccent"
-        app:itemTextColor="@color/colorAccent"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimary"
         app:menu="@menu/bottom_navigation_menu"
         tools:layout_editor_absoluteY="33dp"
         tools:layout_editor_absoluteX="8dp"/>

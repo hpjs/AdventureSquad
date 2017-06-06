@@ -11,8 +11,7 @@
         android:id="@+id/my_trips_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/adventure_list_padding"
-        android:layout_marginBottom="@dimen/fab_navbar_margin"
+        android:layout_marginBottom="@dimen/activity_navbar_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ProgressBar
@@ -49,8 +48,8 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         app:itemBackground="@color/white"
-        app:itemIconTint="@color/colorAccent"
-        app:itemTextColor="@color/colorAccent"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimary"
         app:menu="@menu/bottom_navigation_menu"/>
 
 </android.support.design.widget.CoordinatorLayout>
