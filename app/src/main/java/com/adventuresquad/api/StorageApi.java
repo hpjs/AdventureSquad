@@ -115,15 +115,21 @@ public class StorageApi {
 
     /**
      * Gets a formatted URL to download an image
+     * @param adventureId The ID of the adventure to get the photo for
+     * @param callback A listener which is called when the complete listener is done
      */
-    public void retrieveAdventureImageUri(String adventureId, final RetrieveImageUriRequest callback) {
+    public void retrieveAdventureImageUri(String adventureId, final RetrieveDataRequest<Uri> callback) {
         String filePath = getAdventureImagePath(adventureId);
         StorageReference imageRef = mImageStore.child(filePath);
         imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
-                Uri downloadUri = task.getResult();
-                callback.onRetrieveImageUri(downloadUri);
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    callback.onRetrieveData(downloadUri);
+                } else {
+                    callback.onRetrieveDataFail(task.getException());
+                }
             }
         });
     }

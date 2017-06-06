@@ -100,22 +100,22 @@ public class AdventureApi {
 
     /**
      * Retrieves a specific adventure according to it's UUID
-     * @param callbackPresenter The presenter to call methods on when a result is reached
+     * @param callback The presenter to call methods on when a result is reached
      * @param id                The UUID of the adventure to retrieve
      */
-    public void getAdventure(final AdventureApiPresenter callbackPresenter, String id) {
+    public void getAdventure(final RetrieveDataRequest<Adventure> callback, String id) {
         DatabaseReference adventure = mAdventuresDatabase.child(id);
         adventure.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
                 Adventure retrievedAdventure = dataSnapshot.getValue(Adventure.class);
-                callbackPresenter.onRetrieveAdventure(retrievedAdventure);
+                callback.onRetrieveData(retrievedAdventure);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callbackPresenter.onRetrieveError(databaseError.toException());
+                callback.onRetrieveDataFail(databaseError.toException());
             }
         });
     }
@@ -123,9 +123,9 @@ public class AdventureApi {
     /**
      * Retrieves a non-specific list of adventures from the online database
      *
-     * @param callbackPresenter The presenter to call back methods on when complete
+     * @param callback What to notify when retrieve is complete
      */
-    public void getAdventureList(final AdventureApiPresenter callbackPresenter) {
+    public void getAdventureList(final RetrieveDataRequest<List<Adventure>> callback) {
         mAdventuresDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             //Data retrieved
             @Override
@@ -136,12 +136,12 @@ public class AdventureApi {
                     Adventure a = adventureSnapshot.getValue(Adventure.class);
                     list.add(a);
                 }
-                callbackPresenter.onRetrieveAdventureList(list);
+                callback.onRetrieveData(list);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callbackPresenter.onRetrieveError(databaseError.toException());
+                callback.onRetrieveDataFail(databaseError.toException());
             }
         });
 

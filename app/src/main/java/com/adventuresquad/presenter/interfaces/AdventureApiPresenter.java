@@ -37,17 +37,17 @@ public interface AdventureApiPresenter {
      */
     public void onRetrieveAdventure(Adventure adventure);
 
-    /**
-     * Callback method after an API request for a list of adventures
-     *
-     * @param adventureList The list of adventures that was retrieved by the API
-     */
-    public void onRetrieveAdventureList(List<Adventure> adventureList);
+//    /**
+//     * Callback method after an API request for a list of adventures
+//     *
+//     * @param adventureList The list of adventures that was retrieved by the API
+//     */
+//    public void retrieveAdventureImageUris(List<Adventure> adventureList);
 
-    /**
-     * Called if there was a generic issue with retrieving a certain request for data
-     */
-    public void onRetrieveError(Exception e);
+//    /**
+//     * Called if there was a generic issue with retrieving a certain request for data
+//     */
+//    public void onRetrieveError(Exception e);
     /**
      * Called when there is a specific Firebase error that occcurs.
      * NOTE: Avoid where possible, will likely be deprecated later.

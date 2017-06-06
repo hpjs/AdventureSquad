@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.GlideApp;
+import com.adventuresquad.api.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
@@ -67,9 +68,9 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
         mPresenter.retrieveAdventure(mAdventureId);
 
         //Retrieve adventure image
-        mPresenter.retrieveAdventureImageUri(mAdventureId, new RetrieveImageUriRequest() {
+        mPresenter.retrieveAdventureImageUri(mAdventureId, new RetrieveDataRequest<Uri>() {
             @Override
-            public void onRetrieveImageUri(Uri uri) {
+            public void onRetrieveData(Uri uri) {
                 GlideApp
                         .with(mImage.getContext())
                         .load(uri)
@@ -81,7 +82,7 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
             }
 
             @Override
-            public void onRetrieveImageUriFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
 
             }
         });

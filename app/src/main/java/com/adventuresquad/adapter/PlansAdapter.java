@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.GlideApp;
+import com.adventuresquad.api.RetrieveDataRequest;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.presenter.MyTripsPresenter;
@@ -106,22 +107,21 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         //Load image
         final Context imageContext = holder.mImage.getContext();
 
-        mPresenter.retrieveAdventureImageUri(plan.getAdventureId(), new RetrieveImageUriRequest() {
+        mPresenter.retrieveAdventureImageUri(plan.getAdventureId(), new RetrieveDataRequest<Uri>() {
             @Override
-            public void onRetrieveImageUri(Uri uri) {
+            public void onRetrieveData(Uri uri) {
                 GlideApp
                         .with(mContext)
                         .load(uri)
                         .placeholder(R.color.colorPrimary)
                         .error(R.drawable.ic_broken_image_black_24dp)
-                        .fitCenter()
                         .into(holder.mImage);
                 //Hide loading icon?
             }
 
             @Override
-            public void onRetrieveImageUriFail(Exception e) {
-
+            public void onRetrieveDataFail(Exception e) {
+                //Couldn't retrieve URL
             }
         });
 

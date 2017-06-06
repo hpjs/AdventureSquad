@@ -1,5 +1,8 @@
 package com.adventuresquad.presenter;
 
+import android.net.Uri;
+
+import com.adventuresquad.api.RetrieveDataRequest;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentablePlanListView;
@@ -70,11 +73,12 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
      */
     public void retrieveUserPlanIds() {
         String userSquadId = mCurrentUser.getUserSquadId();
+        //Retrieves a plan list from a squad
         mSquadApi.getPlanList(userSquadId, new SquadApi.RetrievePlanListListener() {
             @Override
             public void onGetPlanList(List<String> planIdList) {
                 //Successfully retrieved list of plan IDs from user's squad
-                //Now use plan API to retrieve them
+                //Now use plan API to retrieve them one by one
                 if (planIdList != null && planIdList.size() > 0) {
                     retrieveUserPlans(planIdList);
                 } else {
@@ -118,7 +122,7 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
      * @param adventureId The adventure to retrieve the image URL for
      * @param callback The method to call when the URL is retrieved successfully (useful for lists)
      */
-    public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback) {
+    public void retrieveAdventureImageUri(String adventureId, RetrieveDataRequest<Uri> callback) {
         mStorageApi.retrieveAdventureImageUri(adventureId, callback);
     }
 }

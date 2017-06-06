@@ -1,8 +1,9 @@
 package com.adventuresquad.adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adventuresquad.R;
-import com.adventuresquad.api.GlideApi;
 import com.adventuresquad.api.GlideApp;
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
+import com.adventuresquad.api.GlideRequest;
+import com.adventuresquad.api.GlideRequests;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.*;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +28,22 @@ import java.util.List;
 public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdapter.AdventureViewHolder> {
 
     private MainPresenter mPresenter;
-    private Context mContext;
+    private Context mActivityContext;
     private List<Adventure> mAdventureList;
+    final private GlideRequests mGlideRequests;
+    private GlideRequest<Drawable> fullRequest;
+
+    public static String DEBUG_ADVENTURE_LIST = "adventure_list";
 
     /**
      * View holder class for recycler view
      */
     public class AdventureViewHolder extends RecyclerView.ViewHolder {
+
         //View objects here
         public TextView mTitle, mDistance;
         public ProgressBar mMatch;
         public ImageView mImage;
-
         public AdventureViewHolder(View view) {
             super(view);
             //Set up the view classes with view.findViewById here
@@ -49,18 +52,26 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
             mMatch = (ProgressBar) view.findViewById(R.id.item_adventure_match);
             mImage = (ImageView) view.findViewById(R.id.item_adventure_image);
         }
-    }
 
+    }
     /**
      * Constructor
      */
-    public AdventureFeedAdapter(Context context, MainPresenter presenter) {
-        mContext = context;
+    public AdventureFeedAdapter(Context activityContext, MainPresenter presenter) {
+        mActivityContext = activityContext;
         mAdventureList = new ArrayList<>();
         //TODO - come back and make this less nasty later (should go through Activity class ideally)
         mPresenter = presenter;
-    }
 
+        //Extra glide stuff
+        mGlideRequests = GlideApp.with(activityContext); //Once set, object ref can't be changed
+        //Request 'blueprint' for a full image
+        //onBindViewHolder will use this to make it's image load request
+        fullRequest = mGlideRequests
+                .asDrawable()
+                .centerCrop()
+                .placeholder(R.color.colorPrimary);
+    }
 
     /**
      * Inflates a single Adventure card item
@@ -77,8 +88,32 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         return new AdventureViewHolder(itemView);
     }
 
+
     public void setAdventureList(List<Adventure> adventureList) {
         this.mAdventureList = adventureList;
+    }
+
+    /**
+     * Adds an item dynamically to the recycler view list (instead of the whole list at once)
+     * @param adventure
+     */
+    public void addItem(Adventure adventure) {
+        //This code was working over in PlansAdapter, so I used it here as well
+        mAdventureList.add(adventure);
+        int newIndex = mAdventureList.indexOf(adventure);
+        notifyItemInserted(newIndex);
+    }
+
+    /**
+     * Handles wind-down of image request as well as
+     * @param holder
+     */
+    @Override
+    public void onViewRecycled(AdventureViewHolder holder) {
+        //Clears the download request for this particular list item
+        //Note - does this also clear the image??
+        Log.d(DEBUG_ADVENTURE_LIST, "Recycling view.");
+        mGlideRequests.clear(holder.mImage);
     }
 
     /**
@@ -91,31 +126,20 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     @Override
     public void onBindViewHolder(final AdventureFeedAdapter.AdventureViewHolder holder, int position) {
         //Get correct adventure item
-        Adventure adventure = getListItem(position);
+        final Adventure adventure = getListItem(position);
 
-        //holder.mImage.setImageResource(R.drawable.adventure_placeholder_small);
-        //Load image
-        final Context imageContext = holder.mImage.getContext();
-        //TODO - change this to use adventure URL
-        //Picasso.with(imageContext).load(R.drawable.adventure_placeholder_small).into(holder.mImage);
+        //Note that it's using the activity context, as defined in constructor
+        fullRequest
+                .load(adventure.getAdventureImageUri())
+                .into(holder.mImage);
 
-        mPresenter.retrieveAdventureImageUri(adventure.getAdventureId(), new RetrieveImageUriRequest() {
-            @Override
-            public void onRetrieveImageUri(Uri uri) {
-                GlideApp
-                    .with(mContext)
-                    .load(uri)
-                    .placeholder(R.color.colorPrimary)
-                    .error(R.drawable.ic_broken_image_black_24dp)
-                    .into(holder.mImage);
-                //Hide loading icon?
-            }
 
-            @Override
-            public void onRetrieveImageUriFail(Exception e) {
-
-            }
-        });
+//        GlideApp
+//                .with(mActivityContext)
+//                .load(adventure.getAdventureImageUri())
+//                .placeholder(R.color.colorPrimary)
+//                .error(R.drawable.ic_broken_image_black_24dp)
+//                .into(holder.mImage);
 
         //Populate view with text
         holder.mTitle.setText(adventure.getAdventureTitle());

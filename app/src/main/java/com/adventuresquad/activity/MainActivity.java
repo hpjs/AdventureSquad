@@ -80,6 +80,14 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         }
     }
 
+    /**
+     * Adds a new adventure to the list of adventures
+     */
+    @Override
+    public void addAdventureToList(Adventure adventure) {
+        mAdventureFeedAdapter.addItem(adventure);
+    }
+
 
     /**
      * Displays fullscreen loading icon

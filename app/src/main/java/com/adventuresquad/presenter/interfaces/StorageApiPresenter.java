@@ -8,9 +8,11 @@ import com.adventuresquad.interfaces.RetrieveImageUriRequest;
  */
 public interface StorageApiPresenter {
 
-    public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback);
+    //public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback);
 
     //This has been made redundant by passing down a custom 'image request' object
     // instead of using this standard system of callbacks
     //public void onRetrieveAdventureImageUri(String uri);
+
+    //Note 6/6/2017 - Using 'RetrieveDataRequest<Uri>()' instead, since most API methods can just handle that
 }

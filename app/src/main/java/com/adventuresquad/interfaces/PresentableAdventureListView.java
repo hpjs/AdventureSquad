@@ -12,4 +12,6 @@ public interface PresentableAdventureListView extends Presentable {
 
     public void onRetrieveAdventureList(List<Adventure> adventureList);
 
+    public void addAdventureToList(Adventure adventure);
+
 }

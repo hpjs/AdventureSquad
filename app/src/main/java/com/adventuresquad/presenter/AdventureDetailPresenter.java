@@ -1,6 +1,9 @@
 package com.adventuresquad.presenter;
 
+import android.net.Uri;
+
 import com.adventuresquad.api.AdventureApi;
+import com.adventuresquad.api.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.interfaces.RetrieveImageUriRequest;
@@ -25,14 +28,22 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
         mApiStore = store;
     }
 
-    @Override
-    public void onCreateAdventure(String adventureId) {
+    /**
+     * Retrieves the specified adventure from the model (database)
+     * @param adventureId
+     */
+    public void retrieveAdventure(String adventureId) {
+        mApi.getAdventure(new RetrieveDataRequest<Adventure>() {
+            @Override
+            public void onRetrieveData(Adventure data) {
+                onRetrieveData(data);
+            }
 
-    }
+            @Override
+            public void onRetrieveDataFail(Exception e) {
 
-    @Override
-    public void onCreateAdventureError(Exception e) {
-
+            }
+        }, adventureId);
     }
 
     @Override
@@ -41,26 +52,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
         mActivity.displayAdventure(adventure);
     }
 
-    @Override
-    public void onRetrieveAdventureList(List<Adventure> adventureList) {
-
-    }
-
-    @Override
-    public void onRetrieveError(Exception e) {
-        mActivity.displayMessage(e.toString());
-    }
-
-    /**
-     * Retrieves the specified adventure from the model (database)
-     * @param adventureId
-     */
-    public void retrieveAdventure(String adventureId) {
-        mApi.getAdventure(this, adventureId);
-    }
-
-    @Override
-    public void retrieveAdventureImageUri(String adventureId, RetrieveImageUriRequest callback) {
+    public void retrieveAdventureImageUri(String adventureId, RetrieveDataRequest<Uri> callback) {
         mApiStore.retrieveAdventureImageUri(adventureId, callback);
     }
 
@@ -70,5 +62,15 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
      */
     public void createPlan() {
         mActivity.startCreatePlan(mAdventure.getAdventureId(), mAdventure.getAdventureTitle());
+    }
+
+    @Override
+    public void onCreateAdventure(String adventureId) {
+
+    }
+
+    @Override
+    public void onCreateAdventureError(Exception e) {
+
     }
 }
