@@ -30,10 +30,7 @@ import java.util.Locale;
  */
 public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHolder>{
 
-    private MyTripsPresenter mPresenter;
-    private Context mActivityContext;
     private List<Plan> mPlanList;
-
     final private GlideRequests mGlideRequests;
     private GlideRequest<Drawable> fullRequest;
 
@@ -54,10 +51,8 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
     /**
      * Constructor
      */
-    public PlansAdapter(Context activityContext, MyTripsPresenter presenter) {
-        mActivityContext = activityContext;
+    public PlansAdapter(Context activityContext) {
         mPlanList = new ArrayList<>();
-        mPresenter = presenter;
 
         //Extra glide stuff
         mGlideRequests = GlideApp.with(activityContext); //Once set, object ref can't be changed
@@ -110,14 +105,11 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         //Get correct adventure item
         Plan plan = getListItem(position);
 
-        //holder.mImage.setImageResource(R.drawable.adventure_placeholder_small);
         //Load image
-        final Context imageContext = holder.mImage.getContext();
-
         fullRequest
             .load(plan.getPlanImageUrl())
             .into(holder.mImage);
-                //Hide loading icon?
+            //Hide loading icon on complete?
 
         //Populate view with text
         holder.mTitle.setText(plan.getPlanTitle());

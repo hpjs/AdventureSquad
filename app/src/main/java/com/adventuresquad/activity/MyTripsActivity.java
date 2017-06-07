@@ -44,11 +44,9 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
         //Bind views
         ButterKnife.bind(this);
 
-        //Set up presenter
-        mPresenter = new MyTripsPresenter(this, new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
 
         //Set up recycler view adapter & manager
-        mPlansAdapter = new PlansAdapter(this, mPresenter);
+        mPlansAdapter = new PlansAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -60,8 +58,11 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
         //Initialise navbar
         new NavbarHelper(this, R.id.navigation_myTrips);
 
+        //Set up presenter
+        mPresenter = new MyTripsPresenter(this, new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+
         //Pull from database
-        refreshList();
+        mPresenter.retrievePlans();
     }
 
     /**

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_trip_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/squad_image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/squad"
+        android:layout_alignParentTop="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/white"/>
+
+    <TextView
+        android:id="@+id/squad_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="@string/placeholder_text_loading"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignTop="@+id/squad_image"
+        android:layout_toRightOf="@+id/squad_image"
+        android:layout_toEndOf="@+id/squad_image"/>
+
+    <TextView
+        android:id="@+id/squad_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/placeholder_text_loading"
+        android:layout_below="@id/squad_name"
+        android:layout_alignLeft="@id/squad_name"
+        android:layout_alignStart="@id/squad_name"
+        android:layout_toRightOf="@+id/squad_image"
+        android:layout_toEndOf="@+id/squad_image"/>
+
+</RelativeLayout>
