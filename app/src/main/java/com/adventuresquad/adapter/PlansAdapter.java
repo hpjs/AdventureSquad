@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.GlideApp;
-import com.adventuresquad.api.RetrieveDataRequest;
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.presenter.MyTripsPresenter;
 

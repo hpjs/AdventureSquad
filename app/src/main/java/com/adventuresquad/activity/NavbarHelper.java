@@ -9,7 +9,8 @@ import android.view.MenuItem;
 import com.adventuresquad.R;
 
 /**
- * Helper class to properly initialise the navbar on every page
+ * Helper class to properly initialise the navbar on every page,
+ * without having the same code on every page
  * Created by Harrison on 6/06/2017.
  */
 public class NavbarHelper {

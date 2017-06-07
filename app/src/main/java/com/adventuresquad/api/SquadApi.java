@@ -3,6 +3,8 @@ package com.adventuresquad.api;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
+import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.interfaces.PersonalSquadApiPresenter;
@@ -36,22 +38,42 @@ public class SquadApi {
     }
 
     /**
-     * Creates a squad with no users
-     * @param squad
-     * @param callback
+     * Creates a squad and populates with a user, then adds that squad to the user's list of squads
+     * @param squad A new squad object (without a user)
+     * @param userId The ID of the user that is creating the squad
+     * @param userApi The user API object to use to add the squad to a user
+     * @param createSquadCallback Object to notify when upload is complete
      */
-    public void createEmptySquad(Squad squad, final SquadApiPresenter callback) {
+    public void createSquad(final Squad squad, final String userId, final UserApi userApi, final StoreDataRequest<Squad> createSquadCallback) {
+        //Set up new squad in DB
         DatabaseReference mNewSquadRef = mSquadsData.push();
         squad.setSquadId(mNewSquadRef.getKey());
+
+        //Add the given user to the squad
+        squad.addSquadUser(userId);
+
         //prepare callback method for when this task is complete
         //Set the actual data
         mNewSquadRef.setValue(squad).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    callback.onCreateSquad();
-                } else {
-                    callback.onCreateSquadFail(task.getException());
+                    //Was able to create the new squad, now populate User with squad ID
+                    userApi.addSquadToUser(squad.getSquadId(), userId, new StoreDataRequest<String>() {
+                        @Override
+                        public void onStoreData(String data) {
+                            //Adding squad to user was successful, notify original caller
+                            createSquadCallback.onStoreData(squad);
+                        }
+
+                        @Override
+                        public void onStoreDataFail(Exception e) {
+                            //Couldn't add squad to user's list of squads, notify original caller
+                            createSquadCallback.onStoreDataFail(e);
+                        }
+                    });
+                } else { //Couldn't create individual squad.
+                    createSquadCallback.onStoreDataFail(task.getException());
                 }
             }
         });

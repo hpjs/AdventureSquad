@@ -3,15 +3,12 @@ package com.adventuresquad.presenter;
 import android.net.Uri;
 
 import com.adventuresquad.api.AdventureApi;
-import com.adventuresquad.api.RetrieveDataRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
 import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
-
-import java.util.List;
 
 /**
  * Created by Harrison on 22/05/2017.

@@ -2,7 +2,7 @@ package com.adventuresquad.presenter;
 
 import android.net.Uri;
 
-import com.adventuresquad.api.RetrieveDataRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentablePlanListView;

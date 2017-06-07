@@ -2,6 +2,7 @@ package com.adventuresquad.api;
 
 import android.support.annotation.NonNull;
 
+import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,6 +13,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User API
@@ -62,10 +66,10 @@ public class UserApi {
      * TODO - move this interface out into it's own file
      */
     public interface RetrieveUserListener {
+
         public void onGetUser(User user);
         public void onGetUserFail(Exception e);
     }
-
     public void retrieveUser(String userId, final RetrieveUserListener callback) {
         //Uses the user's id to retrieve a specific user
         DatabaseReference mUserRef = mUsersData.child(userId);
@@ -116,7 +120,6 @@ public class UserApi {
         retrieveUser(currentUserId, callback);
     }
 
-
     /**
      * Updates the ID of the squad on a given user object
      * @param userId
@@ -136,5 +139,70 @@ public class UserApi {
                 }
             }
         });
+    }
+
+    /**
+     * Updates the list of a user's squads
+     *
+     */
+    public void updateUserSquadList(String userId, final List<String> userSquadList, final StoreDataRequest<List<String>> callback) {
+        DatabaseReference squadListRef = mUsersData.child(userId + "/userSquadList");
+        //Does the storing
+        squadListRef.setValue(userSquadList).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    callback.onStoreData(userSquadList);
+                } else {
+                    callback.onStoreDataFail(task.getException());
+                }
+            }
+        });
+    }
+
+
+    public void addSquadToUser(final String squadId, final String userId, final StoreDataRequest<String> callback) {
+        //Adds a squad ID to the user's list of squads.
+        //TODO - finish this to add a user to the squad
+        DatabaseReference userSquadsRef = mUsersData.child(userId + "/userSquadList");
+
+        //Retreive the user's current list of squads, then add to it and push back the updated list
+        //TODO - this isn't very thread / application safe. Consider a way to just push to the list without downloading the list first.
+        userSquadsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //List of squads retrieved, add to the list and store it again
+                try { //Try to cast data to list
+                    List<String> userSquadList = (ArrayList<String>) dataSnapshot.getValue();
+
+                    if (userSquadList == null) {
+                        //List doesn't exist, have to make it first
+                        userSquadList = new ArrayList<String>();
+                    }
+                    userSquadList.add(squadId);
+                    //Store the updated list
+                    updateUserSquadList(userId, userSquadList, new StoreDataRequest<List<String>>() {
+                        @Override
+                        public void onStoreData(List<String> data) {
+                            callback.onStoreData(squadId);
+                        }
+
+                        @Override
+                        public void onStoreDataFail(Exception e) {
+                            callback.onStoreDataFail(e);
+                        }
+                    });
+                }
+                catch(ClassCastException exception) {
+                    callback.onStoreDataFail(exception);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Failed to retrieve existing list of User ID,
+            }
+        });
+
     }
 }

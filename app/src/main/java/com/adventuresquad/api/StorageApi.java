@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Adventure;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

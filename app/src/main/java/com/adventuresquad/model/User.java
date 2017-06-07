@@ -14,6 +14,8 @@ public class User {
     private String mUserSquadId;
     //List of preferred adventure types
     private List<AdventureType> mPreferredAdventureType;
+    //List of all of a user's squads
+    private List<String> mUserSquadList;
 
 
     /**
@@ -76,5 +78,13 @@ public class User {
 
     public void setUserSquadId(String userSquadId) {
         mUserSquadId = userSquadId;
+    }
+
+    public List<String> getUserSquadList() {
+        return mUserSquadList;
+    }
+
+    public void setUserSquadList(List<String> userSquadList) {
+        mUserSquadList = userSquadList;
     }
 }

@@ -1,7 +1,6 @@
 package com.adventuresquad.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +11,8 @@ import android.widget.TextView;
 import com.adventuresquad.R;
 import com.adventuresquad.api.AdventureApi;
 import com.adventuresquad.api.GlideApp;
-import com.adventuresquad.api.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
-import com.adventuresquad.interfaces.RetrieveImageUriRequest;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.AdventureDetailPresenter;
 

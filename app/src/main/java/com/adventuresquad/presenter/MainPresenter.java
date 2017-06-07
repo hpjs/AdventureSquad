@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.adventuresquad.api.AdventureApi;
-import com.adventuresquad.api.RetrieveDataRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureListView;
 import com.adventuresquad.model.Adventure;

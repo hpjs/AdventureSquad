@@ -3,8 +3,8 @@ package com.adventuresquad.api;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Adventure;
-import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -121,7 +121,6 @@ public class AdventureApi {
 
     /**
      * Retrieves a non-specific list of adventures from the online database
-     *
      * @param callback What to notify when retrieve is complete
      */
     public void getAdventureList(final RetrieveDataRequest<List<Adventure>> callback) {
@@ -145,17 +144,5 @@ public class AdventureApi {
         });
 
     }
-
-    /*
-     * Manually marshals the given data snapshot into an adventure object (should not be needed)
-     * @param adventureSnapshot Snapshot of an adventure to marshal
-     * @return
-     */
-//    public Adventure marshalData(DataSnapshot adventureSnapshot) {
-//        String name = (String) adventureSnapshot.child("adventureTitle").getValue();
-//        double latitude = (double) adventureSnapshot.child("latitude").getValue();
-//        double longitude = (double) adventureSnapshot.child("longitude").getValue();
-//        return new Adventure(name, latitude, longitude);
-//    }
 
 }

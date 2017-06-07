@@ -1,4 +1,4 @@
-package com.adventuresquad.api;
+package com.adventuresquad.api.interfaces;
 
 /**
  * Generic interface that allows classes to retrieve data from an API and receive feedback asynchronously.

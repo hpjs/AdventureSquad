@@ -47,6 +47,10 @@ public class Squad {
         mSquadUsers = squadUsers;
     }
 
+    public void addSquadUser(String userId) {
+        mSquadUsers.add(userId);
+    }
+
     public List<String> getSquadPlans() {
         return mSquadPlans;
     }
