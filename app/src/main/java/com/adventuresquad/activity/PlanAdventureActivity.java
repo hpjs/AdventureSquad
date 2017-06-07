@@ -78,10 +78,15 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         mPresenter = new PlanPresenter(this, adventureId, adventureTitle, new PlanApi(), new UserApi(), new SquadApi());
     }
 
-    //TODO - override plan activity onBackPressed() to not close if on Date fragment
     @Override
     public void onBackPressed() {
         //Check the current fragment
+        if (mCurrentFragment > 0) {
+            //return to previous fragment
+            //TODO - go to previous fragment on 'back' pressed
+        } else {
+            super.onBackPressed();
+        }
     }
 
     /**

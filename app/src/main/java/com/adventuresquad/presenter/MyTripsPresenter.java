@@ -118,7 +118,8 @@ public class MyTripsPresenter implements StorageApiPresenter {
      */
     private void retrievePlanImageUrl(final Plan plan) {
         //TODO - change this to get a plan image instead (later)
-        mStorageApi.retrieveAdventureImageUri(plan.getAdventureId(), new RetrieveDataRequest<Uri>() {
+        String adventureId = plan.getAdventureId();
+        mStorageApi.retrieveAdventureImageUri(adventureId, new RetrieveDataRequest<Uri>() {
             @Override
             public void onRetrieveData(Uri data) { //URL retrieved, set to plan and display it
                 plan.setPlanImageUrl(data.toString());

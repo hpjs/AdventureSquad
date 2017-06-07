@@ -7,7 +7,7 @@ import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
-import com.adventuresquad.presenter.interfaces.PersonalSquadApiPresenter;
+import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Allows access to FireBase operations regarding squads
  * Created by Harrison on 2/06/2017.
  */
 public class SquadApi {
@@ -83,14 +84,12 @@ public class SquadApi {
      * Creates a new squad in the database for a user
      * @param userId The user that this squad is for
      * @param userApi The user API object to update the user
-     * @param callback
+     * @param callback The object to call when creation is successful, holds the UserId
      */
-    public void createPersonalSquad(final String userId, final UserApi userApi, final PersonalSquadApiPresenter callback) {
+    public void createPersonalSquad(final String userId, final UserApi userApi, final StoreDataRequest<String> callback) {
         //Set up new squad object with the user ID in it
         Squad newUserSquad = new Squad();
-        ArrayList<String> userList = new ArrayList<>();
-        userList.add(userId);
-        newUserSquad.setSquadUsers(userList);
+        newUserSquad.addSquadUser(userId);
 
         //Push to database, get new unique SquadId
         DatabaseReference newSquadRef = mSquadsData.push();
@@ -103,16 +102,9 @@ public class SquadApi {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     //then update the user database with the new personal squad
-                    try {
-                        userApi.updateUserSquad(userId, newSquadId, (UserApiPresenter) callback);
-                    } catch(ClassCastException exception) {
-                        Log.d(DEBUG_SQUAD_API, "Couldn't cast 'callback' from PersonalSquadApiPresenter to UserApiPresenter!");
-                        Log.d(DEBUG_SQUAD_API, "Make sure the presenter implements both interfaces!!");
-                    }
-                    //TODO - Add 'callback.onCreateSquad()' here??
-
+                    userApi.updateUserSquad(userId, newSquadId, callback);
                 } else {
-                    callback.onCreatePersonalSquadFail(task.getException());
+                    callback.onStoreDataFail(task.getException());
                 }
             }
         });
@@ -123,10 +115,11 @@ public class SquadApi {
      * @param plan The plan (with populated IDs)
      */
     public void addPlanToSquad(Plan plan, final SquadApiPresenter callback) {
-        //Get IDs as necessary
+        //Get IDs from the plan object
         final String squadId = plan.getSquadId();
         final String newPlanId = plan.getPlanId();
-        //Get the plan list
+
+        //Retrieve list of plans from the database
         retrievePlanList(squadId, new RetrieveDataRequest<List<String>>() {
 
             //Plan list was retrieved successfully, add plan to list and push back to squad
@@ -212,16 +205,20 @@ public class SquadApi {
         }
     }
 
+    /**
+     * Retrieves a single squad from the database and notifies the callback
+     * @param squadId The squad to load
+     * @param callback The object to notify when complete or failed
+     */
     public void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
         DatabaseReference squadRef = mSquadsData.child(squadId);
 
-        //TODO add code here to retrieve an adventure
         squadRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
-                Squad retrievedAdventure = dataSnapshot.getValue(Squad.class);
-                callback.onRetrieveData(retrievedAdventure);
+                Squad retrievedSquad = dataSnapshot.getValue(Squad.class);
+                callback.onRetrieveData(retrievedSquad);
             }
 
             @Override

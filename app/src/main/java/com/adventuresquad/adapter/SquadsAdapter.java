@@ -44,13 +44,13 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
 
     /**
      * CONSTRUCTOR
-     * @param activityContext
+     * @param activityContext The context of the activity that holds the recyclerview
      */
     public SquadsAdapter(Context activityContext) {
         mSquadList = new ArrayList<>();
 
-        addSampleSquad();
-        addSampleSquad();
+//        addSampleSquad();
+//        addSampleSquad();
 
         //Extra glide stuff
         mGlideRequests = GlideApp.with(activityContext); //Once set, object ref can't be changed

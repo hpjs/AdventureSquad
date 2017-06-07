@@ -70,6 +70,12 @@ public class UserApi {
         public void onGetUser(User user);
         public void onGetUserFail(Exception e);
     }
+
+    /**
+     * Retrieves a single user from the database
+     * @param userId The ID of the user to retrieve
+     * @param callback The object to notify when user is successfully retrieved
+     */
     public void retrieveUser(String userId, final RetrieveUserListener callback) {
         //Uses the user's id to retrieve a specific user
         DatabaseReference mUserRef = mUsersData.child(userId);
@@ -110,6 +116,7 @@ public class UserApi {
         });
     }
 
+    //TODO - completely remove all references of the below
     /**
      * Returns the current user to the callback
      * @param callback The user listener to notify when complete
@@ -121,31 +128,29 @@ public class UserApi {
     }
 
     /**
-     * Updates the ID of the squad on a given user object
-     * @param userId
-     * @param newSquadId
+     * Updates the ID of a user's personal squad (for personal adventure plans)
+     * @param userId The user object to update
+     * @param newSquadId The new personal squad object for the user
      */
-    public void updateUserSquad(String userId, String newSquadId, final UserApiPresenter callback) {
-        //TODO - debug and check if this actually gets/sets the correct value
+    public void updateUserSquad(final String userId, String newSquadId, final StoreDataRequest<String> callback) {
         DatabaseReference userRef = mUsersData.child(userId + "/userSquadId");
-
         userRef.setValue(newSquadId).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    callback.onUpdateUserSquad();
+                    callback.onStoreData(userId);
                 } else {
-                    callback.onUpdateUserSquadFail();
+                    callback.onStoreDataFail(task.getException());
                 }
             }
         });
     }
 
     /**
-     * Updates the list of a user's squads
+     * Posts a squad list to a user object in the database
      *
      */
-    public void updateUserSquadList(String userId, final List<String> userSquadList, final StoreDataRequest<List<String>> callback) {
+    private void updateUserSquadList(String userId, final List<String> userSquadList, final StoreDataRequest<List<String>> callback) {
         DatabaseReference squadListRef = mUsersData.child(userId + "/userSquadList");
         //Does the storing
         squadListRef.setValue(userSquadList).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -161,48 +166,64 @@ public class UserApi {
     }
 
 
+    /**
+     * Adds a single squad to a user object
+     * @param squadId The squad to add to the user
+     * @param userId The user that the squad is to be added to
+     * @param callback The class that will be notified on completion
+     */
     public void addSquadToUser(final String squadId, final String userId, final StoreDataRequest<String> callback) {
         //Adds a squad ID to the user's list of squads.
-        //TODO - finish this to add a user to the squad
-        DatabaseReference userSquadsRef = mUsersData.child(userId + "/userSquadList");
+        DatabaseReference userSquadRef = mUsersData.child(userId + "/userSquadList/" + squadId);
+        //
+        userSquadRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    callback.onStoreData(squadId);
+                } else {
+                    callback.onStoreDataFail(task.getException());
+                }
+            }
+        }); //The squad is now stored on that user.
 
         //Retreive the user's current list of squads, then add to it and push back the updated list
         //TODO - this isn't very thread / application safe. Consider a way to just push to the list without downloading the list first.
-        userSquadsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //List of squads retrieved, add to the list and store it again
-                try { //Try to cast data to list
-                    List<String> userSquadList = (ArrayList<String>) dataSnapshot.getValue();
-
-                    if (userSquadList == null) {
-                        //List doesn't exist, have to make it first
-                        userSquadList = new ArrayList<String>();
-                    }
-                    userSquadList.add(squadId);
-                    //Store the updated list
-                    updateUserSquadList(userId, userSquadList, new StoreDataRequest<List<String>>() {
-                        @Override
-                        public void onStoreData(List<String> data) {
-                            callback.onStoreData(squadId);
-                        }
-
-                        @Override
-                        public void onStoreDataFail(Exception e) {
-                            callback.onStoreDataFail(e);
-                        }
-                    });
-                }
-                catch(ClassCastException exception) {
-                    callback.onStoreDataFail(exception);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Failed to retrieve existing list of User ID,
-            }
-        });
+//        userSquadsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                //List of squads retrieved, add to the list and store it again
+//                try { //Try to cast data to list
+//                    List<String> userSquadList = (ArrayList<String>) dataSnapshot.getValue();
+//
+//                    if (userSquadList == null) {
+//                        //List doesn't exist, have to make it first
+//                        userSquadList = new ArrayList<String>();
+//                    }
+//                    userSquadList.add(squadId);
+//                    //Store the updated list
+//                    updateUserSquadList(userId, userSquadList, new StoreDataRequest<List<String>>() {
+//                        @Override
+//                        public void onStoreData(List<String> data) {
+//                            callback.onStoreData(squadId);
+//                        }
+//
+//                        @Override
+//                        public void onStoreDataFail(Exception e) {
+//                            callback.onStoreDataFail(e);
+//                        }
+//                    });
+//                }
+//                catch(ClassCastException exception) {
+//                    callback.onStoreDataFail(exception);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                //Failed to retrieve existing list of User ID,
+//            }
+//        });
 
     }
 }

@@ -3,9 +3,9 @@ package com.adventuresquad.presenter;
 import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
+import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.interfaces.PresentableRegisterView;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.PersonalSquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.RegisterApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 
@@ -13,7 +13,7 @@ import com.adventuresquad.presenter.interfaces.UserApiPresenter;
  * Presenter for registration. Handles user auth creation, and other additional user info.
  * Created by Harrison on 11/05/2017.
  */
-public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter, PersonalSquadApiPresenter {
+public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter {
     private PresentableRegisterView mActivity;
     private AuthApi mAuthApi;
     private UserApi mUserApi;
@@ -65,7 +65,17 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
     public void onAddUser() {
         //User adding to database complete.
         //Add personal squad to this user so they can make plans
-        mSquadApi.createPersonalSquad(mUser.getUserId(), mUserApi, this);
+        mSquadApi.createPersonalSquad(mUser.getUserId(), mUserApi, new StoreDataRequest<String>() {
+            @Override
+            public void onStoreData(String data) { //Store success, holds the userId that was stored to
+                onUpdateUserSquad();
+            }
+
+            @Override
+            public void onStoreDataFail(Exception e) {
+                mActivity.displayMessage("User creation failed - " + e.toString());
+            }
+        });
     }
 
     @Override
@@ -76,18 +86,7 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
     }
 
     @Override
-    public void onCreatePersonalSquad() {
-        //Create personal squad finished. However, Squad API will call User API to update the user squad.
-    }
-
-    @Override
-    public void onCreatePersonalSquadFail(Exception e) {
-
-    }
-
-    @Override
     public void onUpdateUserSquad() {
-        //TODO - come back here and finish this code
         mActivity.registrationComplete();
     }
 

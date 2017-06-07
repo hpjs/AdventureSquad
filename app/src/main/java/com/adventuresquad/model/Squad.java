@@ -1,7 +1,9 @@
 package com.adventuresquad.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Squad object that can hold users and trip plans
@@ -11,7 +13,8 @@ public class Squad {
     //Note: Uses the string class for UUID for items
     private String mSquadId;
     private String mSquadName;
-    private List<String> mSquadUsers;
+    //private List<String> mSquadUsers;
+    private Map<String, Boolean> mSquadUsers = new HashMap<>();;
     private List<String> mSquadPlans;
 
     /**
@@ -35,7 +38,7 @@ public class Squad {
         this.mSquadName = squadName;
     }
 
-    public List<String> getSquadUsers() {
+    public Map<String, Boolean> getSquadUsers() {
         return mSquadUsers;
     }
 
@@ -43,12 +46,12 @@ public class Squad {
      * Setter for users who are in this squad
      * @param squadUsers
      */
-    public void setSquadUsers(List<String> squadUsers) {
+    public void setSquadUsers(Map<String, Boolean> squadUsers) {
         mSquadUsers = squadUsers;
     }
 
     public void addSquadUser(String userId) {
-        mSquadUsers.add(userId);
+        mSquadUsers.put(userId, true);
     }
 
     public List<String> getSquadPlans() {

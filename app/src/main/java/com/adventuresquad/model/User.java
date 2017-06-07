@@ -1,6 +1,8 @@
 package com.adventuresquad.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * POJO for holding User details
@@ -15,7 +17,9 @@ public class User {
     //List of preferred adventure types
     private List<AdventureType> mPreferredAdventureType;
     //List of all of a user's squads
-    private List<String> mUserSquadList;
+
+    //List of all plans for squads that a user is a part of
+    private List<String> mSquadPlans;
 
 
     /**
@@ -80,11 +84,13 @@ public class User {
         mUserSquadId = userSquadId;
     }
 
-    public List<String> getUserSquadList() {
-        return mUserSquadList;
+
+
+    public List<String> getSquadPlans() {
+        return mSquadPlans;
     }
 
-    public void setUserSquadList(List<String> userSquadList) {
-        mUserSquadList = userSquadList;
+    public void setSquadPlans(List<String> squadPlans) {
+        mSquadPlans = squadPlans;
     }
 }

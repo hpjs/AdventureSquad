@@ -21,8 +21,8 @@
         android:id="@+id/plan_squad_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/plan_squad_next_button"
-        android:layout_marginBottom="@dimen/fab_navbar_margin">
+        android:layout_below="@+id/section_label"
+        tools:layout="@layout/activity_squad_item">
         <!--Recycler view for Squad items goes here-->
 
     </android.support.v7.widget.RecyclerView>
@@ -32,7 +32,7 @@
         android:id="@+id/plan_squad_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/section_label"
+        android:layout_alignParentBottom="true"
         android:text="@string/plan_adventure_myself"/>
 
 </RelativeLayout>

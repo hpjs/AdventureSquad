@@ -2,6 +2,9 @@ package com.adventuresquad.activity.interfaces;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.widget.Button;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
+import com.adventuresquad.adapter.ItemClickSupport;
+import com.adventuresquad.adapter.SquadsAdapter;
 
 import java.util.Date;
 
@@ -17,13 +22,16 @@ import java.util.Date;
  * Fragment for the squad list
  * Created by Harrison on 2/06/2017.
  */
-public class PlanSquadFragment extends Fragment implements View.OnClickListener, PlanFragment {
+public class PlanSquadFragment extends Fragment implements View.OnClickListener, PlanFragment, ItemClickSupport.OnItemClickListener {
     //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
     //Note - none of the fields can be private apparently
     private Button mButton;
+
+    private RecyclerView mRecyclerView;
+    private SquadsAdapter mAdapter;
 
     /**
      * Create a new instance of the PlanSquadFragment
@@ -50,10 +58,8 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Shows how to use the given arguments to set local variables
-        //Get arguments and populate class & fragment with them
+        //Get new instance arguments and populate class & fragment with them
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-        //mNum = getArguments() != null ? getArguments().getInt("num") : 1;
     }
 
     /**
@@ -70,9 +76,19 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
         //Bind view objects to code
         mButton = (Button)v.findViewById(R.id.plan_squad_next_button);
         mButton.setOnClickListener(this);
-        //Example to bind objects
-        //View tv = v.findViewById(R.id.text);
-        //((TextView)tv).setText("Fragment #" + mNum);
+
+        mRecyclerView = (RecyclerView)v.findViewById(R.id.plan_squad_list);
+
+        //Set up recycler view (with context from the activity)
+        mAdapter = new SquadsAdapter(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
+        //Set up click listener for individual list items in the recycler view
+        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
+
         return v;
     }
 
@@ -87,6 +103,18 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
         //Should be able to get the activity using getActivity()
         /*setListAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, Cheeses.sCheeseStrings));*/
+    }
+
+    /**
+     * Called when a squad is selected
+     * @param recyclerView
+     * @param position
+     * @param v
+     */
+    @Override
+    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+        //TODO - should update the currently selected squad
+        //TODO - need to add stuff in Activity and Presenter to get the list into here
     }
 
     /**
