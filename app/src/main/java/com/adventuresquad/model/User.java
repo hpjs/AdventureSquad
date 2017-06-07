@@ -17,6 +17,8 @@ public class User {
     //List of preferred adventure types
     private List<AdventureType> mPreferredAdventureType;
     //List of all of a user's squads
+    //private List<String> mUserSquads;  //NOTE: CONVERTED TO boolean hashmap
+    private Map<String, Boolean> mUserSquads = new HashMap<>();
 
     //List of all plans for squads that a user is a part of
     private List<String> mSquadPlans;
@@ -84,7 +86,11 @@ public class User {
         mUserSquadId = userSquadId;
     }
 
+    //public List<String> getUserSquads() { return mUserSquads; }
+    public Map<String, Boolean> getUserSquads() { return mUserSquads; }
 
+    //public void setUserSquads(List<String> userSquads) { mUserSquads = userSquads; }
+    public void setUserSquads(Map<String, Boolean> userSquads) { mUserSquads = userSquads; }
 
     public List<String> getSquadPlans() {
         return mSquadPlans;
