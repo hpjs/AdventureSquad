@@ -70,7 +70,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         fullRequest = mGlideRequests
                 .asDrawable()
                 .centerCrop()
-                .placeholder(R.color.colorPrimary);
+                .placeholder(R.color.colorAccent);
     }
 
     /**
@@ -129,17 +129,10 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         final Adventure adventure = getListItem(position);
 
         //Note that it's using the activity context, as defined in constructor
+        //Uses Glide to download image into image view
         fullRequest
                 .load(adventure.getAdventureImageUri())
                 .into(holder.mImage);
-
-
-//        GlideApp
-//                .with(mActivityContext)
-//                .load(adventure.getAdventureImageUri())
-//                .placeholder(R.color.colorPrimary)
-//                .error(R.drawable.ic_broken_image_black_24dp)
-//                .into(holder.mImage);
 
         //Populate view with text
         holder.mTitle.setText(adventure.getAdventureTitle());

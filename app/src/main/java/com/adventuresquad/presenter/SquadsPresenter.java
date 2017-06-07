@@ -8,8 +8,6 @@ import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.model.User;
 
-import java.util.List;
-
 /**
  * Provides presentation for the squads activity
  * Created by Harrison on 7/06/2017.
@@ -32,31 +30,21 @@ public class SquadsPresenter {
         mUserApi = userApi;
         mStorageApi = storageApi;
 
-        //Kick off squad retrieval
-        retrieveSquadList();
+        //Kick off user's squad retrieval
+        retrieveCurrentUser();
     }
 
     /**
-     * Gets a list of squad objects for the view
+     * Gets the current user so that we can get the squads for this user
      */
-    public void retrieveSquadList() {
+    public void retrieveCurrentUser() {
         //get current user
         mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
             @Override
             public void onGetUser(User user) {
                 //Get squads for this user
                 mCurrentUser = user;
-                mSquadApi.retrieveSquadList(user.getUserSquadList(), new RetrieveDataRequest<Squad>() {
-                    @Override
-                    public void onRetrieveData(Squad data) { //Single squad retrieved
-                        mView.addListItem(data);
-                    }
-
-                    @Override
-                    public void onRetrieveDataFail(Exception e) { //Single squad retrieve failed
-                        mView.displayMessage("Failed to retrieve one of your squads");
-                    }
-                });
+                retrieveSquad(user);
             }
 
             @Override
@@ -65,8 +53,32 @@ public class SquadsPresenter {
 
             }
         });
+    }
 
-        //get squads of that user
+    /**
+     *
+     */
+    private void retrieveSquad(User user) {
+        //Check that the user's squad list is not null
+        if (user.getUserSquadList() != null) {
+            //Proceed with retrieving the squad list for this user
+            mSquadApi.retrieveSquadList(user.getUserSquadList(), new RetrieveDataRequest<Squad>() {
+                @Override
+                public void onRetrieveData(Squad data) { //Single squad retrieved
+                    mView.addListItem(data);
+                }
+
+                @Override
+                public void onRetrieveDataFail(Exception e) { //Single squad retrieve failed
+                    mView.displayMessage("Failed to retrieve one of your squads");
+                }
+            });
+        }
+        else {
+            //User doesn't have any squads
+            //TODO - Make this message a bit nicer later
+            mView.displayMessage("You don't have any squads!");
+        }
     }
 
     /**

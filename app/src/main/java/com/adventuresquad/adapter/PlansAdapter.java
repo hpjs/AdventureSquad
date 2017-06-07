@@ -1,6 +1,7 @@
 package com.adventuresquad.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.adventuresquad.R;
 import com.adventuresquad.api.GlideApp;
+import com.adventuresquad.api.GlideRequest;
+import com.adventuresquad.api.GlideRequests;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.presenter.MyTripsPresenter;
@@ -28,8 +31,11 @@ import java.util.Locale;
 public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHolder>{
 
     private MyTripsPresenter mPresenter;
-    private Context mContext;
+    private Context mActivityContext;
     private List<Plan> mPlanList;
+
+    final private GlideRequests mGlideRequests;
+    private GlideRequest<Drawable> fullRequest;
 
     public class PlansViewHolder extends RecyclerView.ViewHolder {
         //View objects here
@@ -48,25 +54,21 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
     /**
      * Constructor
      */
-    public PlansAdapter(Context context, MyTripsPresenter presenter) {
-        mContext = context;
+    public PlansAdapter(Context activityContext, MyTripsPresenter presenter) {
+        mActivityContext = activityContext;
         mPlanList = new ArrayList<>();
-//        mPlanList.add(newTestPlan());
-//        mPlanList.add(newTestPlan());
-//        notifyDataSetChanged();
         mPresenter = presenter;
-    }
 
-    public Plan newTestPlan() {
-        //Test example with some test values from the database
-        Plan p = new Plan();
-        p.setPlanTitle("Test plan");
-        p.setAdventureId("-KkkNhRwWpeZPnVhmR2f");
-        p.setSquadId("-KlldxAhPIx9Vl6GluRh");
-        p.setBookingDate(0);
-        return p;
+        //Extra glide stuff
+        mGlideRequests = GlideApp.with(activityContext); //Once set, object ref can't be changed
+        //Request 'blueprint' for a full image
+        //onBindViewHolder will use this to make it's image load request
+        fullRequest = mGlideRequests
+                .asDrawable()
+                .centerCrop()
+                .placeholder(R.color.colorPrimary)
+                .error(R.drawable.ic_broken_image_black_24dp);
     }
-
 
     @Override
     public PlansViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -97,6 +99,12 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         notifyItemInserted(newIndex);
     }
 
+    public void clearData() {
+        int listSize = mPlanList.size();
+        mPlanList.clear(); //clear list
+        notifyItemRangeChanged(0, listSize); //update view
+    }
+
     @Override
     public void onBindViewHolder(final PlansViewHolder holder, int position) {
         //Get correct adventure item
@@ -106,23 +114,10 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         //Load image
         final Context imageContext = holder.mImage.getContext();
 
-        mPresenter.retrieveAdventureImageUri(plan.getAdventureId(), new RetrieveDataRequest<Uri>() {
-            @Override
-            public void onRetrieveData(Uri uri) {
-                GlideApp
-                        .with(mContext)
-                        .load(uri)
-                        .placeholder(R.color.colorPrimary)
-                        .error(R.drawable.ic_broken_image_black_24dp)
-                        .into(holder.mImage);
+        fullRequest
+            .load(plan.getPlanImageUrl())
+            .into(holder.mImage);
                 //Hide loading icon?
-            }
-
-            @Override
-            public void onRetrieveDataFail(Exception e) {
-                //Couldn't retrieve URL
-            }
-        });
 
         //Populate view with text
         holder.mTitle.setText(plan.getPlanTitle());

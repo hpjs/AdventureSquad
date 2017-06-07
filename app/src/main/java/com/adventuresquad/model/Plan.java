@@ -12,6 +12,7 @@ public class Plan {
     private String mAdventureId; //The adventure that this plan is for
     private String mSquadId; //The ID of the squad that this trip is for
     private String mPlanTitle; //The title of the plan. Default: Same as adventure title.
+    private String mPlanImageUrl; //URI that points to the plan's image
     private long bookingDate; //Booking date as Unix time (milliseconds since 'epoch')
 
     public Plan() {
@@ -56,5 +57,13 @@ public class Plan {
 
     public void setPlanTitle(String planTitle) {
         mPlanTitle = planTitle;
+    }
+
+    public String getPlanImageUrl() {
+        return mPlanImageUrl;
+    }
+
+    public void setPlanImageUrl(String planImageUrl) {
+        mPlanImageUrl = planImageUrl;
     }
 }

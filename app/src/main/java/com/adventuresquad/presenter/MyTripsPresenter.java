@@ -20,7 +20,7 @@ import java.util.List;
  * Presenter for mytrips list of trips / plans
  * Created by Harrison on 4/06/2017.
  */
-public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresenter {
+public class MyTripsPresenter implements StorageApiPresenter {
 
     //Dependencies
     private PresentablePlanListView mView;
@@ -93,45 +93,51 @@ public class MyTripsPresenter implements StorageApiPresenter, PlanApiListPresent
         });
     }
 
-    /*
-     * Uses a list of planIds to retrieve a list of plans from the database
+    /**
+     * Uses a list of planIds to retrieve a set of individual plans from the database
+     * Note: Retrieves multiple plans asynchronously (independent of each other)
      */
-    public void retrieveUserPlans(List<String> planIds) {
+    private void retrieveUserPlans(List<String> planIds) {
         mPlanApi.getPlanList(planIds, new RetrieveDataRequest<Plan>() {
             @Override
             public void onRetrieveData(Plan data) {
-                onRetrieveUserPlan(data);
+                //Single plan object retrieved, get the image download URL for this plan
+                retrievePlanImageUrl(data);
             }
 
             @Override
             public void onRetrieveDataFail(Exception e) {
-                onRetrieveUserPlanFail(e);
+                mView.displayMessage("Could not retrieve all of your plans.");
             }
         });
     }
 
     /**
-     * Called when any plan in the list is received
-     * @param plan
+     * Retrieves the image URL for the particular plan and then displays it
+     * @param plan The plan to retrieve the image for
      */
-    @Override
-    public void onRetrieveUserPlan(Plan plan) {
-        mPlanList.add(plan);
-        //mView.updatePlanList(mPlanList);
-        mView.addPlanToList(plan);
-    }
+    private void retrievePlanImageUrl(final Plan plan) {
+        //TODO - change this to get a plan image instead (later)
+        mStorageApi.retrieveAdventureImageUri(plan.getAdventureId(), new RetrieveDataRequest<Uri>() {
+            @Override
+            public void onRetrieveData(Uri data) { //URL retrieved, set to plan and display it
+                plan.setPlanImageUrl(data.toString());
+                displayPlan(plan);
+            }
 
-    @Override
-    public void onRetrieveUserPlanFail(Exception e) {
-        mView.displayMessage("Could not retrieve all of your plans.");
+            @Override
+            public void onRetrieveDataFail(Exception e) { //Couldn't get image.
+
+            }
+        });
     }
 
     /**
-     * Retrieves an image URI for a particular adventure
-     * @param adventureId The adventure to retrieve the image URL for
-     * @param callback The method to call when the URL is retrieved successfully (useful for lists)
+     * Called when a plan is fully populated and ready to be displayed on the view
+     * @param plan
      */
-    public void retrieveAdventureImageUri(String adventureId, RetrieveDataRequest<Uri> callback) {
-        mStorageApi.retrieveAdventureImageUri(adventureId, callback);
+    public void displayPlan(Plan plan) {
+        mPlanList.add(plan);
+        mView.addPlanToList(plan);
     }
 }

@@ -69,6 +69,7 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
      */
     @OnClick(R.id.my_trips_fab)
     public void refreshList() {
+        mPlansAdapter.clearData();
         mPresenter.retrievePlans();
     }
 

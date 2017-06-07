@@ -36,7 +36,7 @@ public class SquadsActivity extends AppCompatActivity implements PresentableList
 
     @Override
     public void addListItem(Squad item) {
-        
+
     }
 
     @Override
