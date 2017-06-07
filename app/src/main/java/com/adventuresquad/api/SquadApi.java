@@ -202,6 +202,36 @@ public class SquadApi {
     }
 
     /**
+     * Takes a list of IDs and loads a squad for each one (loads out of order currently)
+     * @param userSquadList
+     * @param callback Returns multiple single squad items as part of it's request.
+     */
+    public void retrieveSquadList(List<String> userSquadList, RetrieveDataRequest<Squad> callback) {
+        for (String squadId : userSquadList) {
+            retrieveSquad(squadId, callback);
+        }
+    }
+
+    public void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
+        DatabaseReference squadRef = mSquadsData.child(squadId);
+
+        //TODO add code here to retrieve an adventure
+        squadRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Marshall adventure into an adventure object
+                Squad retrievedAdventure = dataSnapshot.getValue(Squad.class);
+                callback.onRetrieveData(retrievedAdventure);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onRetrieveDataFail(databaseError.toException());
+            }
+        });
+    }
+
+    /**
      * Provides a simple callback interface for storing a list of plan strings
      */
     public interface StorePlanListListener {
