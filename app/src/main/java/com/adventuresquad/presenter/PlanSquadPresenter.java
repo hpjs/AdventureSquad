@@ -4,6 +4,7 @@ import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
+import com.adventuresquad.interfaces.PresentableListFragment;
 import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.interfaces.PresentablePlanSquadView;
 import com.adventuresquad.model.Squad;
@@ -18,18 +19,18 @@ import java.util.Map;
  * Created by Harrison on 8/06/2017.
  */
 public class PlanSquadPresenter {
-    private PresentableListView<Squad> mView;
-    private final String mUserId;
+    private PresentableListFragment<Squad> mView;
 
     private SquadApi mSquadApi;
+    private UserApi mUserApi;
     private StorageApi mStorageApi;
-    private String userId;
+    private User mCurrentUser;
+    private String selectedSquadId;
 
-    public PlanSquadPresenter(PresentableListView<Squad> view, String userId,
-                              SquadApi squadApi, StorageApi storageApi) {
+    public PlanSquadPresenter(PresentableListFragment<Squad> view, SquadApi squadApi, UserApi userApi, StorageApi storageApi) {
         mView = view;
-        mUserId = userId;
         mSquadApi = squadApi;
+        mUserApi = userApi;
         mStorageApi = storageApi;
 
         //Kick off retrieval process
@@ -45,6 +46,7 @@ public class PlanSquadPresenter {
             @Override
             public void onGetUser(User user) {
                 //Get squads for this user
+                mCurrentUser = user;
                 retrieveSquads(user);
             }
 
@@ -93,5 +95,18 @@ public class PlanSquadPresenter {
         }
     }
 
+    public void completeFragment() {
+        //TODO - perform check if squad id is null/empty.
+        //If squadId null/empty, then get personal squad ID. Otherwise, return what you've got.
+        mView.onCompleteFragment();
+    }
 
+
+    public String getSelectedSquadId() {
+        return selectedSquadId;
+    }
+
+    public void setSelectedSquadId(String selectedSquadId) {
+        this.selectedSquadId = selectedSquadId;
+    }
 }

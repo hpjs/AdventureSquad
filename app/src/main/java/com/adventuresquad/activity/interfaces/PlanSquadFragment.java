@@ -15,6 +15,10 @@ import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.SquadsAdapter;
+import com.adventuresquad.api.SquadApi;
+import com.adventuresquad.api.StorageApi;
+import com.adventuresquad.api.UserApi;
+import com.adventuresquad.interfaces.PresentableListFragment;
 import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.PlanSquadPresenter;
@@ -27,17 +31,17 @@ import java.util.List;
  * Created by Harrison on 2/06/2017.
  */
 public class PlanSquadFragment extends Fragment
-        implements View.OnClickListener, PresentableListView<Squad>,
+        implements View.OnClickListener, PresentableListFragment<Squad>,
         PlanFragment, ItemClickSupport.OnItemClickListener {
     //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
-    //User id to retrieve squads
-    private static final String ARG_USER_ID = "user_id";
-    private String mUserId;
 
-    //Note - none of the fields can be private apparently
+    //Presenter
+    private PlanSquadPresenter mPresenter;
+
+    //UI views and things
     private Button mButton;
     private RecyclerView mRecyclerView;
     private SquadsAdapter mAdapter;
@@ -46,13 +50,12 @@ public class PlanSquadFragment extends Fragment
      * Create a new instance of the PlanSquadFragment
      * Basically acts as a factory for this particular fragment
      */
-    public static PlanSquadFragment newInstance(int sectionNumber, String userId) {
+    public static PlanSquadFragment newInstance(int sectionNumber) {
         PlanSquadFragment fragmentInstance = new PlanSquadFragment();
 
         // Inject arguments into the new fragmentInstance
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putString(ARG_USER_ID, userId);
 
         //Set arguments on new fragment and return to
         fragmentInstance.setArguments(args);
@@ -68,7 +71,6 @@ public class PlanSquadFragment extends Fragment
 
         //Get new instance arguments and populate class & fragment with them
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-        mUserId = getArguments().getString(ARG_USER_ID);
     }
 
     /**
@@ -99,7 +101,7 @@ public class PlanSquadFragment extends Fragment
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
         //Set up fragment presenter
-        mPresenter = new PlanSquadPresenter(this, mUserId)
+        mPresenter = new PlanSquadPresenter(this, new SquadApi(), new UserApi(), new StorageApi());
 
         return v;
     }
@@ -129,22 +131,6 @@ public class PlanSquadFragment extends Fragment
         //TODO - need to add stuff in Activity and Presenter to get the list into hereeh
     }
 
-    /**
-     * Notifies parent activity that 'next' button was pressed
-     * Activity should then change fragments
-     */
-    public void onNextButtonClick() {
-        try { //Attempt to cast the parent activity as a SwipeFragmentHolder
-            SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
-            parent.onNextButtonClicked(mSectionNumber, this);
-        } catch (ClassCastException castException){
-            Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
-                    "Could not cast fragment parent as a 'SwipeFragmentHolder'!",
-                    castException);
-        }
-    }
-
-    //TODO - check if the fragment should be handling user input, or the activity instead
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
@@ -156,12 +142,38 @@ public class PlanSquadFragment extends Fragment
     }
 
     /**
+     * Next button clicked,
+     */
+    public void onNextButtonClick() {
+        //TODO - if no squad selected, should set squad to be personal squad here (using presenter)
+
+        mPresenter.completeFragment();
+        //completeFragment();
+
+    }
+
+    /**
+     * Presenter is done, notify Activity that fragment is done
+     */
+    @Override
+    public void onCompleteFragment() {
+        try { //Attempt to cast the parent activity as a SwipeFragmentHolder
+            SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
+            parent.onNextButtonClicked(mSectionNumber, this);
+        } catch (ClassCastException castException){
+            Log.e(PlanAdventureActivity.PLAN_ADVENTURE_DEBUG,
+                    "Could not use Activity as a 'SwipeFragmentHolder'!",
+                    castException);
+        }
+    }
+
+    /**
      * Retrieve the user's selected squad in the list
      * @return The user's selected squad to make this plan for
      */
     @Override
     public String getSquadId() {
-        return null;
+        return mPresenter.getSelectedSquadId();
     }
 
     /**
@@ -187,12 +199,4 @@ public class PlanSquadFragment extends Fragment
     public void updateList(List<Squad> itemList) {
         //No method to do so currently in the adapter, probably not needed currently
     }
-
-    /*
-     * This method is unused because we don't have a list (YET).
-     * Sample code showing how you can use a click listener inside the fragment
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("FragmentList", "Item clicked: " + id);
-    }*/
 }

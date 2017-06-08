@@ -30,7 +30,7 @@ import com.adventuresquad.presenter.PlanPresenter;
 import java.util.Date;
 import java.util.List;
 
-public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView, PresentableListView<Squad> {
+public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
 
     //Constants
     public static final String ADVENTURE_DETAIL_ID = "ADVENTURE_DETAIL_ID";
@@ -101,8 +101,10 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
 
         //Converting from zero-indexed to compare if it's the last fragment in the set
         if ((currentSection + 1) < totalSections) {
-            //Note: If you add more fragments, add a switch statement here.
-            mPresenter.addPersonalSquadToPlan();
+            String squadId = planFragment.getSquadId();
+
+            //mPresenter.addPersonalSquadToPlan();
+            mPresenter.addSquadToPlan(squadId);
             //TODO - this may break if plan completion starts before add personal squad is done
             //NOTE - should probably change this to use names instead of numbers
             mViewPager.setCurrentItem(currentSection + 1);
@@ -121,7 +123,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     public void onAddSquadToPlan() {
         //Squad adding to plan is complete
         //TODO - figure out how to put fragment change here instead of in 'onNextButtonClicked'
-        mSectionsPagerAdapter.
+        //mSectionsPagerAdapter.
     }
 
     @Override
@@ -138,16 +140,6 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     public void completePlanCreation() {
         //Finish activity
         finish();
-    }
-
-    @Override
-    public void addListItem(Squad item) {
-
-    }
-
-    @Override
-    public void updateList(List<Squad> itemList) {
-
     }
 
     /**
