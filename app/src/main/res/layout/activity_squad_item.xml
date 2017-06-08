@@ -4,8 +4,13 @@
     android:id="@+id/item_trip_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_marginLeft="@dimen/adventure_list_padding"
+    android:layout_marginStart="@dimen/adventure_list_padding"
+    android:layout_marginRight="@dimen/adventure_list_padding"
+    android:layout_marginEnd="@dimen/adventure_list_padding"
+    android:layout_marginTop="@dimen/adventure_list_padding"
     android:orientation="horizontal">
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,13 +20,27 @@
         android:src="@drawable/squad"
         android:layout_alignParentTop="true"
         app:civ_border_width="2dp"
-        app:civ_border_color="@color/white"/>
+        app:civ_border_color="@color/white"
+        android:visibility="visible"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/squad_image_selected"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@mipmap/squad_checked"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorAccent"
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:id="@+id/squad_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:text="@string/placeholder_text_loading"
@@ -36,7 +55,7 @@
         android:id="@+id/squad_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:textColor="@color/colorPrimary"

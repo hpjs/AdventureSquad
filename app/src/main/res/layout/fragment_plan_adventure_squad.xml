@@ -12,7 +12,6 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:text="@string/plan_adventure_squad_title"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"/>
@@ -22,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/section_label"
-        tools:layout="@layout/activity_squad_item">
+        tools:listitem="@layout/activity_squad_item"
+        >
         <!--Recycler view for Squad items goes here-->
 
     </android.support.v7.widget.RecyclerView>

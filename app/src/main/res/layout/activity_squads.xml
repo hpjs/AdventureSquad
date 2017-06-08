@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:visibility="visible"
+            tools:listitem="@layout/activity_squad_item"
             tools:layout="@layout/activity_squad_item">
 
         </android.support.v7.widget.RecyclerView>
