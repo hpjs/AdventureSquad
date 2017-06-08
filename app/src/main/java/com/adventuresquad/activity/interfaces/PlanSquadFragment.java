@@ -17,6 +17,7 @@ import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.SquadsAdapter;
 import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.model.Squad;
+import com.adventuresquad.presenter.PlanSquadPresenter;
 
 import java.util.Date;
 import java.util.List;
@@ -25,14 +26,19 @@ import java.util.List;
  * Fragment for the squad list
  * Created by Harrison on 2/06/2017.
  */
-public class PlanSquadFragment extends Fragment implements View.OnClickListener, PresentableListView<Squad>,PlanFragment, ItemClickSupport.OnItemClickListener {
+public class PlanSquadFragment extends Fragment
+        implements View.OnClickListener, PresentableListView<Squad>,
+        PlanFragment, ItemClickSupport.OnItemClickListener {
     //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
+    //User id to retrieve squads
+    private static final String ARG_USER_ID = "user_id";
+    private String mUserId;
+
     //Note - none of the fields can be private apparently
     private Button mButton;
-
     private RecyclerView mRecyclerView;
     private SquadsAdapter mAdapter;
 
@@ -40,14 +46,13 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
      * Create a new instance of the PlanSquadFragment
      * Basically acts as a factory for this particular fragment
      */
-    public static PlanSquadFragment newInstance(int sectionNumber /*int num,
-                                                insert your 'constructor' arguments here
-                                                can't use normal constructor stuff apparently*/) {
+    public static PlanSquadFragment newInstance(int sectionNumber, String userId) {
         PlanSquadFragment fragmentInstance = new PlanSquadFragment();
 
         // Inject arguments into the new fragmentInstance
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putString(ARG_USER_ID, userId);
 
         //Set arguments on new fragment and return to
         fragmentInstance.setArguments(args);
@@ -63,6 +68,7 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
 
         //Get new instance arguments and populate class & fragment with them
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+        mUserId = getArguments().getString(ARG_USER_ID);
     }
 
     /**
@@ -91,6 +97,9 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
 
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
+
+        //Set up fragment presenter
+        mPresenter = new PlanSquadPresenter(this, mUserId)
 
         return v;
     }
@@ -176,7 +185,7 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void updateList(List<Squad> itemList) {
-        //No method to do so currently
+        //No method to do so currently in the adapter, probably not needed currently
     }
 
     /*

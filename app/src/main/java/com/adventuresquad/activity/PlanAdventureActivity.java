@@ -121,6 +121,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     public void onAddSquadToPlan() {
         //Squad adding to plan is complete
         //TODO - figure out how to put fragment change here instead of in 'onNextButtonClicked'
+        mSectionsPagerAdapter.
     }
 
     @Override
@@ -161,6 +162,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
             super(fm);
         }
 
+        private PlanSquadFragment mSquadFragment;
+
         /**
          * This method is the thing that makes the fragment depending on the position.
          * @param position
@@ -172,7 +175,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
             switch(position) {
                 case 0:
                     //Create a new PlanSquadFragment instead of placeholder(it works!!).
-                    return PlanSquadFragment.newInstance(position);
+                    mSquadFragment = PlanSquadFragment.newInstance(position);
+                    return mSquadFragment;
                 case 1:
                     return PlanDateFragment.newInstance(position);
                 case 2:
