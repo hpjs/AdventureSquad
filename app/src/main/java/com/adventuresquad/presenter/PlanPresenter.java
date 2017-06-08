@@ -20,6 +20,7 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
     private UserApi mUserApi;
     private SquadApi mSquadApi;
 
+    private User mCurrentUser;
     private Plan mCurrentPlan;
 
     /**
@@ -39,13 +40,8 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
         mCurrentPlan = new Plan();
         mCurrentPlan.setAdventureId(adventureId);
         mCurrentPlan.setPlanTitle(adventureTitle);
-    }
 
-    /**
-     * User does not want to
-     */
-    public void addPersonalSquadToPlan() {
-        //TODO - ask Guil if controlling view should be in the presenter or in the activity
+        //Retrieve list of squads for list
         mUserApi.retrieveCurrentUser(this);
     }
 
@@ -56,8 +52,16 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
     @Override
     public void onRetrieveCurrentUser(User user) {
         //Local user was retrieved successfully, continue with making a plan for them
-        //Get user's personal squad and set plan to it
-        String userSquadId = user.getUserSquadId();
+        mCurrentUser = user;
+        //mView.hideLoadingIcon
+    }
+
+    /**
+     * User does not want to adenture with a squad
+     */
+    public void addPersonalSquadToPlan() {
+        //TODO - ask Guil if controlling view should be in the presenter or in the activityString userSquadId = user.getUserSquadId();
+        String userSquadId = mCurrentUser.getUserSquadId();
         if (userSquadId != null && !userSquadId.isEmpty()) {
             //Set squad ID correctly
             mCurrentPlan.setSquadId(userSquadId);
@@ -71,11 +75,20 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
     }
 
     /**
-     * Used when user has selected a squad for the plan to be added to
+     * Used when user wants to adventure with a particular squad
      * @param squadId
      */
     public void addSquadToPlan(String squadId) {
-
+        if (squadId != null && !squadId.isEmpty()) {
+            //Set squad ID correctly
+            mCurrentPlan.setSquadId(squadId);
+            //Move view on to next page
+            mView.onAddSquadToPlan();
+        } else {
+            //User does not have a squad ID, need to create their personal squad for adventuring
+            //ERROR - issue because there's no personal squad ID, should have been made in in user registration
+            mView.displayMessage("Error - your user wasn't set up properly with a personal squad");
+        }
     }
 
     public void addDateToPlan(long date) {

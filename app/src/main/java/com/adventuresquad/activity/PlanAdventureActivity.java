@@ -22,6 +22,7 @@ import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
+import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.interfaces.PresentablePlanView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.PlanPresenter;
@@ -29,7 +30,7 @@ import com.adventuresquad.presenter.PlanPresenter;
 import java.util.Date;
 import java.util.List;
 
-public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
+public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView, PresentableListView<Squad> {
 
     //Constants
     public static final String ADVENTURE_DETAIL_ID = "ADVENTURE_DETAIL_ID";
@@ -138,6 +139,16 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         finish();
     }
 
+    @Override
+    public void addListItem(Squad item) {
+
+    }
+
+    @Override
+    public void updateList(List<Squad> itemList) {
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -168,7 +179,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
                     return PlanDateFragment.newInstance(position);
                 default:
                     Log.w(PLAN_ADVENTURE_DEBUG, "Plan FragmentPagerAdapter tried to make a fragment out of bounds at position " + position);
-                    return PlaceholderFragment.newInstance(position, R.layout.fragment_plan_adventure_date);
+                    //return PlaceholderFragment.newInstance(position, R.layout.fragment_plan_adventure_date);
+                    return null;
             }
         }
 
@@ -200,53 +212,5 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         private void setCurrentSectionPosition(int currentSectionPosition) {
             this.currentSectionPosition = currentSectionPosition;
         }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     * TODO - remove this, and fully replace with your own fragment system.
-     * This should only be a temporary thing.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        private static final String ARG_FRAGMENT_TO_LOAD = "fragment_to_load";
-
-        private static Button mButton;
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber, int fragmentToLoad) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            args.putInt(ARG_FRAGMENT_TO_LOAD, fragmentToLoad);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            //Inflates the specified fragment
-            View rootView = inflater.inflate(getArguments().getInt(ARG_FRAGMENT_TO_LOAD), container, false);
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-//        NOTE: DEPRECATED, try something different
-//        @Override
-//        public void onAttach(Activity activity) {
-//
-//        }
-
     }
 }

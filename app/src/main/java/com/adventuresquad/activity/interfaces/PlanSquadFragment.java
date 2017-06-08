@@ -15,14 +15,17 @@ import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.SquadsAdapter;
+import com.adventuresquad.interfaces.PresentableListView;
+import com.adventuresquad.model.Squad;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Fragment for the squad list
  * Created by Harrison on 2/06/2017.
  */
-public class PlanSquadFragment extends Fragment implements View.OnClickListener, PlanFragment, ItemClickSupport.OnItemClickListener {
+public class PlanSquadFragment extends Fragment implements View.OnClickListener, PresentableListView<Squad>,PlanFragment, ItemClickSupport.OnItemClickListener {
     //Fields
     //Number that this fragment is in in the list of fragments
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -114,7 +117,7 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
         //TODO - should update the currently selected squad
-        //TODO - need to add stuff in Activity and Presenter to get the list into here
+        //TODO - need to add stuff in Activity and Presenter to get the list into hereeh
     }
 
     /**
@@ -159,6 +162,21 @@ public class PlanSquadFragment extends Fragment implements View.OnClickListener,
     @Override
     public long getDate() {
         return 0;
+    }
+
+    @Override
+    public void displayMessage(String errorMessage) {
+        //No method to do so currently
+    }
+
+    @Override
+    public void addListItem(Squad item) {
+        mAdapter.addItem(item);
+    }
+
+    @Override
+    public void updateList(List<Squad> itemList) {
+        //No method to do so currently
     }
 
     /*

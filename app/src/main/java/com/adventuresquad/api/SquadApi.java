@@ -112,6 +112,7 @@ public class SquadApi {
 
     /**
      * Adds a given plan to a Squad (the one that is referred to in the plan)
+     * TODO - refactor to use new FireBase list & linking structure
      * @param plan The plan (with populated IDs)
      */
     public void addPlanToSquad(Plan plan, final SquadApiPresenter callback) {
