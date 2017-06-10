@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.interfaces.PlanDateFragment;
@@ -101,12 +102,10 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
 
         //Converting from zero-indexed to compare if it's the last fragment in the set
         if ((currentSection + 1) < totalSections) {
+            //User has finished squad selection fragment
             String squadId = planFragment.getSquadId();
-
-            //mPresenter.addPersonalSquadToPlan();
             mPresenter.addSquadToPlan(squadId);
-            //TODO - this may break if plan completion starts before add personal squad is done
-            //NOTE - should probably change this to use names instead of numbers
+            displayMessage("Assigned squad to plan: " + squadId);
             mViewPager.setCurrentItem(currentSection + 1);
         } else {
             //Fragment was the last one, add date to plan and complete plan
@@ -128,7 +127,8 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
 
     @Override
     public void displayMessage(String errorMessage) {
-
+        Toast.makeText(this, errorMessage,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

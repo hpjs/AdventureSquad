@@ -128,7 +128,15 @@ public class PlanSquadFragment extends Fragment
     @Override
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
         //TODO - should update the currently selected squad
-        //TODO - need to add stuff in Activity and Presenter to get the list into hereeh
+        //TODO - need to add stuff in Activity and Presenter to get the list into here
+
+        //onItemCLicked should pass to the presenter
+        //The presenter then handles which list item is clicked or not??
+
+        Squad selectedSquad = mAdapter.getListItem(position);
+        //Sets the selected item on adapter and gets whether it is now selected or not
+        boolean itemSelected = mAdapter.itemSelected(position);
+        mPresenter.squadSelected(selectedSquad, itemSelected);
     }
 
     @Override
@@ -145,11 +153,7 @@ public class PlanSquadFragment extends Fragment
      * Next button clicked,
      */
     public void onNextButtonClick() {
-        //TODO - if no squad selected, should set squad to be personal squad here (using presenter)
-
         mPresenter.completeFragment();
-        //completeFragment();
-
     }
 
     /**
@@ -168,7 +172,7 @@ public class PlanSquadFragment extends Fragment
     }
 
     /**
-     * Retrieve the user's selected squad in the list
+     * Retrieve the user's selected squad in the list (returns user's squad if none selected)
      * @return The user's selected squad to make this plan for
      */
     @Override

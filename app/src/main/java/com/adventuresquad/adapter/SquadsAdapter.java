@@ -29,19 +29,22 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
     final private GlideRequests mGlideRequests;
     private GlideRequest<Drawable> fullRequest;
 
-    public class SquadViewHolder extends RecyclerView.ViewHolder {
-        TextView mSquadName, mSquadDetails;
-        ImageView mSquadImage;
+    private int mSelectedListItem = -1;
 
+    public class SquadViewHolder extends RecyclerView.ViewHolder {
+
+        TextView mSquadName, mSquadDetails;
+        ImageView mSquadImage, mSelectedImage;
         public SquadViewHolder(View view) {
             super(view);
             //Set up the view classes with view.findViewById here
             mSquadName = (TextView) view.findViewById(R.id.squad_name);
             mSquadDetails = (TextView) view.findViewById(R.id.squad_details);
             mSquadImage = (ImageView) view.findViewById(R.id.squad_image);
+            mSelectedImage = (ImageView) view.findViewById(R.id.squad_image_selected);
         }
-    }
 
+    }
     /**
      * CONSTRUCTOR
      * @param activityContext The context of the activity that holds the recyclerview
@@ -83,6 +86,27 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
         notifyItemInserted(newIndex);
     }
 
+    /**
+     * Toggles the selection of an item, and returns whether it was selected or unselected
+     * @param position
+     * @return True if selection changed, false if none selected after this method
+     */
+    public boolean itemSelected(int position) {
+        //Update the previously selected one
+        int previouslySelected = mSelectedListItem;
+        if (previouslySelected == position) {
+            //Same squad was selected, deselect
+            mSelectedListItem = -1;
+        } else {
+            mSelectedListItem = position;
+            notifyItemChanged(previouslySelected);
+        }
+        notifyItemChanged(position);
+
+        //Returns true if new one selected, false if none selected
+        return mSelectedListItem <= -1;
+    }
+
     public void clearData() {
         int listSize = mSquadList.size();
         mSquadList.clear(); //clear list
@@ -102,12 +126,18 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
         //Get current squad item
         Squad squad = getListItem(position);
 
-        //Load image
+        if (mSelectedListItem == position) {
+            //Show the selected item instead of the normal squad image
+            holder.mSelectedImage.setVisibility(View.VISIBLE);
+        } else {
+            holder.mSelectedImage.setVisibility(View.INVISIBLE);
+        }
+
         //TODO - add proper images to Squads
         /*fullRequest
                 .load(squad.getSquadImageUrl())
                 .into(holder.mImage);*/
-            //Hide loading icon on complete?
+        //Hide loading icon on complete?
 
         //Populate view with text
         holder.mSquadName.setText(squad.getSquadName());
@@ -127,7 +157,7 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
      * @param position The position
      * @return The item at the position
      */
-    private Squad getListItem(int position) {
+    public Squad getListItem(int position) {
         return mSquadList.get(position);
     }
 

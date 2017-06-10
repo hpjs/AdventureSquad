@@ -5,8 +5,6 @@ import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.interfaces.PresentableListFragment;
-import com.adventuresquad.interfaces.PresentableListView;
-import com.adventuresquad.interfaces.PresentablePlanSquadView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.model.User;
 
@@ -25,7 +23,7 @@ public class PlanSquadPresenter {
     private UserApi mUserApi;
     private StorageApi mStorageApi;
     private User mCurrentUser;
-    private String selectedSquadId;
+    private String mSelectedSquadId;
 
     public PlanSquadPresenter(PresentableListFragment<Squad> view, SquadApi squadApi, UserApi userApi, StorageApi storageApi) {
         mView = view;
@@ -96,17 +94,34 @@ public class PlanSquadPresenter {
     }
 
     public void completeFragment() {
-        //TODO - perform check if squad id is null/empty.
+        //If no squad was selected, then return the User's personal squad
+        if (mSelectedSquadId == null || mSelectedSquadId.isEmpty()) {
+            mSelectedSquadId = mCurrentUser.getUserSquadId();
+        }
         //If squadId null/empty, then get personal squad ID. Otherwise, return what you've got.
         mView.onCompleteFragment();
     }
 
+    /**
+     * Sets the currently selected squad
+     * @param squad The squad that was just clicked
+     * @param itemSelected Whether the item was selected (true) or deselected (false)
+     */
+    public void squadSelected(Squad squad, boolean itemSelected) {
+        if (itemSelected) {
+            //Item selected, set the squad to the selected squad
+            setSelectedSquadId(squad.getSquadId());
+        } else {
+            //Item deselected, set the squad to the user's personal squad
+            setSelectedSquadId(mCurrentUser.getUserSquadId());
+        }
+    }
 
     public String getSelectedSquadId() {
-        return selectedSquadId;
+        return mSelectedSquadId;
     }
 
     public void setSelectedSquadId(String selectedSquadId) {
-        this.selectedSquadId = selectedSquadId;
+        this.mSelectedSquadId = selectedSquadId;
     }
 }
