@@ -2,44 +2,46 @@ package com.adventuresquad.presenter;
 
 import android.net.Uri;
 
-import com.adventuresquad.api.interfaces.RetrieveDataRequest;
-import com.adventuresquad.api.SquadApi;
-import com.adventuresquad.api.UserApi;
-import com.adventuresquad.interfaces.PresentableListView;
-import com.adventuresquad.interfaces.PresentablePlanListView;
+import com.adventuresquad.activity.MyPlansActivity;
+import com.adventuresquad.activity.MyPlansFragment;
 import com.adventuresquad.api.PlanApi;
+import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.StorageApi;
+import com.adventuresquad.api.UserApi;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.PlanApiListPresenter;
-import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Presenter for mytrips list of trips / plans
- * Created by Harrison on 4/06/2017.
+ * Presents a list of plans to the view
+ * Created by Harrison on 11/06/2017.
  */
-public class MyTripsPresenter implements StorageApiPresenter {
+public class MyPlansFragmentPresenter {
 
-    //Dependencies
-    private PresentableListView<Plan> mView;
+    private MyPlansFragment mView;
+    private MyPlansActivity.MyTripsPage mPageType;
     private StorageApi mStorageApi;
     private PlanApi mPlanApi;
     private UserApi mUserApi;
     private SquadApi mSquadApi;
 
     //Data
-    private List<Plan> mPlanList = new ArrayList<>();
+    //private List<Plan> mPlanList = new ArrayList<>();
     private User mCurrentUser;
 
-    public MyTripsPresenter(PresentableListView<Plan> view,
-                            PlanApi planApi,
-                            StorageApi storageApi,
-                            UserApi userApi,
-                            SquadApi squadApi) {
+    public MyPlansFragmentPresenter(MyPlansFragment view,
+                                    MyPlansActivity.MyTripsPage pageType,
+                                    PlanApi planApi,
+                                    StorageApi storageApi,
+                                    UserApi userApi,
+                                    SquadApi squadApi) {
         mView = view;
+        mPageType = pageType;
+
+        //Start retrieving list items as necessary
         mStorageApi = storageApi;
         mPlanApi = planApi;
         mUserApi = userApi;
@@ -139,7 +141,7 @@ public class MyTripsPresenter implements StorageApiPresenter {
      * @param plan
      */
     public void displayPlan(Plan plan) {
-        mPlanList.add(plan);
+        //mPlanList.add(plan);
         mView.addListItem(plan);
     }
 }

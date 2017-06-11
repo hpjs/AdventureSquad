@@ -13,6 +13,7 @@ import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.PlansAdapter;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
+import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.interfaces.PresentablePlanListView;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.StorageApi;
@@ -25,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyTripsActivity extends AppCompatActivity implements PresentablePlanListView, ItemClickSupport.OnItemClickListener {
+public class MyTripsActivity extends AppCompatActivity implements PresentableListView<Plan>, ItemClickSupport.OnItemClickListener {
 
     MyTripsPresenter mPresenter;
     private PlansAdapter mPlansAdapter;
@@ -79,13 +80,13 @@ public class MyTripsActivity extends AppCompatActivity implements PresentablePla
      * @param planList The updated list of plans for the recycler view
      */
     @Override
-    public void updatePlanList(List<Plan> planList) {
+    public void updateList(List<Plan> planList) {
         mPlansAdapter.setPlanList(planList);
         mPlansAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void addPlanToList(Plan plan) {
+    public void addListItem(Plan plan) {
         mPlansAdapter.addItem(plan);
     }
 

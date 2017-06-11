@@ -128,14 +128,10 @@ public class PlanSquadFragment extends Fragment
      */
     @Override
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-        //TODO - should update the currently selected squad
-        //TODO - need to add stuff in Activity and Presenter to get the list into here
-
-        //onItemCLicked should pass to the presenter
-        //The presenter then handles which list item is clicked or not??
-
+        //Gets the selected squad item from the list adapter
         Squad selectedSquad = mAdapter.getListItem(position);
-        //Sets the selected item on adapter and gets whether it is now selected or not
+
+        //Sets the selected item on adapter and updates the presenter with selection
         boolean itemSelected = mAdapter.itemSelected(position);
         mPresenter.squadSelected(selectedSquad, itemSelected);
     }
