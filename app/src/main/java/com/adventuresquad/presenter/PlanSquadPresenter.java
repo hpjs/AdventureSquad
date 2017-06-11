@@ -1,5 +1,6 @@
 package com.adventuresquad.presenter;
 
+import com.adventuresquad.api.ListHelper;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.api.UserApi;
@@ -11,6 +12,8 @@ import com.adventuresquad.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.adventuresquad.api.ListHelper.toList;
 
 /**
  * Presents a list of squads that is selectable for a plan
@@ -57,25 +60,12 @@ public class PlanSquadPresenter {
     }
 
     /**
-     * used for converting 'firebase' IDs into a more easily understandable list of strings
-     * @param map
-     * @return
-     */
-    private List<String> idMapToStringList(Map<String, Boolean> map) {
-        List<String> idList = new ArrayList<>();
-        for (String key : map.keySet()) {
-            idList.add(key);
-        }
-        return idList;
-    }
-
-    /**
      * Retrieve a list of Squad IDs that this user has.
      * @param user
      */
     private void retrieveSquads(User user) {
         if (user.getUserSquads() != null) {
-            List<String> userSquads = idMapToStringList(user.getUserSquads());
+            List<String> userSquads = toList(user.getUserSquads());
             mSquadApi.retrieveSquadList(userSquads, new RetrieveDataRequest<Squad>() {
                 @Override
                 public void onRetrieveData(Squad data) {

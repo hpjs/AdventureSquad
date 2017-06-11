@@ -20,6 +20,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -181,11 +182,13 @@ public class SquadApi {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Set up data type to read a list of string from Firebase
-                GenericTypeIndicator<List<String>> stringList
-                        = new GenericTypeIndicator<List<String>>() {};
-
-                List<String> squadPlans = dataSnapshot.getValue(stringList);
-                callback.onRetrieveData(squadPlans);
+                //This is because it can't marshal straight into a collection properly
+                GenericTypeIndicator<HashMap<String, Boolean>> stringList
+                        = new GenericTypeIndicator<HashMap<String, Boolean>>() {};
+                //Retrieve data from snapshot
+                HashMap<String, Boolean> squadPlans = dataSnapshot.getValue(stringList);
+                //Convert to list of IDs and start retrieving them
+                callback.onRetrieveData(ListHelper.toList(squadPlans));
             }
 
             @Override

@@ -61,35 +61,12 @@ public class MyPlansActivity extends AppCompatActivity {
         TabLayout mTabLayout = (TabLayout)findViewById(R.id.my_plans_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        //Initialise navbar
+        new NavbarHelper(this, R.id.navigation_myTrips);
+
         //Initialise presenter
 
     }
-
-//    private void initialiseTabView() {
-//        // Create a tab listener that is called when the user changes tabs.
-//        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-//            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // show the given tab
-//            }
-//
-//            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // hide the given tab
-//            }
-//
-//            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // probably ignore this event
-//            }
-//        };
-//
-//        // Add 3 tabs, specifying the tab's text and TabListener
-//        for (int i = 0; i < 3; i++) {
-//            actionBar.addTab(
-//                    actionBar.newTab()
-//                            .setText("Tab " + (i + 1))
-//                            .setTabListener(tabListener));
-//        }
-//
-//    }
 
     //Potentially don't need.
     @Override
@@ -138,9 +115,9 @@ public class MyPlansActivity extends AppCompatActivity {
                     return MyPlansFragment.newInstance(position+1, MyTripsPage.PERSONAL);
                 case 2:
                     return MyPlansFragment.newInstance(position+1, MyTripsPage.SQUAD);
+                default:
+                    return null;
             }
-
-            return MyPlansFragment.newInstance(position + 1, MyTripsPage.ALL);
         }
 
         @Override

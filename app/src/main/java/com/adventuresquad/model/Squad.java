@@ -15,7 +15,7 @@ public class Squad {
     private String mSquadName;
     //private List<String> mSquadUsers;
     private Map<String, Boolean> mSquadUsers = new HashMap<>();;
-    private List<String> mSquadPlans;
+    private Map<String, Boolean> mSquadPlans;
 
     /**
      * Empty constructor (for FireBase / other marshal & unmarshalling)
@@ -54,11 +54,11 @@ public class Squad {
         mSquadUsers.put(userId, true);
     }
 
-    public List<String> getSquadPlans() {
+    public Map<String, Boolean> getSquadPlans() {
         return mSquadPlans;
     }
 
-    public void setPlans(List<String> squadPlans) {
+    public void setPlans(Map<String, Boolean> squadPlans) {
         mSquadPlans = squadPlans;
     }
 }

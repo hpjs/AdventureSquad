@@ -46,6 +46,8 @@ public class MyPlansFragmentPresenter {
         mPlanApi = planApi;
         mUserApi = userApi;
         mSquadApi = squadApi;
+
+        retrievePlans();
     }
 
     /**
