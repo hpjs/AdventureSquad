@@ -3,6 +3,7 @@ package com.adventuresquad.presenter;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
+import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.interfaces.PresentablePlanView;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
@@ -14,7 +15,7 @@ import com.adventuresquad.presenter.interfaces.UserApiPresenter;
  * Presenter for the PlanAdventure activity
  * Created by Harrison on 2/06/2017.
  */
-public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadApiPresenter {
+public class PlanPresenter implements PlanApiPresenter {
     private PresentablePlanView mView;
     private PlanApi mPlanApi;
     private UserApi mUserApi;
@@ -42,18 +43,6 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
         mCurrentPlan.setPlanTitle(adventureTitle);
 
         //Retrieve list of squads for list
-        mUserApi.retrieveCurrentUser(this);
-    }
-
-    /**
-     * Retrieves current user and adds their personal squad to the plan
-     * @param user
-     */
-    @Override
-    public void onRetrieveCurrentUser(User user) {
-        //Local user was retrieved successfully, continue with making a plan for them
-        mCurrentUser = user;
-        //mView.hideLoadingIcon
     }
 
     /**
@@ -84,81 +73,26 @@ public class PlanPresenter implements PlanApiPresenter, UserApiPresenter, SquadA
      */
     public void createPlan() {
         //TODO - Show loading icon on view
-        //Start creation with the API
-        mPlanApi.createPlan(mCurrentPlan, this);
+        //Creates a plan & adds it to the
+        mPlanApi.createPlan(mCurrentPlan, new StoreDataRequest<Plan>(){
+            //Plan creation is complete
+            @Override
+            public void onStoreData(Plan data) {
+                onCompletePlanCreation(data);
+            }
+
+            //Couldn't create plan or assign it to squad
+            @Override
+            public void onStoreDataFail(Exception e) {
+                mView.displayMessage("Couldn't create plan.");
+            }
+        });
     }
 
     @Override
     public void onCompletePlanCreation(Plan plan) {
         //TODO - hide loading icon
         mCurrentPlan = plan;
-        mSquadApi.addPlanToSquad(plan, this);
-    }
-
-    @Override
-    public void onAddPlanToSquad() {
-        //FINALLY the flow is finished,
-        //mCurrentPlan = null;
-
         mView.completePlanCreation();
-    }
-
-    @Override
-    public void onCreatePlanFail(Exception e) {
-        mView.displayMessage(e.toString());
-    }
-
-    /**
-     * Current user was retrieved from the database
-     * @param exception The exception of this particular failure
-     */
-    @Override
-    public void onRetrieveCurrentUserFail(Exception exception) {
-
-    }
-
-    @Override
-    public void onUpdateUserSquad() {
-
-    }
-
-    @Override
-    public void onUpdateUserSquadFail() {
-
-    }
-
-    @Override
-    public void onAddUser() {
-
-    }
-
-    @Override
-    public void onAddUserFail(Exception e) {
-
-    }
-
-    @Override
-    public void createSquad() {
-
-    }
-
-    @Override
-    public void onCreateSquad() {
-
-    }
-
-    @Override
-    public void onCreateSquadFail(Exception e) {
-
-    }
-
-    @Override
-    public void retrieveSquads() {
-
-    }
-
-    @Override
-    public void onRetrieveSquads() {
-
     }
 }

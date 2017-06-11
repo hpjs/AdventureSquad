@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.PlanAdventureActivity;
@@ -191,7 +192,9 @@ public class PlanSquadFragment extends Fragment
 
     @Override
     public void displayMessage(String errorMessage) {
-        //No method to do so currently
+        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+//        SwipeFragmentHolder parent = (SwipeFragmentHolder)getActivity();
+//        parent.displayMessage(errorMessage);
     }
 
     @Override

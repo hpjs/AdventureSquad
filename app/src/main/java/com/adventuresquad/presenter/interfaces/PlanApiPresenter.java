@@ -19,11 +19,4 @@ public interface PlanApiPresenter {
      */
     public void onCompletePlanCreation(Plan plan);
 
-    /**
-     * Called when a plan could not be made
-     * @param e The exception that occurred
-     */
-    void onCreatePlanFail(Exception e);
-
-    void onRetrieveCurrentUserFail(Exception exception);
 }

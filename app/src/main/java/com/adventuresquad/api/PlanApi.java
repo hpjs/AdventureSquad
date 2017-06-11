@@ -3,6 +3,7 @@ package com.adventuresquad.api;
 import android.support.annotation.NonNull;
 
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
+import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +37,7 @@ public class PlanApi {
      * @param plan
      * @param callback
      */
-    public void createPlan(final Plan plan, final PlanApiPresenter callback) {
+    public void createPlan(final Plan plan, final StoreDataRequest<Plan> callback) {
         DatabaseReference mNewPlanRef = mPlansData.push();
         final String planId = mNewPlanRef.getKey();
         plan.setPlanId(planId);
@@ -46,12 +47,43 @@ public class PlanApi {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    callback.onCompletePlanCreation(plan);
+                //Plan creation was successful, now add this plan to the squad
+                    addPlanToSquad(plan, new StoreDataRequest<Plan>() {
+                        @Override
+                        public void onStoreData(Plan data) {
+                            callback.onStoreData(data);
+                        }
+                        @Override
+                        public void onStoreDataFail(Exception e) {
+                            callback.onStoreDataFail(e);
+                        }
+                    });
                 } else {
-                    callback.onCreatePlanFail(task.getException());
+                    callback.onStoreDataFail(task.getException());
                 }
             }
         });
+    }
+
+    /**
+     * Adds a created plan to the squad listed in the plan
+     * @param plan
+     * @param callback
+     */
+    private void addPlanToSquad(final Plan plan, final StoreDataRequest<Plan> callback) {
+        //Gets the correct reference to the squad plan section
+        DatabaseReference mSquadPlanRef = mDatabaseInstance.getReference("squads/" + plan.getSquadId() + "/squadPlans/" + plan.getPlanId());
+        mSquadPlanRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    callback.onStoreData(plan);
+                } else {
+                    callback.onStoreDataFail(task.getException());
+                }
+            }
+        });
+
     }
 
     /**

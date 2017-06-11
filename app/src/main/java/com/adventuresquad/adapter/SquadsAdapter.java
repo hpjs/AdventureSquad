@@ -89,7 +89,7 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
     /**
      * Toggles the selection of an item, and returns whether it was selected or unselected
      * @param position
-     * @return True if selection changed, false if none selected after this method
+     * @return True if there is one selected, false if none selected after this method
      */
     public boolean itemSelected(int position) {
         //Update the previously selected one
@@ -103,8 +103,8 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
         }
         notifyItemChanged(position);
 
-        //Returns true if new one selected, false if none selected
-        return mSelectedListItem <= -1;
+        //Returns true if one is selected, false if none selected
+        return mSelectedListItem > -1;
     }
 
     public void clearData() {

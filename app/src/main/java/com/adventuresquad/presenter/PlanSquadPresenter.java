@@ -110,9 +110,11 @@ public class PlanSquadPresenter {
     public void squadSelected(Squad squad, boolean itemSelected) {
         if (itemSelected) {
             //Item selected, set the squad to the selected squad
+            mView.displayMessage("Squad selected: " + squad.getSquadId());
             setSelectedSquadId(squad.getSquadId());
         } else {
             //Item deselected, set the squad to the user's personal squad
+            mView.displayMessage("Squad DEselected, using user squad: " + mCurrentUser.getUserSquadId());
             setSelectedSquadId(mCurrentUser.getUserSquadId());
         }
     }
