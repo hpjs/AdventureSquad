@@ -58,11 +58,17 @@
             android:name=".activity.TripDetailsActivity"
             android:label="@string/title_activity_trip_details">
         </activity>
-        <activity android:name=".activity.AddAdventureActivity"
-                  android:label="@string/title_activity_add_adventure">
+        <activity
+            android:name=".activity.AddAdventureActivity"
+            android:label="@string/title_activity_add_adventure">
         </activity>
-        <activity android:name=".activity.SquadsActivity"
-                  android:label="@string/title_activity_squads">
+        <activity
+            android:name=".activity.SquadsActivity"
+            android:label="@string/title_activity_squads">
+        </activity>
+        <activity
+            android:name=".activity.MyPlansActivity"
+            android:label="@string/title_activity_my_trips">
         </activity>
     </application>
 
