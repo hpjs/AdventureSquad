@@ -84,8 +84,9 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
      */
     @Override
     public void onItemClicked(Plan object, int position) {
-        //Intent planDetail = new Intent(this, PlanDetailActivity.class);
+        Intent planDetail = new Intent(this, PlanDetailActivity.class);
         //planDetail.putExtra()
+        startActivity(planDetail);
     }
 
     /**
