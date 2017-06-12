@@ -75,7 +75,7 @@ public class PlanApi {
      */
     private void addPlanToSquad(final Plan plan, final StoreDataRequest<Plan> callback) {
         //Gets the correct reference to the squad plan section
-        DatabaseReference mSquadPlanRef = mDatabaseInstance.getReference("squads/" + plan.getSquadId() + "/userSquadPlans/" + plan.getPlanId());
+        DatabaseReference mSquadPlanRef = mDatabaseInstance.getReference("squads/" + plan.getSquadId() + "/squadPlans/" + plan.getPlanId());
         mSquadPlanRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -137,7 +137,7 @@ public class PlanApi {
      * @return
      */
     private Task<Void> addPlanToUser(String planId, String userId) {
-        DatabaseReference userPlansRef = mDatabaseInstance.getReference("users/" + userId + "/squadPlans/" + planId);
+        DatabaseReference userPlansRef = mDatabaseInstance.getReference("users/" + userId + "/userSquadPlans/" + planId);
         return userPlansRef.setValue(true);
     }
 
@@ -158,8 +158,12 @@ public class PlanApi {
                 //Retrieve plans from snapshot
                 //List<Task<Plan>> retrievePlanTasks = new ArrayList<>();
                 HashMap<String, Boolean> squadPlans = dataSnapshot.getValue(stringList);
-                for (String planId : ListHelper.toList(squadPlans)) {
-                    retrievePlan(planId, callback);
+                if (squadPlans != null) {
+                    for (String planId : ListHelper.toList(squadPlans)) {
+                        retrievePlan(planId, callback);
+                    }
+                } else {
+                    callback.onRetrieveDataFail(new RetrieveDataRequest.NoDataException("This user doesn't have any plans!"));
                 }
                 //callback.onRetrieveData();
             }

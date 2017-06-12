@@ -40,7 +40,7 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
     private static final String ARG_PAGE_TYPE = "page_type";
 
     //The variables that correspond to the arguments above
-    private MyPlansActivity.MyTripsPage mPageType;
+    private MyPlansActivity.PlansType mPageType;
     private int mSectionNumber;
 
     //The recyclerview of trips and it's adapter
@@ -52,7 +52,7 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MyPlansFragment newInstance(int sectionNumber, MyPlansActivity.MyTripsPage pageType) {
+    public static MyPlansFragment newInstance(int sectionNumber, MyPlansActivity.PlansType pageType) {
         MyPlansFragment fragment = new MyPlansFragment();
         Bundle args = new Bundle();
 
@@ -70,7 +70,7 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         super.onCreate(savedInstanceState);
 
         //Take instance arguments and put them into the current fragment object
-
+        mPageType = (MyPlansActivity.PlansType)getArguments().getSerializable(ARG_PAGE_TYPE);
     }
 
     @Override

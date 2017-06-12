@@ -21,7 +21,7 @@ public class User {
     private Map<String, Boolean> mUserSquads = new HashMap<>();
 
     //List of all plans for squads that a user is a part of
-    private List<String> mSquadPlans;
+    private Map<String, Boolean> mUserSquadPlans = new HashMap<>();
 
 
     /**
@@ -92,11 +92,11 @@ public class User {
     //public void setUserSquads(List<String> userSquads) { mUserSquads = userSquads; }
     public void setUserSquads(Map<String, Boolean> userSquads) { mUserSquads = userSquads; }
 
-    public List<String> getSquadPlans() {
-        return mSquadPlans;
+    public Map<String, Boolean> getUserSquadPlans() {
+        return mUserSquadPlans;
     }
 
-    public void setSquadPlans(List<String> squadPlans) {
-        mSquadPlans = squadPlans;
+    public void setUserSquadPlans(Map<String, Boolean> squadPlans) {
+        mUserSquadPlans = squadPlans;
     }
 }

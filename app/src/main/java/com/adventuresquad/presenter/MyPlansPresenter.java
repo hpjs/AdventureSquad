@@ -85,7 +85,7 @@ public class MyPlansPresenter {
 
             @Override
             public void onRetrieveDataFail(Exception e) {
-
+                mView.displayMessage(e.getMessage());
             }
         });
     }

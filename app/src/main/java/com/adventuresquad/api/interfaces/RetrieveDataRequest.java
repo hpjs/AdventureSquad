@@ -7,4 +7,16 @@ package com.adventuresquad.api.interfaces;
 public interface RetrieveDataRequest<Type> {
     public void onRetrieveData(Type data);
     public void onRetrieveDataFail(Exception e);
+
+    /**
+     * Provides a custom exception for when no data is found
+     */
+    class NoDataException extends Exception {
+        public NoDataException(){ super(); }
+        public NoDataException(String message) {
+            super(message);
+        }
+        public NoDataException(Throwable cause) { super(cause); }
+        public NoDataException(String message, Throwable cause) { super(message, cause); }
+    }
 }
