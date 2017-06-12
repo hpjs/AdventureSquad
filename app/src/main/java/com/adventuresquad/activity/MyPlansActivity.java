@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.adventuresquad.R;
+import com.adventuresquad.activity.interfaces.ListFragmentHolder;
+import com.adventuresquad.model.Plan;
 
-public class MyPlansActivity extends AppCompatActivity {
+public class MyPlansActivity extends AppCompatActivity implements ListFragmentHolder<Plan> {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -72,6 +75,17 @@ public class MyPlansActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Allows plan objects to be clicked, then goes to plan details page
+     * @param object
+     * @param position
+     */
+    @Override
+    public void onItemClicked(Plan object, int position) {
+        //Intent planDetail = new Intent(this, PlanDetailActivity.class);
+        //planDetail.putExtra()
     }
 
     /**

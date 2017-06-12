@@ -55,10 +55,6 @@
             android:label="@string/title_activity_my_trips">
         </activity>
         <activity
-            android:name=".activity.TripDetailsActivity"
-            android:label="@string/title_activity_trip_details">
-        </activity>
-        <activity
             android:name=".activity.AddAdventureActivity"
             android:label="@string/title_activity_add_adventure">
         </activity>
@@ -69,6 +65,11 @@
         <activity
             android:name=".activity.MyPlansActivity"
             android:label="@string/title_activity_my_trips"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.PlanDetailActivity"
+            android:label="@string/title_activity_plan_detail"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

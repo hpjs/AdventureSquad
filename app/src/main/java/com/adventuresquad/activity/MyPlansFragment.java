@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
+import com.adventuresquad.activity.interfaces.ListFragmentHolder;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.PlansAdapter;
 import com.adventuresquad.api.PlanApi;
@@ -121,6 +122,8 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         //TODO - call activity and notify that should navigate to trip details
         Plan selectedPlan = mAdapter.getListItem(position);
         //getActivity().navigatePlanDetail(selectedPlan);
+        ListFragmentHolder<Plan> parent = (ListFragmentHolder<Plan>)getActivity();
+        parent.onItemClicked(selectedPlan, position);
     }
 
     //region List view methods:
