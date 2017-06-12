@@ -5,15 +5,23 @@ import android.support.annotation.NonNull;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
+import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -43,21 +51,13 @@ public class PlanApi {
         plan.setPlanId(planId);
         //prepare callback method for when this task is complete
         //Set the actual data
+
         mNewPlanRef.setValue(plan).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                 //Plan creation was successful, now add this plan to the squad
-                    addPlanToSquad(plan, new StoreDataRequest<Plan>() {
-                        @Override
-                        public void onStoreData(Plan data) {
-                            callback.onStoreData(data);
-                        }
-                        @Override
-                        public void onStoreDataFail(Exception e) {
-                            callback.onStoreDataFail(e);
-                        }
-                    });
+                    addPlanToSquad(plan, callback);
                 } else {
                     callback.onStoreDataFail(task.getException());
                 }
@@ -72,18 +72,70 @@ public class PlanApi {
      */
     private void addPlanToSquad(final Plan plan, final StoreDataRequest<Plan> callback) {
         //Gets the correct reference to the squad plan section
-        DatabaseReference mSquadPlanRef = mDatabaseInstance.getReference("squads/" + plan.getSquadId() + "/squadPlans/" + plan.getPlanId());
+        DatabaseReference mSquadPlanRef = mDatabaseInstance.getReference("squads/" + plan.getSquadId() + "/userSquadPlans/" + plan.getPlanId());
         mSquadPlanRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    callback.onStoreData(plan);
+                    //callback.onStoreData(plan);
+                    //TODO - replace this 'new SquadApi' section with a better call
+                    addPlanToSquadUsers(plan, new SquadApi(), callback);
                 } else {
                     callback.onStoreDataFail(task.getException());
                 }
             }
         });
 
+    }
+
+    /**
+     * Retrieves a list of squad users and adds a plan to all of them
+     * @param plan The plan object to add to the users
+     * @param squadApi The squad API to use to retrieve the users
+     * @param callback The object to return to when the task is complete
+     */
+    private void addPlanToSquadUsers(final Plan plan, SquadApi squadApi, final StoreDataRequest<Plan> callback) {
+        List<String> squadUsers = new ArrayList<>();
+        squadApi.retrieveSquadUsers(plan.getSquadId(), new RetrieveDataRequest<List<String>>() {
+            @Override
+            public void onRetrieveData(List<String> data) {
+                //Set up a list of storage tasks to listen for when it's complete
+                List<Task<Void>> addPlanTasks = new ArrayList<>();
+
+                //Then go through each user, adding a plan to each one.
+                for (String userId : data) {
+                    addPlanTasks.add(addPlanToUser(plan.getPlanId(), userId));
+                }
+
+                //Listens for when the plan is stored on all users (or fails)
+                Tasks.whenAll(addPlanTasks).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onStoreData(plan);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onStoreDataFail(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onRetrieveDataFail(Exception e) { callback.onStoreDataFail(e); }
+        });
+    }
+
+    /**
+     * Stores a single plan on the user
+     * @param planId
+     * @param userId
+     * @return
+     */
+    private Task<Void> addPlanToUser(String planId, String userId) {
+        DatabaseReference userPlansRef = mDatabaseInstance.getReference("users/" + userId + "/squadPlans/" + planId);
+        return userPlansRef.setValue(true);
     }
 
     /**

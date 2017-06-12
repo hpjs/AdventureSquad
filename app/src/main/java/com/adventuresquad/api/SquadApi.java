@@ -12,6 +12,7 @@ import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -204,6 +206,7 @@ public class SquadApi {
      * @param callback Returns multiple single squad items as part of it's request.
      */
     public void retrieveSquadList(List<String> userSquadList, RetrieveDataRequest<Squad> callback) {
+        //List<Task> taskList = new LinkedList<>();
         for (String squadId : userSquadList) {
             retrieveSquad(squadId, callback);
         }
@@ -214,7 +217,14 @@ public class SquadApi {
      * @param squadId The squad to load
      * @param callback The object to notify when complete or failed
      */
-    public void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
+    private void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
+        //Set up retrieval to act like a task so we can use 'whenAll' for retrieving a list of squads
+        //TODO - Can keep working on retrieving as a task
+        /*
+        TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
+        Task dbTask = dbSource.getTask(); //Get the completion source as a task
+        */
+
         DatabaseReference squadRef = mSquadsData.child(squadId);
 
         squadRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -223,6 +233,36 @@ public class SquadApi {
                 //Marshall adventure into an adventure object
                 Squad retrievedSquad = dataSnapshot.getValue(Squad.class);
                 callback.onRetrieveData(retrievedSquad);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onRetrieveDataFail(databaseError.toException());
+            }
+        });
+    }
+
+    /**
+     * Retrieves a list of all user Ids that are in a particular squad
+     * @param squadId The squad to retrieve users for
+     * @param callback Where to return the data to once the retrieve task is complete
+     */
+    public void retrieveSquadUsers(String squadId, final RetrieveDataRequest<List<String>> callback) {
+        //Set up database ref
+        DatabaseReference squadRef = mSquadsData.child(squadId + "/squadUsers");
+        //Retrieve data from the db
+        squadRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Create generic type to more easily retrieve the data
+                GenericTypeIndicator<HashMap<String, Boolean>> idList
+                        = new GenericTypeIndicator<HashMap<String, Boolean>>() {};
+
+                //Retrieve data from snapshot
+                HashMap<String, Boolean> squadUsers = dataSnapshot.getValue(idList);
+
+                //Convert to list of IDs and start retrieving them
+                callback.onRetrieveData(ListHelper.toList(squadUsers));
             }
 
             @Override
