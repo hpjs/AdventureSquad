@@ -92,10 +92,6 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         //Set up click listener for individual list items in the recycler view
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(this);
 
-        //Set up text view with text (temporary only)
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
         //Set up fragment presenter
         switch(mPageType) {
             case PERSONAL:
