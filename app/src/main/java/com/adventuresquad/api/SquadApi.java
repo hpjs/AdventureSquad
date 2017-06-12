@@ -178,9 +178,9 @@ public class SquadApi {
      */
     public void retrievePlanList(String squadId, final RetrieveDataRequest<List<String>> callback) {
         //Uses the user's id to retrieve a specific user
-        DatabaseReference mUserRef = mSquadsData.child(squadId + "/squadPlans");
+        DatabaseReference userRef = mSquadsData.child(squadId + "/squadPlans");
         //Retrieve the plan list and return to callback when complete
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Set up data type to read a list of string from Firebase

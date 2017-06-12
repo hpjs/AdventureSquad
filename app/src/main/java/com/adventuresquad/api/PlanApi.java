@@ -12,15 +12,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,14 +142,71 @@ public class PlanApi {
     }
 
     /**
+     * Retrieves a list of a user's plans (no filtering of data applied)
+     * @param userId
+     * @param callback
+     */
+    public void retrieveUserPlanList(String userId, final RetrieveDataRequest<Plan> callback) {
+        DatabaseReference userPlansRef = mDatabaseInstance.getReference("users/" + userId + "/userSquadPlans");
+        userPlansRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Set up generic type to properly marshal FireBase list of plan IDs
+                GenericTypeIndicator<HashMap<String, Boolean>> stringList
+                        = new GenericTypeIndicator<HashMap<String, Boolean>>() {};
+                //Retrieve plans from snapshot
+                //List<Task<Plan>> retrievePlanTasks = new ArrayList<>();
+                HashMap<String, Boolean> squadPlans = dataSnapshot.getValue(stringList);
+                for (String planId : ListHelper.toList(squadPlans)) {
+                    retrievePlan(planId, callback);
+                }
+                //callback.onRetrieveData();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    //TODO - replace other instances of retrievePlan with this one
+    /**
+     * Retrieves a given plan as a retrieval Task to complete
+     * @param planId The string ID of the plan to retrieve
+     * @return A task that will be completed when the Plan is retrieved successfully
+     */
+    public Task<Plan> retrievePlanAsTask(String planId) {
+        final TaskCompletionSource<Plan> dbSource = new TaskCompletionSource<>();
+        Task dbTask = dbSource.getTask();
+
+        DatabaseReference planRef = mPlansData.child(planId);
+        planRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dbSource.setResult(dataSnapshot.getValue(Plan.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                dbSource.setException(databaseError.toException());
+            }
+        });
+
+        return dbTask;
+    }
+
+    /**
      * Retrieves a plan from the Firebase database
      * @param planId The ID of the specific plan to retrieve
      * @param callback The callback to refer back to when operation complete
      */
     public void retrievePlan(String planId, final RetrieveDataRequest<Plan> callback) {
-        DatabaseReference mPlanRef = mPlansData.child(planId);
+        DatabaseReference planRef = mPlansData.child(planId);
 
-        mPlanRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        planRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Marshall adventure into an adventure object
@@ -162,7 +222,7 @@ public class PlanApi {
     }
 
     /**
-     * Retrieves a given list of adventures from the online database
+     * Retrieves a given list of adventure plans from the online database
      * @param planIds The list of specific plan objects to get from the database
      * @param callback The request to return to when task complete
      */

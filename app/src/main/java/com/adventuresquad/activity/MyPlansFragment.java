@@ -18,10 +18,11 @@ import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.api.UserApi;
-import com.adventuresquad.interfaces.PresentableListFragment;
 import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.model.Plan;
-import com.adventuresquad.presenter.MyPlansFragmentPresenter;
+import com.adventuresquad.presenter.MyPlansPresenter;
+import com.adventuresquad.presenter.PersonalPlansPresenter;
+import com.adventuresquad.presenter.SquadPlansPresenter;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
     //The recyclerview of trips and it's adapter
     private RecyclerView mRecyclerView;
     private PlansAdapter mAdapter;
-    private MyPlansFragmentPresenter mPresenter;
+    private MyPlansPresenter mPresenter;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -96,8 +97,25 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
         //Set up fragment presenter
-        mPresenter = new MyPlansFragmentPresenter(this, mPageType,
-                new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+        switch(mPageType) {
+            case PERSONAL:
+                mPresenter = new PersonalPlansPresenter(this,
+                        new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+                break;
+            case SQUAD:
+                mPresenter = new SquadPlansPresenter(this,
+                        new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+                break;
+            case ALL:
+                mPresenter = new MyPlansPresenter(this,
+                        new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+                break;
+            default:
+                mPresenter = new MyPlansPresenter(this,
+                        new PlanApi(), new StorageApi(), new UserApi(), new SquadApi());
+                break;
+        }
+
 
         return rootView;
     }

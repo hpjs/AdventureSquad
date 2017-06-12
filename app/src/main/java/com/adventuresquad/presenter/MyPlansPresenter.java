@@ -19,27 +19,26 @@ import java.util.List;
  * Presents a list of plans to the view
  * Created by Harrison on 11/06/2017.
  */
-public class MyPlansFragmentPresenter {
+public class MyPlansPresenter {
 
     private MyPlansFragment mView;
-    private MyPlansActivity.MyTripsPage mPageType;
     private StorageApi mStorageApi;
     private PlanApi mPlanApi;
     private UserApi mUserApi;
     private SquadApi mSquadApi;
 
     //Data
-    //private List<Plan> mPlanList = new ArrayList<>();
-    private User mCurrentUser;
+    //Needs to be package-private to override in sub classes
+    User mCurrentUser;
 
-    public MyPlansFragmentPresenter(MyPlansFragment view,
-                                    MyPlansActivity.MyTripsPage pageType,
-                                    PlanApi planApi,
-                                    StorageApi storageApi,
-                                    UserApi userApi,
-                                    SquadApi squadApi) {
+    public MyPlansPresenter() {}
+
+    public MyPlansPresenter(MyPlansFragment view,
+                            PlanApi planApi,
+                            StorageApi storageApi,
+                            UserApi userApi,
+                            SquadApi squadApi) {
         mView = view;
-        mPageType = pageType;
 
         //Start retrieving list items as necessary
         mStorageApi = storageApi;
@@ -76,45 +75,29 @@ public class MyPlansFragmentPresenter {
      * Uses the user's personal squad object to retrieve a list of plan IDs from the squad db
      */
     public void retrieveUserPlanIds() {
-        String userSquadId = mCurrentUser.getUserSquadId();
-        //Retrieves a plan list from a squad
-        mSquadApi.retrievePlanList(userSquadId, new RetrieveDataRequest<List<String>>() {
+        mPlanApi.retrieveUserPlanList(mCurrentUser.getUserId(), new RetrieveDataRequest<Plan>() {
             @Override
-            public void onRetrieveData(List<String> planIdList) {
-                //Successfully retrieved list of plan IDs from user's squad
-                //Now use plan API to retrieve them one by one
-                if (planIdList != null && planIdList.size() > 0) {
-                    retrieveUserPlans(planIdList);
-                } else {
-                    //User doesn't have any plans
-                    mView.displayMessage("You don't have any plans to display!");
+            public void onRetrieveData(Plan data) {
+                if (filterMatch(data)) {
+                    retrievePlanImageUrl(data);
                 }
             }
 
             @Override
             public void onRetrieveDataFail(Exception e) {
-                mView.displayMessage("User plans error: " + e.toString());
+
             }
         });
     }
 
     /**
-     * Uses a list of planIds to retrieve a set of individual plans from the database
-     * Note: Retrieves multiple plans asynchronously (independent of each other)
+     * Checks if a plan matches a given filter condition (for displaying different lists of plans)
+     * Should be overridden in child classes
+     * @param plan The plan to check the filter against
+     * @return Whether the given plan passes through the filter or not
      */
-    private void retrieveUserPlans(List<String> planIds) {
-        mPlanApi.getPlanList(planIds, new RetrieveDataRequest<Plan>() {
-            @Override
-            public void onRetrieveData(Plan data) {
-                //Single plan object retrieved, get the image download URL for this plan
-                retrievePlanImageUrl(data);
-            }
-
-            @Override
-            public void onRetrieveDataFail(Exception e) {
-                mView.displayMessage("Could not retrieve all of your plans.");
-            }
-        });
+    public boolean filterMatch(Plan plan) {
+        return true;
     }
 
     /**
