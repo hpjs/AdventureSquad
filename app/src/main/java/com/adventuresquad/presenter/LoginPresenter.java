@@ -37,8 +37,7 @@ public class LoginPresenter implements LoginApiPresenter {
      */
     public void login(String email, String password) {
         //Perform a small amount of validation if necessary and show loading icon
-        //TODO - do validation if necessary (check if email format etc)
-
+        mActivity.showLoadingIcon();
         if (!email.isEmpty() && !email.isEmpty()) {
             mApi.emailPasswordLogin(this, email, password);
         }
@@ -47,10 +46,11 @@ public class LoginPresenter implements LoginApiPresenter {
     @Override
     public void onLoginSuccess(String userId) {
         mActivity.onLoginSuccess();
+        mActivity.hideLoadingIcon();
     }
 
     @Override
     public void onLoginFail(Exception exception) {
-
+        mActivity.displayMessage("Login failed.");
     }
 }

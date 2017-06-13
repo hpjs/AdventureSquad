@@ -1,4 +1,4 @@
-package com.adventuresquad.activity.interfaces;
+package com.adventuresquad.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,21 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
-import com.adventuresquad.activity.PlanAdventureActivity;
+import com.adventuresquad.activity.interfaces.PlanFragment;
+import com.adventuresquad.activity.interfaces.SwipeFragmentHolder;
 import com.adventuresquad.adapter.ItemClickSupport;
 import com.adventuresquad.adapter.SquadsAdapter;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentableListFragment;
-import com.adventuresquad.interfaces.PresentableListView;
 import com.adventuresquad.model.Squad;
 import com.adventuresquad.presenter.PlanSquadPresenter;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +46,8 @@ public class PlanSquadFragment extends Fragment
     //UI views and things
     private Button mButton;
     private RecyclerView mRecyclerView;
+    private ScrollView mScrollView;
+    private ProgressBar mProgressBar;
     private SquadsAdapter mAdapter;
 
     /**
@@ -89,6 +92,8 @@ public class PlanSquadFragment extends Fragment
         mButton = (Button)v.findViewById(R.id.plan_squad_next_button);
         mButton.setOnClickListener(this);
 
+        mProgressBar = (ProgressBar)v.findViewById(R.id.squads_progress_bar);
+        mScrollView = (ScrollView) v.findViewById(R.id.plan_squad_scroller);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.plan_squad_list);
 
         //Set up recycler view (with context from the activity)
@@ -121,7 +126,7 @@ public class PlanSquadFragment extends Fragment
     }
 
     /**
-     * Called when a squad is selected
+     * Called when a squad is selected / deselected
      * @param recyclerView
      * @param position
      * @param v
@@ -131,8 +136,9 @@ public class PlanSquadFragment extends Fragment
         //Gets the selected squad item from the list adapter
         Squad selectedSquad = mAdapter.getListItem(position);
 
-        //Sets the selected item on adapter and updates the presenter with selection
+        //Updates list and button views and notifies the presenter of the selection
         boolean itemSelected = mAdapter.itemSelected(position);
+        mButton.setText(itemSelected ? R.string.plan_adventure_squad : R.string.plan_adventure_myself);
         mPresenter.squadSelected(selectedSquad, itemSelected);
     }
 
@@ -195,12 +201,14 @@ public class PlanSquadFragment extends Fragment
 
     @Override
     public void showLoadingIcon() {
-        //TODO
+        mScrollView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoadingIcon() {
-
+        mProgressBar.setVisibility(View.GONE);
+        mScrollView.setVisibility(View.VISIBLE);
     }
 
     @Override

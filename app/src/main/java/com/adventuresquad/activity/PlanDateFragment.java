@@ -1,4 +1,4 @@
-package com.adventuresquad.activity.interfaces;
+package com.adventuresquad.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.adventuresquad.R;
-import com.adventuresquad.activity.PlanAdventureActivity;
+import com.adventuresquad.activity.interfaces.PlanFragment;
+import com.adventuresquad.activity.interfaces.SwipeFragmentHolder;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Harrison on 2/06/2017.

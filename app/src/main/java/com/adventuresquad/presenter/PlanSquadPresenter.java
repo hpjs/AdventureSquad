@@ -42,6 +42,7 @@ public class PlanSquadPresenter {
      * Gets the current user so that we can get the squads for this user
      */
     public void retrieveCurrentUser() {
+        mView.showLoadingIcon();
         //get current user
         mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
             @Override
@@ -69,16 +70,18 @@ public class PlanSquadPresenter {
             mSquadApi.retrieveSquadList(userSquads, new RetrieveDataRequest<Squad>() {
                 @Override
                 public void onRetrieveData(Squad data) {
+                    mView.hideLoadingIcon();
                     mView.addListItem(data);
                 }
 
                 @Override
                 public void onRetrieveDataFail(Exception e) {
+                    mView.hideLoadingIcon();
                     mView.displayMessage("Failed to retrieve one of your squads");
                 }
             });
         } else {
-            //TODO - Make this message look nicer later
+            mView.hideLoadingIcon();
             mView.displayMessage("You don't have any squads!");
         }
     }
@@ -100,11 +103,11 @@ public class PlanSquadPresenter {
     public void squadSelected(Squad squad, boolean itemSelected) {
         if (itemSelected) {
             //Item selected, set the squad to the selected squad
-            mView.displayMessage("Squad selected: " + squad.getSquadId());
+            //mView.displayMessage("Squad selected: " + squad.getSquadId());
             setSelectedSquadId(squad.getSquadId());
         } else {
             //Item deselected, set the squad to the user's personal squad
-            mView.displayMessage("Squad DEselected, using user squad: " + mCurrentUser.getUserSquadId());
+            //mView.displayMessage("Squad Deselected, using user squad: " + mCurrentUser.getUserSquadId());
             setSelectedSquadId(mCurrentUser.getUserSquadId());
         }
     }

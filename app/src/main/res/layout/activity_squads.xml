@@ -22,14 +22,14 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_margin="@dimen/fab_margin"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/squads_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:listitem="@layout/item_squad"
             tools:layout="@layout/item_squad">
 

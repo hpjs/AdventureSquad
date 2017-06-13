@@ -13,10 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
-import com.adventuresquad.activity.interfaces.PlanDateFragment;
 import com.adventuresquad.activity.interfaces.PlanFragment;
 import com.adventuresquad.activity.interfaces.PlanFragmentHolder;
-import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
