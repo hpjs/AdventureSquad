@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     //View bindings
     @BindView(R.id.activity_main_recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.activity_main_progress_bar)
+    ProgressBar mProgressBar;
     @BindView(R.id.activity_main_fab)
     FloatingActionButton mFab;
 
@@ -89,18 +92,16 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
     }
 
 
-    /**
-     * Displays fullscreen loading icon
-     */
+    @Override
     public void showLoadingIcon() {
-
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * Hides full-screen loading icon
-     */
+    @Override
     public void hideLoadingIcon() {
-
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**

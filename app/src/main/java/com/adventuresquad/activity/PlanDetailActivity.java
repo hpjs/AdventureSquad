@@ -3,7 +3,10 @@ package com.adventuresquad.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,10 @@ public class PlanDetailActivity extends AppCompatActivity implements Presentable
     //View bindings
     @BindView(R.id.plan_detail_toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.plan_detail_view)
+    RelativeLayout mContent;
+    @BindView(R.id.plan_detail_progress_bar)
+    ProgressBar mProgressBar;
 
     //Squad item view bindings
     @BindView(R.id.squad_image)
@@ -129,5 +136,17 @@ public class PlanDetailActivity extends AppCompatActivity implements Presentable
     @Override
     public void displayMessage(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoadingIcon() {
+        mContent.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+        mProgressBar.setVisibility(View.GONE);
+        mContent.setVisibility(View.VISIBLE);
     }
 }

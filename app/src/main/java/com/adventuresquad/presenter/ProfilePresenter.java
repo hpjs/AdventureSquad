@@ -49,6 +49,7 @@ public class ProfilePresenter implements LogoutApiPresenter, UserApiPresenter {
      * Starts to retrieve the current user for 'my profile'
      */
     public void retrieveCurrentUser() {
+        mActivity.showLoadingIcon();
         mUserApi.retrieveCurrentUser(this);
     }
 
@@ -59,6 +60,7 @@ public class ProfilePresenter implements LogoutApiPresenter, UserApiPresenter {
     @Override
     public void onRetrieveCurrentUser(User user) {
         mCurrentUser = user;
+        mActivity.hideLoadingIcon();
         mActivity.displayProfile(user);
     }
 

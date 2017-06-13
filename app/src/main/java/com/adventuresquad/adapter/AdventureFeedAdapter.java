@@ -70,7 +70,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         fullRequest = mGlideRequests
                 .asDrawable()
                 .centerCrop()
-                .placeholder(R.color.colorAccent);
+                .placeholder(R.color.colorPrimary);
     }
 
     /**

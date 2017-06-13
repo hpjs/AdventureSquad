@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,10 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
 
     @BindView(R.id.profile_text)
     TextView mProfileText;
+    @BindView(R.id.profile_content)
+    RelativeLayout mContent;
+    @BindView(R.id.profile_progress_bar)
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,18 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
     @Override
     public void displayMessage(String errorMessage) {
         showToastMessage(errorMessage);
+    }
+
+    @Override
+    public void showLoadingIcon() {
+        mContent.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+        mProgressBar.setVisibility(View.GONE);
+        mContent.setVisibility(View.VISIBLE);
     }
 
     /**

@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
@@ -46,8 +46,10 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
 
     //The recyclerview of trips and it's adapter
     private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
     private PlansAdapter mAdapter;
     private MyPlansPresenter mPresenter;
+
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -81,7 +83,8 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         View rootView = inflater.inflate(R.layout.fragment_my_plans, container, false);
 
         //Bind view objects to code
-        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.my_trips_recycler_view);
+        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.my_plans_recycler_view);
+        mProgressBar = (ProgressBar)rootView.findViewById(R.id.my_plans_progress_bar);
 
         //Set up recycler view
         mAdapter = new PlansAdapter(getActivity());
@@ -113,7 +116,6 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
                 break;
         }
 
-
         return rootView;
     }
 
@@ -126,7 +128,7 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
         parent.onItemClicked(selectedPlan, position);
     }
 
-    //region List view methods:
+    //region List view & UI methods:
 
     @Override
     public void addListItem(Plan item) {
@@ -141,6 +143,18 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
     @Override
     public void displayMessage(String errorMessage) {
         Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoadingIcon() {
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     //endregion

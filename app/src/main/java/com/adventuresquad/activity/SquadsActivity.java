@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
@@ -25,10 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SquadsActivity extends AppCompatActivity implements PresentableListView<Squad>,ItemClickSupport.OnItemClickListener {
+public class SquadsActivity extends AppCompatActivity implements PresentableListView<Squad>, ItemClickSupport.OnItemClickListener {
     //Views
     @BindView(R.id.squads_recycler_view)
     RecyclerView mSquadsRecyclerView;
+    @BindView(R.id.squads_progress_bar)
+    ProgressBar mProgressBar;
 
     //Other classes
     private SquadsAdapter mAdapter;
@@ -77,5 +80,17 @@ public class SquadsActivity extends AppCompatActivity implements PresentableList
     @Override
     public void displayMessage(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoadingIcon() {
+        mSquadsRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+        mProgressBar.setVisibility(View.GONE);
+        mSquadsRecyclerView.setVisibility(View.VISIBLE);
     }
 }

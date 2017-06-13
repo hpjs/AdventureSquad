@@ -41,7 +41,6 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
         mApiStore = store;
         //Begin retrieval of the list
         retrieveAdventureList();
-        //TODO - do we need to check authentication again here? E.g. going from logout -> main without finish()
     }
 
     /**
@@ -50,7 +49,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
      * @return
      */
     public void retrieveAdventureList() {
-        mActivity.displayMessage("Refreshing adventure list...");
+        mActivity.showLoadingIcon();
         //Request the list of adventures
         mAdventureApi.getAdventureList(new RetrieveDataRequest<List<Adventure>>() {
             @Override
@@ -98,6 +97,7 @@ public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter
      */
     @Override
     public void onRetrieveAdventure(Adventure adventure) {
+        mActivity.hideLoadingIcon();
         mAdventureList.add(adventure);
         //mView.updatePlanList(mPlanList);
         mActivity.addAdventureToList(adventure);

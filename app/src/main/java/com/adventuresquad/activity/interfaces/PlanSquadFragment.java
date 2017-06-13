@@ -194,6 +194,16 @@ public class PlanSquadFragment extends Fragment
     }
 
     @Override
+    public void showLoadingIcon() {
+        //TODO
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+
+    }
+
+    @Override
     public void addListItem(Squad item) {
         mAdapter.addItem(item);
     }

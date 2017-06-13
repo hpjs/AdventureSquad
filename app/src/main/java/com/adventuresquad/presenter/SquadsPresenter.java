@@ -42,6 +42,7 @@ public class SquadsPresenter {
      * Gets the current user so that we can get the squads for this user
      */
     public void retrieveCurrentUser() {
+        mView.showLoadingIcon();
         //get current user
         mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
             @Override
@@ -82,6 +83,7 @@ public class SquadsPresenter {
             mSquadApi.retrieveSquadList(userSquads, new RetrieveDataRequest<Squad>() {
                 @Override
                 public void onRetrieveData(Squad data) {
+                    mView.hideLoadingIcon();
                     mView.addListItem(data);
                 }
 

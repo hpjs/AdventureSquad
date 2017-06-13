@@ -53,11 +53,13 @@ public class PlanDetailPresenter {
      * Retrieves the plan for the view. When complete, displays and starts other retrievals. 
      */
     private void retrievePlan() {
+        mView.showLoadingIcon();
         //Begins to retrieve the given plan ID
         mPlanApi.retrievePlan(mPlanId, new RetrieveDataRequest<Plan>() {
             @Override
             public void onRetrieveData(Plan data) {
                 mPlan = data;
+                mView.hideLoadingIcon();
                 mView.displayPlan(data);
                 retrieveSquad(data.getSquadId());
                 retrieveAdventure(data.getAdventureId());

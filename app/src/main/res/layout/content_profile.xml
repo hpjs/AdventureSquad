@@ -13,69 +13,87 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/profile_image_highlight"
+        <ProgressBar
+            android:id="@+id/profile_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:indeterminate="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/profile_content"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:background="?android:attr/panelFullBackground"
-            android:contentDescription="@string/profile_image_highlight_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/adventure_placeholder_small"/>
-
-        <!--java.lang.RuntimeException: Unable to start activity ComponentInfo{com.adventuresquad/com.adventuresquad.activity.ProfileActivity}:
-        android.view.InflateException:
-        Binary XML file line #36: Binary XML file line #26: Error inflating class android.support.v4.widget.CircleImageView-->
-        <!--<ImageView-->
-            <!--android:id="@+id/profile_image_person"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_marginTop="119dp"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/profile_placeholder"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignLeft="@+id/profile_text"-->
-            <!--android:layout_alignStart="@+id/profile_text"/>-->
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image_person"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="119dp"
-            android:src="@drawable/profile_placeholder"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/profile_text"
-            android:layout_alignStart="@+id/profile_text"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/white"/>
-
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:shadowColor="@color/colorPrimaryDark"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="3"
-            android:text="@string/placeholder_text_loading"
-            android:layout_margin="13dp"
-            android:layout_alignBottom="@+id/profile_image_highlight"
-            android:layout_toRightOf="@+id/profile_image_person"
-            android:layout_toEndOf="@+id/profile_image_person"/>
+            android:visibility="visible">
 
-        <TextView
-            android:id="@+id/profile_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profile_image_person"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/appbar_padding_top"
-            android:text="@string/large_text"/>
+            <ImageView
+                android:id="@+id/profile_image_highlight"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:background="?android:attr/panelFullBackground"
+                android:contentDescription="@string/profile_image_highlight_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/adventure_placeholder_small"/>
+
+            <!--java.lang.RuntimeException: Unable to start activity ComponentInfo{com.adventuresquad/com.adventuresquad.activity.ProfileActivity}:
+            android.view.InflateException:
+            Binary XML file line #36: Binary XML file line #26: Error inflating class android.support.v4.widget.CircleImageView-->
+            <!--<ImageView-->
+                <!--android:id="@+id/profile_image_person"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_marginTop="119dp"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/profile_placeholder"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignLeft="@+id/profile_text"-->
+                <!--android:layout_alignStart="@+id/profile_text"/>-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image_person"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="119dp"
+                android:src="@drawable/profile_placeholder"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/profile_text"
+                android:layout_alignStart="@+id/profile_text"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/white"/>
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:shadowColor="@color/colorPrimaryDark"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="3"
+                android:text="@string/placeholder_text_loading"
+                android:layout_margin="13dp"
+                android:layout_alignBottom="@+id/profile_image_highlight"
+                android:layout_toRightOf="@+id/profile_image_person"
+                android:layout_toEndOf="@+id/profile_image_person"/>
+
+            <TextView
+                android:id="@+id/profile_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image_person"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/appbar_padding_top"
+                android:text="@string/large_text"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

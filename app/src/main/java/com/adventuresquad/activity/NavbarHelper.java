@@ -93,7 +93,6 @@ public class NavbarHelper {
      * Navigate to the profile page
      */
     public void navigateMyTrips() {
-        //Intent intent = new Intent(mActivity, MyTripsActivity.class);
         Intent intent = new Intent(mActivity, MyPlansActivity.class);
         mActivity.startActivity(intent);
         mActivity.finish();
