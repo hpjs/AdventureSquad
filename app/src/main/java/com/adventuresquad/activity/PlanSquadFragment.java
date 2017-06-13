@@ -115,14 +115,6 @@ public class PlanSquadFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //Not sure what this method is for.
-        //Sample below perhaps showing how to create a new array adapter using the parent activity
-        //Specifically only called when the parent activity itself is created?
-        //TODO - look up what this (onActivityCreated) method does in a fragment
-        //Should be able to get the activity using getActivity()
-        /*setListAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, Cheeses.sCheeseStrings));*/
     }
 
     /**

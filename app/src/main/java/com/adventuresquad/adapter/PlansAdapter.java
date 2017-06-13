@@ -115,6 +115,16 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         holder.mDate.setText(dateFormat.format(date));
     }
 
+    /**
+     * Handles wind-down of image request as well as
+     * @param holder The view holder
+     */
+    @Override
+    public void onViewRecycled(PlansViewHolder holder) {
+        //Clears the download request for this particular list item
+        mGlideRequests.clear(holder.mImage);
+    }
+
     @Override
     public int getItemCount() {
         return mPlanList.size();

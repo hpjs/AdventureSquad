@@ -15,61 +15,61 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <view
-            android:name=".view.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </view>
-        <view
-            android:name=".view.MainActivity"
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
             android:label="@string/title_activity_main">
-        </view>
-        <view android:name=".view.Register1Activity"
+        </activity>
+        <activity android:name=".activity.Register1Activity"
                   android:label="@string/register_title"
                   android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.NavigationActivity"
+        </activity>
+        <activity
+            android:name=".activity.NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.AdventureDetailActivity"
+        </activity>
+        <activity
+            android:name=".activity.AdventureDetailActivity"
             android:label="@string/title_activity_adventure_detail"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.ProfileActivity"
+        </activity>
+        <activity
+            android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.PlanAdventureActivity"
+        </activity>
+        <activity
+            android:name=".activity.PlanAdventureActivity"
             android:label="@string/title_activity_plan_adventure"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.AddAdventureActivity"
+        </activity>
+        <activity
+            android:name=".activity.AddAdventureActivity"
             android:label="@string/title_activity_add_adventure">
-        </view>
-        <view
-            android:name=".view.SquadsActivity"
+        </activity>
+        <activity
+            android:name=".activity.SquadsActivity"
             android:label="@string/title_activity_squads">
-        </view>
-        <view
-            android:name=".view.MyPlansActivity"
+        </activity>
+        <activity
+            android:name=".activity.MyPlansActivity"
             android:label="@string/title_activity_my_trips"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
-        <view
-            android:name=".view.PlanDetailActivity"
+        </activity>
+        <activity
+            android:name=".activity.PlanDetailActivity"
             android:label="@string/title_activity_plan_detail"
             android:theme="@style/AppTheme.NoActionBar">
-        </view>
+        </activity>
     </application>
 
 </manifest>

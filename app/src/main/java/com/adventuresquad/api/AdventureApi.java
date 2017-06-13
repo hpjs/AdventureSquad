@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * API class to get and set individual or lists of adventures from a data source (e.g. Firebase)
  * Created by Harrison on 13/05/2017.
- * TODO - Convert other API classes to match this architecture (dependency injection)
  */
 public class AdventureApi {
     //NOTE: This key is not really the same thing as it is in SQL.
@@ -43,7 +42,6 @@ public class AdventureApi {
 
     /**
      * Put updated adventure object at a given location (NOTE: Also has the power to create new ones if ID is not found)
-     * TODO - only use this to update an existing entry, instead of create new ones
      * @param adventure The updated Adventure object to store in the DB
      * @param adventureId The key of the adventure object (data point to put the adventure)
      */

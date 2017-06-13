@@ -27,7 +27,6 @@ import java.util.List;
  */
 public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdapter.AdventureViewHolder> {
 
-    private MainPresenter mPresenter;
     private Context mActivityContext;
     private List<Adventure> mAdventureList;
     final private GlideRequests mGlideRequests;
@@ -54,14 +53,13 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         }
 
     }
+
     /**
      * Constructor
      */
-    public AdventureFeedAdapter(Context activityContext, MainPresenter presenter) {
+    public AdventureFeedAdapter(Context activityContext) {
         mActivityContext = activityContext;
         mAdventureList = new ArrayList<>();
-        //TODO - come back and make this less nasty later (should go through Activity class ideally)
-        mPresenter = presenter;
 
         //Extra glide stuff
         mGlideRequests = GlideApp.with(activityContext); //Once set, object ref can't be changed
@@ -75,7 +73,6 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
 
     /**
      * Inflates a single Adventure card item
-     *
      * @param parent
      * @param viewType
      * @return
@@ -95,7 +92,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
 
     /**
      * Adds an item dynamically to the recycler view list (instead of the whole list at once)
-     * @param adventure
+     * @param adventure The adventure to add to the list
      */
     public void addItem(Adventure adventure) {
         //This code was working over in PlansAdapter, so I used it here as well
@@ -106,7 +103,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
 
     /**
      * Handles wind-down of image request as well as
-     * @param holder
+     * @param holder The view holder
      */
     @Override
     public void onViewRecycled(AdventureViewHolder holder) {
@@ -137,10 +134,8 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
         //Populate view with text
         holder.mTitle.setText(adventure.getAdventureTitle());
         //TODO - Set values correctly (e.g. actual 'match' amount) - probably do this in presenter
-        // and put into adventure object?
         holder.mMatch.setMax(10);
         holder.mMatch.setProgress(4);
-        //TODO - Calculate the distance itself
         holder.mDistance.setText(R.string.placeholder_distance);
     }
 

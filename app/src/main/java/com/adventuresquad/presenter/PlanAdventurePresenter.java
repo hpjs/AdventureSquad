@@ -7,13 +7,12 @@ import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.interfaces.PresentablePlanAdventureView;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
 
 /**
  * Presenter for the PlanAdventure activity
  * Created by Harrison on 2/06/2017.
  */
-public class PlanAdventurePresenter implements PlanApiPresenter {
+public class PlanAdventurePresenter {
     private PresentablePlanAdventureView mView;
     private PlanApi mPlanApi;
     private UserApi mUserApi;
@@ -87,7 +86,6 @@ public class PlanAdventurePresenter implements PlanApiPresenter {
         });
     }
 
-    @Override
     public void onCompletePlanCreation(Plan plan) {
         mView.hideLoadingIcon();
         mCurrentPlan = plan;

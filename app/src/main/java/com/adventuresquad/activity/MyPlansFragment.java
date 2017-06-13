@@ -121,7 +121,6 @@ public class MyPlansFragment extends Fragment implements PresentableListView<Pla
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-        //TODO - call activity and notify that should navigate to trip details
         Plan selectedPlan = mAdapter.getListItem(position);
         //getActivity().navigatePlanDetail(selectedPlan);
         ListFragmentHolder<Plan> parent = (ListFragmentHolder<Plan>)getActivity();

@@ -22,7 +22,7 @@ public class StorageApi {
     private FirebaseStorage mStorage;
     private StorageReference mImageStore;
 
-    private AdventureApi mApi;
+    private AdventureApi mAdventureApi;
 
     public static final String ADVENTURE_IMAGE_STORE = "/adventures";
     public static final String ADVENTURE_IMAGE_TITLE = "adventureimage.jpg";
@@ -37,7 +37,7 @@ public class StorageApi {
 
     public StorageApi(AdventureApi api) {
         this();
-        mApi = api;
+        mAdventureApi = api;
         //mProfileImageStore = mStorage.getReference("images/users/ProfileActivity");
         //mUploadsImageStore = mStorage.getReference("images/users")
     }
@@ -67,8 +67,7 @@ public class StorageApi {
 
                 //Store this download URL on a specific Adventure in the database
                 adventure.setAdventureImageUri(imagePath);
-                //TODO - this is probably not a good idea:
-                mApi.putAdventure(adventure, adventure.getAdventureId());
+                mAdventureApi.putAdventure(adventure, adventure.getAdventureId());
 
                 Log.d(DEBUG_STORAGE_API, "Image uploaded successfully, for adventure " + adventure.getAdventureId());
             }
@@ -102,18 +101,6 @@ public class StorageApi {
     }
 
     /**
-     * Adds an image download URL to a specific adventure
-     */
-
-//    public void retrieveAdventureImage(String adventureId) {
-//        String filePath = getAdventureImagePath(adventureId);
-//        StorageReference imageRef = mImageStore.child(filePath);
-//        //note: need to pass information back up to view so it can load it using GLIDE
-//        //https://stackoverflow.com/questions/37699688/cache-images-local-from-google-firebase-storage
-//        //TODO - go back to this and fix image loading
-//    }
-
-    /**
      * Gets a formatted URL to download an image
      * @param adventureId The ID of the adventure to get the photo for
      * @param callback A listener which is called when the complete listener is done
@@ -132,28 +119,5 @@ public class StorageApi {
                 }
             }
         });
-    }
-
-    /**
-     * Retrieves a given image from firebase (NON-FUNCTIONAL CURRENTLY, USE GLIDE INSTEAD)
-     */
-    public void retrieveImage() {
-
-        /*
-        riversRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Successfully downloaded data to local file
-                        // ...
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
-            }
-        });*/
-        //StorageReference load = getImage(id);
     }
 }

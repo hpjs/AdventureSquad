@@ -4,9 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
-import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
-import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,65 +101,6 @@ public class SquadApi {
                 } else {
                     callback.onStoreDataFail(task.getException());
                 }
-            }
-        });
-    }
-
-    /**
-     * Adds a given plan to a Squad (the one that is referred to in the plan)
-     * TODO - refactor to use new FireBase list & linking structure
-     * @param plan The plan (with populated IDs)
-     */
-    public void addPlanToSquad(Plan plan, final SquadApiPresenter callback) {
-        //Get IDs from the plan object
-        final String squadId = plan.getSquadId();
-        final String newPlanId = plan.getPlanId();
-
-        //Retrieve list of plans from the database
-        retrievePlanList(squadId, new RetrieveDataRequest<List<String>>() {
-
-            //Plan list was retrieved successfully, add plan to list and push back to squad
-            @Override
-            public void onRetrieveData(List<String> planIdList) {
-                //Add plan to list and store
-                if (planIdList == null) {
-                    //List was empty
-                    planIdList = new ArrayList<String>();
-                }
-                planIdList.add(newPlanId);
-                storePlanList(squadId, planIdList, new StorePlanListListener() {
-                    @Override
-                    public void onStorePlanList(List<String> planIdList) {
-                        //Updated plan list was complete, finsih up
-                        callback.onAddPlanToSquad();
-                    }
-
-                    @Override
-                    public void onStorePlanListFail(Exception e) {
-                        //Fail
-                    }
-                });
-            }
-
-            //List was not successfully pulled, create a new one and push it
-            @Override
-            public void onRetrieveDataFail(Exception e) {
-                List<String> newList = new ArrayList<String>();
-                newList.add(newPlanId);
-                //Store the new list on that squad
-                storePlanList(squadId, newList, new StorePlanListListener() {
-                    @Override
-                    public void onStorePlanList(List<String> planIdList) {
-                        //Updated plan list was complete, finsih up
-                        callback.onAddPlanToSquad();
-                    }
-
-                    @Override
-                    public void onStorePlanListFail(Exception e) {
-                        //Fail
-                        //TODO - implement fail safe code here
-                    }
-                });
             }
         });
     }

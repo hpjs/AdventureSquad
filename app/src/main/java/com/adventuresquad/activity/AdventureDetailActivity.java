@@ -34,7 +34,6 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     //@BindView(R.id.adventure_detail_mapview)
     //private MapView mapView;
 
-    //TODO - move this into presenter to clean up business logic
     //This is only here so the adventure plan will work correctly
     private String mAdventureId;
 

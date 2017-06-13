@@ -34,7 +34,6 @@ import butterknife.OnClick;
  */
 public class MainActivity extends AppCompatActivity implements PresentableAdventureListView, ItemClickSupport.OnItemClickListener /*View.OnClickListener*/ {
     //Dependencies (set up in onCreate)
-    //TODO -  change this to be an interface?
     private MainPresenter mPresenter;
     private AdventureFeedAdapter mAdventureFeedAdapter;
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements PresentableAdvent
         mPresenter = new MainPresenter(this, api, new StorageApi(api));
 
         //Set up recycler view adapter & manager etc
-        mAdventureFeedAdapter = new AdventureFeedAdapter(this, mPresenter);
+        mAdventureFeedAdapter = new AdventureFeedAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

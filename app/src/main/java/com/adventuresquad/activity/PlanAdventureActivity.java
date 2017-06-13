@@ -78,15 +78,13 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     public void onBackPressed() {
         //Check the current fragment
         if (mCurrentFragment > 0) {
-            //return to previous fragment
-            //TODO - go to previous fragment on 'back' pressed
+            mViewPager.setCurrentItem(mCurrentFragment - 1);
         } else {
             super.onBackPressed();
         }
     }
 
     /**
-     * TODO - change this to be more flexible,
      * instead of fragment passing it's position, should probably retrieve from adapter somehow?
      */
     @Override

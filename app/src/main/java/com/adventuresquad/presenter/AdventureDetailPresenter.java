@@ -7,12 +7,11 @@ import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.model.Adventure;
-import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
 
 /**
  * Created by Harrison on 22/05/2017.
  */
-public class AdventureDetailPresenter implements AdventureApiPresenter {
+public class AdventureDetailPresenter {
     private PresentableAdventureView mActivity;
     private AdventureApi mApi;
     private StorageApi mApiStore;
@@ -42,8 +41,6 @@ public class AdventureDetailPresenter implements AdventureApiPresenter {
         });
     }
 
-
-    @Override
     public void onRetrieveAdventure(final Adventure adventure) {
         mAdventure = adventure;
         //Get image request
@@ -63,19 +60,9 @@ public class AdventureDetailPresenter implements AdventureApiPresenter {
 
     /**
      * Called when button is clicked
-     * Provides details to plan basically
+     * Provides details for plan presenter to initialise properly
      */
     public void createPlan() {
         mActivity.startCreatePlan(mAdventure.getAdventureId(), mAdventure.getAdventureTitle());
-    }
-
-    @Override
-    public void onCreateAdventure(String adventureId) {
-
-    }
-
-    @Override
-    public void onCreateAdventureError(Exception e) {
-
     }
 }

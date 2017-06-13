@@ -103,7 +103,6 @@ public class PlanDateFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    //TODO - check if the fragment should be handling user input, or the activity
     @Override
     public void onClick(View v) {
         switch(v.getId()) {

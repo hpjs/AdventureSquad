@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
-import com.adventuresquad.model.Squad;
-import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,9 +19,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -80,8 +75,7 @@ public class PlanApi {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    //callback.onStoreData(plan);
-                    //TODO - replace this 'new SquadApi' section with a better call
+                    //Successfully added plan to the squad, now add to all squad users
                     addPlanToSquadUsers(plan, new SquadApi(), callback);
                 } else {
                     callback.onStoreDataFail(task.getException());
@@ -176,9 +170,9 @@ public class PlanApi {
 
     }
 
-    //TODO - replace other instances of retrievePlan with this one
     /**
      * Retrieves a given plan as a retrieval Task to complete
+     * Useful when you want to retrieve a set of plans and notify when all are done
      * @param planId The string ID of the plan to retrieve
      * @return A task that will be completed when the Plan is retrieved successfully
      */
