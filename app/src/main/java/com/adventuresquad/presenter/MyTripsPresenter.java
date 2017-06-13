@@ -6,13 +6,10 @@ import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.interfaces.PresentableListView;
-import com.adventuresquad.interfaces.PresentablePlanListView;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.PlanApiListPresenter;
-import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.List;
  * Presenter for mytrips list of trips / plans
  * Created by Harrison on 4/06/2017.
  */
-public class MyTripsPresenter implements StorageApiPresenter {
+public class MyTripsPresenter {
 
     //Dependencies
     private PresentableListView<Plan> mView;

@@ -1,18 +1,14 @@
 package com.adventuresquad.api;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
-import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
-import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

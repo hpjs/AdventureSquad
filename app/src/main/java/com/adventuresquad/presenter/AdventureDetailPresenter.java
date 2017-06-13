@@ -8,12 +8,11 @@ import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureView;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
-import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 /**
  * Created by Harrison on 22/05/2017.
  */
-public class AdventureDetailPresenter implements AdventureApiPresenter, StorageApiPresenter {
+public class AdventureDetailPresenter implements AdventureApiPresenter {
     private PresentableAdventureView mActivity;
     private AdventureApi mApi;
     private StorageApi mApiStore;

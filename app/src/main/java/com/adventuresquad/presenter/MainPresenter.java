@@ -9,7 +9,6 @@ import com.adventuresquad.api.StorageApi;
 import com.adventuresquad.interfaces.PresentableAdventureListView;
 import com.adventuresquad.model.Adventure;
 import com.adventuresquad.presenter.interfaces.AdventureApiPresenter;
-import com.adventuresquad.presenter.interfaces.StorageApiPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
  * MainActivity Presenter class to read data from API and present data to main activity
  * Created by Harrison on 11/05/2017.
  */
-public class MainPresenter implements AdventureApiPresenter, StorageApiPresenter {
+public class MainPresenter implements AdventureApiPresenter {
 
     //Dependencies
     private PresentableAdventureListView mActivity;
