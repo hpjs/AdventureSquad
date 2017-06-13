@@ -111,7 +111,7 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
         //Populate view with text
         holder.mTitle.setText(plan.getPlanTitle());
         Date date = new Date(plan.getBookingDate());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEEEEEE, d MMMMMMMMMM yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH);
         holder.mDate.setText(dateFormat.format(date));
     }
 
