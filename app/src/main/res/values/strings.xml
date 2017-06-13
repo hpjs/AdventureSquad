@@ -238,5 +238,6 @@
     <string name="error_retrieve_profile">Couldn\'t retrieve your profile.</string>
     <string name="title_activity_my_plans">My Plans</string>
     <string name="title_activity_plan_detail">PlanDetailActivity</string>
+    <string name="plan_detail_adventuring_with">Adventuring with</string>
 
 </resources>

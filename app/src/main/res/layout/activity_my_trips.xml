@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:visibility="visible"
-            tools:layout="@layout/activity_main_item_adventure"/>
+            tools:layout="@layout/item_adventure_main"/>
 
     </RelativeLayout>
 

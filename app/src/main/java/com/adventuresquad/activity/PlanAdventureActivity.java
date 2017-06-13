@@ -9,10 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.adventuresquad.R;
@@ -23,22 +19,20 @@ import com.adventuresquad.activity.interfaces.PlanSquadFragment;
 import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
-import com.adventuresquad.interfaces.PresentableListView;
-import com.adventuresquad.interfaces.PresentablePlanView;
+import com.adventuresquad.interfaces.PresentablePlanAdventureView;
 import com.adventuresquad.model.Squad;
-import com.adventuresquad.presenter.PlanPresenter;
+import com.adventuresquad.presenter.PlanAdventurePresenter;
 
-import java.util.Date;
 import java.util.List;
 
-public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanView {
+public class PlanAdventureActivity extends AppCompatActivity implements PlanFragmentHolder, PresentablePlanAdventureView {
 
     //Constants
     public static final String ADVENTURE_DETAIL_ID = "ADVENTURE_DETAIL_ID";
     public static final String PLAN_ADVENTURE_DEBUG = "plan_adventure";
     public static final String ADVENTURE_TITLE = "ADVENTURE_TITLE";
 
-    PlanPresenter mPresenter;
+    PlanAdventurePresenter mPresenter;
 
     //Fragment presenter sections
     /**
@@ -77,7 +71,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
         String adventureTitle = getIntent().getStringExtra(ADVENTURE_TITLE);
 
         //Set up presenter and back end logic
-        mPresenter = new PlanPresenter(this, adventureId, adventureTitle, new PlanApi(), new UserApi(), new SquadApi());
+        mPresenter = new PlanAdventurePresenter(this, adventureId, adventureTitle, new PlanApi(), new UserApi(), new SquadApi());
     }
 
     @Override

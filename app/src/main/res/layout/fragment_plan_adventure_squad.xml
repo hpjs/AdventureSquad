@@ -30,7 +30,7 @@
                 android:id="@+id/plan_squad_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/activity_squad_item">
+                tools:listitem="@layout/item_squad">
                 <!--Recycler view for Squad items goes here-->
 
             </android.support.v7.widget.RecyclerView>

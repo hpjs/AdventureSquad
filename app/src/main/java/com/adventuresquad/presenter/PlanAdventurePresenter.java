@@ -4,19 +4,17 @@ import com.adventuresquad.api.PlanApi;
 import com.adventuresquad.api.SquadApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
-import com.adventuresquad.interfaces.PresentablePlanView;
+import com.adventuresquad.interfaces.PresentablePlanAdventureView;
 import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.interfaces.PlanApiPresenter;
-import com.adventuresquad.presenter.interfaces.SquadApiPresenter;
-import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 
 /**
  * Presenter for the PlanAdventure activity
  * Created by Harrison on 2/06/2017.
  */
-public class PlanPresenter implements PlanApiPresenter {
-    private PresentablePlanView mView;
+public class PlanAdventurePresenter implements PlanApiPresenter {
+    private PresentablePlanAdventureView mView;
     private PlanApi mPlanApi;
     private UserApi mUserApi;
     private SquadApi mSquadApi;
@@ -32,7 +30,7 @@ public class PlanPresenter implements PlanApiPresenter {
      * @param userApi User API so this presenter can access current user
      * @param squadApi New squad API so this presenter can access the list of user's squads
      */
-    public PlanPresenter(PresentablePlanView view, String adventureId, String adventureTitle, PlanApi planApi, UserApi userApi, SquadApi squadApi) {
+    public PlanAdventurePresenter(PresentablePlanAdventureView view, String adventureId, String adventureTitle, PlanApi planApi, UserApi userApi, SquadApi squadApi) {
         mView = view;
         mPlanApi = planApi;
         mUserApi = userApi;

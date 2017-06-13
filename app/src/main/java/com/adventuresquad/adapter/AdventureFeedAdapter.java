@@ -83,7 +83,7 @@ public class AdventureFeedAdapter extends RecyclerView.Adapter<AdventureFeedAdap
     @Override
     public AdventureFeedAdapter.AdventureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_main_item_adventure, parent, false);
+                .inflate(R.layout.item_adventure_main, parent, false);
 
         return new AdventureViewHolder(itemView);
     }

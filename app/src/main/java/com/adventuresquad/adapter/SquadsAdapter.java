@@ -13,7 +13,6 @@ import com.adventuresquad.R;
 import com.adventuresquad.api.GlideApp;
 import com.adventuresquad.api.GlideRequest;
 import com.adventuresquad.api.GlideRequests;
-import com.adventuresquad.model.Plan;
 import com.adventuresquad.model.Squad;
 
 import java.util.ArrayList;
@@ -116,7 +115,7 @@ public class SquadsAdapter extends RecyclerView.Adapter<SquadsAdapter.SquadViewH
     @Override
     public SquadViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_squad_item, parent, false);
+                .inflate(R.layout.item_squad, parent, false);
 
         return new SquadViewHolder(itemView);
     }

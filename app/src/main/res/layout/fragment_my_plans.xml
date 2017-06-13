@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:visibility="visible"
-        tools:layout="@layout/activity_my_trips_item"
-        tools:listitem="@layout/activity_my_trips_item"/>
+        tools:layout="@layout/item_trip"
+        tools:listitem="@layout/item_trip"/>
 
 </RelativeLayout>

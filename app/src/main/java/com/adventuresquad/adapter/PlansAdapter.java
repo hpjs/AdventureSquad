@@ -2,7 +2,6 @@ package com.adventuresquad.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,7 @@ import com.adventuresquad.R;
 import com.adventuresquad.api.GlideApp;
 import com.adventuresquad.api.GlideRequest;
 import com.adventuresquad.api.GlideRequests;
-import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.model.Plan;
-import com.adventuresquad.presenter.MyTripsPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlansViewHol
     @Override
     public PlansViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_my_trips_item, parent, false);
+                .inflate(R.layout.item_trip, parent, false);
 
         return new PlansViewHolder(itemView);
     }

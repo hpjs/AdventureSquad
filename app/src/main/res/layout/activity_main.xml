@@ -50,8 +50,8 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:visibility="visible"
-            tools:listitem="@layout/activity_main_item_adventure"
-            tools:layout="@layout/activity_main_item_adventure">
+            tools:listitem="@layout/item_adventure_main"
+            tools:layout="@layout/item_adventure_main">
 
         </android.support.v7.widget.RecyclerView>
 

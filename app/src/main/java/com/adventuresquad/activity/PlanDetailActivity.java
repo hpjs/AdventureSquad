@@ -6,25 +6,63 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adventuresquad.R;
+import com.adventuresquad.interfaces.PresentablePlanDetailView;
+import com.adventuresquad.presenter.PlanDetailPresenter;
 
-public class PlanDetailActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class PlanDetailActivity extends AppCompatActivity implements PresentablePlanDetailView {
+
+    //Presenter
+    PlanDetailPresenter mPresenter;
+
+    //View bindings
+    @BindView(R.id.plan_detail_toolbar)
+    Toolbar mToolbar;
+
+    //Squad item view bindings
+    @BindView(R.id.squad_image)
+    ImageView mImageSquad;
+    @BindView(R.id.squad_name)
+    TextView mTextSquadName;
+    @BindView(R.id.squad_details)
+    TextView mTextSquadDetail;
+
+    @BindView(R.id.plan_date)
+    TextView mTextPlanDate;
+    @BindView(R.id.plan_adventure_title)
+    TextView mTextAdventureTitle;
+    @BindView(R.id.plan_adventure_detail)
+    TextView mTextAdventureDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //Set up UI as necessary
+        ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
+
+        mPresenter = new PlanDetailPresenter();
+
+    }
+
+    @OnClick(R.id.plan_detail_fab)
+    public void deletePlan() {
+        //TODO - delete plan impl.
+    }
+
+    @Override
+    public void displayMessage(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

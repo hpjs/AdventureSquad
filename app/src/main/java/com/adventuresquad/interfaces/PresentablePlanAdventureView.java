@@ -8,7 +8,7 @@ import java.util.List;
  * Provides an interface for a Plan presenter to present to a view
  * Created by Harrison on 2/06/2017.
  */
-public interface PresentablePlanView extends Presentable {
+public interface PresentablePlanAdventureView extends Presentable {
 
     public void displaySquadList(List<Squad> userSquads);
 

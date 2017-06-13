@@ -9,10 +9,123 @@
     tools:context="com.adventuresquad.activity.PlanDetailActivity"
     tools:showIn="@layout/activity_plan_detail">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text"/>
+        android:layout_margin="@dimen/adventure_list_padding"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/plan_detail_squad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/squad_image"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/squad"
+                android:layout_alignParentTop="true"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/white"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/squad_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/squad_image"
+                android:layout_toRightOf="@id/squad_image"
+                android:layout_toEndOf="@id/squad_image"
+                android:text="@string/plan_detail_adventuring_with"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/squad_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorDark"
+                android:text="@string/placeholder_text_loading"
+                android:layout_below="@id/squad_description"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/squad_image"
+                android:layout_toEndOf="@+id/squad_image"/>
+
+            <TextView
+                android:id="@+id/squad_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/placeholder_text_loading"
+                android:layout_below="@id/squad_name"
+                android:layout_alignLeft="@id/squad_name"
+                android:layout_alignStart="@id/squad_name"
+                android:layout_toRightOf="@+id/squad_image"
+                android:layout_toEndOf="@+id/squad_image"/>
+
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/squad_divider"
+            android:layout_below="@id/plan_detail_squad"
+            style="@style/HorizontalDivider"/>
+
+        <TextView
+            android:id="@+id/plan_date"
+            android:layout_below="@id/squad_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/placeholder_text_short"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDarker"/>
+
+        <View
+            android:id="@+id/date_divider"
+            android:layout_below="@id/plan_date"
+            style="@style/HorizontalDivider"/>
+
+        <TextView
+            android:id="@+id/plan_adventure_title"
+            android:layout_below="@id/date_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_marginBottom="0dp"
+            android:text="@string/placeholder_text_short"
+            android:textSize="18sp"
+            android:textColor="@color/colorDark"/>
+
+        <TextView
+            android:id="@+id/plan_adventure_detail"
+            android:layout_below="@id/plan_adventure_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:text="@string/large_text"/>
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
