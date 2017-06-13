@@ -87,6 +87,7 @@ public class PlanDetailActivity extends AppCompatActivity implements Presentable
     public void displayPlan(Plan plan) {
         //Display plan
         mToolbar.setTitle(plan.getPlanTitle());
+        setTitle(plan.getPlanTitle());
 
         //Date formatting and display
         Date date = new Date(plan.getBookingDate());

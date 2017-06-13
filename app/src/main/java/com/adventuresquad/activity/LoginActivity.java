@@ -102,8 +102,9 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
     public void onLoginSuccess() {
         showToastMessage("Login successful");
         //Go to main page, put any necessary extras
-        Intent intentMainActivity = new Intent(this, MainActivity.class);
-        startActivity(intentMainActivity);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 

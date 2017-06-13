@@ -28,7 +28,9 @@
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main">
         </activity>
-        <activity android:name=".activity.Register1Activity">
+        <activity android:name=".activity.Register1Activity"
+                  android:label="@string/register_title"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.NavigationActivity"

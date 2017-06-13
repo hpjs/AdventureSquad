@@ -22,6 +22,8 @@ import butterknife.OnClick;
 public class Register1Activity extends AppCompatActivity implements PresentableRegisterView {
 
     //UI objects
+    @BindView(R.id.register_one_name)
+    EditText mEditName;
     @BindView(R.id.register_one_edit_email)
     EditText mEditEmail;
     @BindView(R.id.register_one_edit_password)
@@ -51,6 +53,7 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
         switch (v.getId()) {
             case R.id.register_one_button_next:
                 mPresenter.register(
+                        mEditName.getText().toString(),
                         mEditEmail.getText().toString(),
                         mEditPassword.getText().toString(),
                         mEditPassword2.getText().toString() );
@@ -83,7 +86,9 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
     @Override
     public void registrationComplete() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -92,14 +97,28 @@ public class Register1Activity extends AppCompatActivity implements PresentableR
     }
 
     @Override
-    public void validationFail() {
-        //TODO - implement error text display
-        //getString(R.id.registration_password_mismatch)
-        showToastMessage("validation failed");
+    public void validationFail(PresentableRegisterView.ValidationError reason) {
+        switch (reason) {
+            case PASSWORD_MISMATCH:
+                displayMessage(getResources().getString(R.string.register_error_password_mismatch));
+                break;
+            case NO_EMAIL:
+                displayMessage(getResources().getString(R.string.register_error_no_email));
+                break;
+            case NO_NAME:
+                displayMessage(getResources().getString(R.string.register_error_no_name));
+                break;
+            case REGISTER_FAIL:
+                displayMessage(getResources().getString(R.string.register_error_fail));
+                break;
+            default:
+                displayMessage(getResources().getString(R.string.register_error_unknown));
+                break;
+        }
     }
 
     @Override
     public void displayMessage(String errorMessage) {
-
+        showToastMessage(errorMessage);
     }
 }

@@ -237,7 +237,16 @@
     <string name="profile_no_text">This user prefers to keep an air of mystery around themselves.</string>
     <string name="error_retrieve_profile">Couldn\'t retrieve your profile.</string>
     <string name="title_activity_my_plans">My Plans</string>
-    <string name="title_activity_plan_detail">PlanDetailActivity</string>
+    <string name="title_activity_plan_detail">Plan Detail</string>
     <string name="plan_detail_adventuring_with">Adventuring with</string>
+    <string name="description_image_logo">Adventure Squad logo</string>
+    <string name="register">Register a new account</string>
+    <string name="register_edit_fullname">Full name</string>
+    <string name="register_error_password_mismatch">Your passwords must match.</string>
+    <string name="register_error_no_email">Please enter an email address.</string>
+    <string name="register_error_no_name">Please provide your name.</string>
+    <string name="register_error_unknown">An unknown error occurred.</string>
+    <string name="register_error_fail">Registration failed, please check details and try again.</string>
+    <string name="register_title">Register</string>
 
 </resources>

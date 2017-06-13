@@ -27,15 +27,25 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
         mSquadApi = squadApi;
     }
 
-    public void register(String email, String pass1, String pass2) {
+    public void register(String fullName, String email, String pass1, String pass2) {
+        mUser = new User();
+
+        //Check user name not empty / null
+        if (fullName != null && !fullName.isEmpty()) {
+            mUser.setUserName(fullName);
+        } else {
+            mActivity.validationFail(PresentableRegisterView.ValidationError.NO_NAME);
+            return;
+        }
+
         //Check that passwords match
         if (!pass1.equals(pass2)) {
             //Pass did not match
-            mActivity.validationFail();
-        } else {
-            //Actually create the account
-            mAuthApi.registerUser(email, pass1, this);
+            mActivity.validationFail(PresentableRegisterView.ValidationError.PASSWORD_MISMATCH);
+            return;
         }
+            //Actually create the account
+        mAuthApi.registerUser(email, pass1, this);
     }
 
     @Override
@@ -46,15 +56,15 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
 
     @Override
     public void onRegisterFail(Exception exception) {
-        mActivity.displayMessage("Registration failed - " + exception.toString());
+        //mActivity.displayMessage("Registration failed - " + exception.toString());
+        mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
     }
 
     /**
      * Adds a single user to the database using their auth user UID
      */
     public void addUser(String userId, String userEmail) {
-        //Create a new user object
-        mUser = new User();
+        //Update user object with new details
         mUser.setUserId(userId);
         mUser.setUserEmail(userEmail);
         //Add the user object to the database

@@ -4,39 +4,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/description_image_logo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/login_logo"/>
 
     <TextView
         android:id="@+id/register_text_title"
+        android:layout_below="@id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="@string/register"/>
 
-        <EditText
-            android:id="@+id/register_one_edit_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/register_edit_email"
-            android:inputType="textEmailAddress"
-            android:layout_above="@+id/register_one_edit_password"/>
+    <EditText
+        android:id="@+id/register_one_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/register_edit_fullname"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/register_text_title"/>
 
-        <EditText
-            android:id="@+id/register_one_edit_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/login_edit_password"
-            android:inputType="textPassword"
-            android:layout_above="@+id/register_one_edit_password2"/>
+    <EditText
+        android:id="@+id/register_one_edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/register_edit_email"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/register_one_name"/>
 
-        <EditText
-            android:id="@+id/register_one_edit_password2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="@string/login_edit_password2"
-            android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/register_one_edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_edit_password"
+        android:inputType="textPassword"
+        android:layout_below="@id/register_one_edit_email"/>
+
+    <EditText
+        android:id="@+id/register_one_edit_password2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_edit_password2"
+        android:inputType="textPassword"
+        android:layout_below="@id/register_one_edit_password"/>
 
     <Button
         android:id="@+id/register_one_button_next"
