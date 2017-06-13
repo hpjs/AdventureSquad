@@ -40,7 +40,7 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_plans);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.plan_detail_toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -85,7 +85,7 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
     @Override
     public void onItemClicked(Plan object, int position) {
         Intent planDetail = new Intent(this, PlanDetailActivity.class);
-        //planDetail.putExtra()
+        planDetail.putExtra(PlanDetailActivity.PLAN_ID, object.getPlanId());
         startActivity(planDetail);
     }
 

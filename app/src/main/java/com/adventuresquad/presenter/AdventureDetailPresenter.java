@@ -30,7 +30,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
      * @param adventureId
      */
     public void retrieveAdventure(String adventureId) {
-        mApi.getAdventure(new RetrieveDataRequest<Adventure>() {
+        mApi.getAdventure(adventureId, new RetrieveDataRequest<Adventure>() {
             @Override
             public void onRetrieveData(Adventure data) {
                 onRetrieveAdventure(data);
@@ -40,7 +40,7 @@ public class AdventureDetailPresenter implements AdventureApiPresenter, StorageA
             public void onRetrieveDataFail(Exception e) {
 
             }
-        }, adventureId);
+        });
     }
 
 

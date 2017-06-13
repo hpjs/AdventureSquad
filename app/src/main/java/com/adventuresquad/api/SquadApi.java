@@ -217,14 +217,7 @@ public class SquadApi {
      * @param squadId The squad to load
      * @param callback The object to notify when complete or failed
      */
-    private void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
-        //Set up retrieval to act like a task so we can use 'whenAll' for retrieving a list of squads
-        //TODO - Can keep working on retrieving as a task
-        /*
-        TaskCompletionSource<DataSnapshot> dbSource = new TaskCompletionSource<>();
-        Task dbTask = dbSource.getTask(); //Get the completion source as a task
-        */
-
+    public void retrieveSquad(String squadId, final RetrieveDataRequest<Squad> callback) {
         DatabaseReference squadRef = mSquadsData.child(squadId);
 
         squadRef.addListenerForSingleValueEvent(new ValueEventListener() {

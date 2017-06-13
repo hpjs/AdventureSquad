@@ -105,7 +105,7 @@ public class MyPlansPresenter {
      * @param plan The plan to retrieve the image for
      */
     private void retrievePlanImageUrl(final Plan plan) {
-        //TODO - change this to get a plan image instead (later)
+        //TODO - change this to get a plan image instead of adventure URL (later)
         String adventureId = plan.getAdventureId();
         mStorageApi.retrieveAdventureImageUri(adventureId, new RetrieveDataRequest<Uri>() {
             @Override

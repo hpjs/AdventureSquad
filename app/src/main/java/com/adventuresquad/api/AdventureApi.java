@@ -43,7 +43,7 @@ public class AdventureApi {
 
     /**
      * Put updated adventure object at a given location (NOTE: Also has the power to create new ones if ID is not found)
-     * TODO - only allow it to update an existing entry, instead of create new ones
+     * TODO - only use this to update an existing entry, instead of create new ones
      * @param adventure The updated Adventure object to store in the DB
      * @param adventureId The key of the adventure object (data point to put the adventure)
      */
@@ -69,27 +69,11 @@ public class AdventureApi {
         //prepare callback method for when this task is complete
         //Set the actual data
         mNewAdventureRef.setValue(adventure);
-
-        /*Currently don't need to listen for create completion
-        mNewAdventureRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //TODO - this might not actually work as expected
-                //It apparently triggers when it's actually attached for the first time
-                //As well as for any subsequent data changes
-                //dataSnapshot.getKey();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
     /**
      * Stores a list of adventures in the database
-     * @param adventureList
+     * @param adventureList The list of adventure items to store
      */
     public void putAdventureList(List<Adventure> adventureList) {
         for (Adventure a : adventureList) {
@@ -99,10 +83,10 @@ public class AdventureApi {
 
     /**
      * Retrieves a specific adventure according to it's UUID
+     * @param id The UID of the adventure to retrieve
      * @param callback The presenter to call methods on when a result is reached
-     * @param id                The UUID of the adventure to retrieve
      */
-    public void getAdventure(final RetrieveDataRequest<Adventure> callback, String id) {
+    public void getAdventure(String id, final RetrieveDataRequest<Adventure> callback) {
         DatabaseReference adventure = mAdventuresDatabase.child(id);
         adventure.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
