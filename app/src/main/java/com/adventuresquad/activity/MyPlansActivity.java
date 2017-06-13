@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +12,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.adventuresquad.R;
 import com.adventuresquad.activity.interfaces.ListFragmentHolder;
+import com.adventuresquad.interfaces.Presentable;
 import com.adventuresquad.model.Plan;
 
-public class MyPlansActivity extends AppCompatActivity implements ListFragmentHolder<Plan> {
+public class MyPlansActivity extends AppCompatActivity implements Presentable, ListFragmentHolder<Plan> {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -32,8 +35,8 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
     private TabLayout mTabLayout;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         //Set up tab layout automatically by using the view pager
-        TabLayout mTabLayout = (TabLayout)findViewById(R.id.my_plans_tabs);
+        mTabLayout = (TabLayout)findViewById(R.id.my_plans_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //Initialise navbar
@@ -87,6 +90,28 @@ public class MyPlansActivity extends AppCompatActivity implements ListFragmentHo
         Intent planDetail = new Intent(this, PlanDetailActivity.class);
         planDetail.putExtra(PlanDetailActivity.PLAN_ID, object.getPlanId());
         startActivity(planDetail);
+    }
+
+    @Override
+    public void displayMessage(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * Shows the loading icon, hides rest of the UI
+     */
+    @Override
+    public void showLoadingIcon() {
+        mProgressDialog = ProgressDialog.show(this, "",
+                getResources().getString(R.string.login_loading), true);
+    }
+
+    /**
+     * Hides the screen-wide loading icon, shows the rest of the view
+     */
+    @Override
+    public void hideLoadingIcon() {
+        mProgressDialog.hide();
     }
 
     /**

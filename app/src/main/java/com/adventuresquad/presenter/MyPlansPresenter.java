@@ -54,7 +54,7 @@ public class MyPlansPresenter {
      * Progresses to retrieveUserPlanIds
      */
     public void retrievePlans() {
-        mView.displayMessage("Refreshing Plan list...");
+        mView.showLoadingIcon();
 
         //Gets the current user object
         mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
@@ -79,6 +79,7 @@ public class MyPlansPresenter {
             @Override
             public void onRetrieveData(Plan data) {
                 if (filterMatch(data)) {
+                    mView.hideLoadingIcon();
                     retrievePlanImageUrl(data);
                 }
             }

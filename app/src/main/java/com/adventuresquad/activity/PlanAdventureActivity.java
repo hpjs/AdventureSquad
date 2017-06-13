@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -49,6 +50,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
      */
     private ViewPager mViewPager;
     private int mCurrentFragment;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,6 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
             //User has finished squad selection fragment
             String squadId = planFragment.getSquadId();
             mPresenter.addSquadToPlan(squadId);
-            displayMessage("Assigned squad to plan: " + squadId);
             mViewPager.setCurrentItem(currentSection + 1);
         } else {
             //Fragment was the last one, add date to plan and complete plan
@@ -123,6 +124,23 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     public void displayMessage(String errorMessage) {
         Toast.makeText(this, errorMessage,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Shows the loading icon, hides rest of the UI
+     */
+    @Override
+    public void showLoadingIcon() {
+        mProgressDialog = ProgressDialog.show(this, "",
+                getResources().getString(R.string.login_loading), true);
+    }
+
+    /**
+     * Hides the screen-wide loading icon, shows the rest of the view
+     */
+    @Override
+    public void hideLoadingIcon() {
+        mProgressDialog.hide();
     }
 
     @Override

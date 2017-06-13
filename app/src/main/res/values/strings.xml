@@ -248,5 +248,7 @@
     <string name="register_error_unknown">An unknown error occurred.</string>
     <string name="register_error_fail">Registration failed, please check details and try again.</string>
     <string name="register_title">Register</string>
+    <string name="register_loading">Registering...</string>
+    <string name="login_loading">Logging in...</string>
 
 </resources>

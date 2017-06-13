@@ -28,6 +28,8 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
     }
 
     public void register(String fullName, String email, String pass1, String pass2) {
+        mActivity.showLoadingIcon();
+
         mUser = new User();
 
         //Check user name not empty / null
@@ -56,7 +58,7 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
 
     @Override
     public void onRegisterFail(Exception exception) {
-        //mActivity.displayMessage("Registration failed - " + exception.toString());
+        mActivity.hideLoadingIcon();
         mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
     }
 
@@ -90,13 +92,14 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
 
     @Override
     public void onAddUserFail(Exception e) {
-        mActivity.displayMessage("User creation failed - " + e.toString());
-        //TODO - check if this is the right place to put this
+        mActivity.hideLoadingIcon();
+        mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
         mUser = null;
     }
 
     @Override
     public void onUpdateUserSquad() {
+        mActivity.hideLoadingIcon();
         mActivity.registrationComplete();
     }
 

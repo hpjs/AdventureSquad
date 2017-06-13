@@ -70,7 +70,7 @@ public class PlanAdventurePresenter implements PlanApiPresenter {
      * Flow: createPlan() -> onCompletePlanCreation() -> addPlanToSquad() -> onAddPlanToSquad()
      */
     public void createPlan() {
-        //TODO - Show loading icon on view
+        mView.showLoadingIcon();
         //Creates a plan & adds it to the
         mPlanApi.createPlan(mCurrentPlan, new StoreDataRequest<Plan>(){
             //Plan creation is complete
@@ -89,7 +89,7 @@ public class PlanAdventurePresenter implements PlanApiPresenter {
 
     @Override
     public void onCompletePlanCreation(Plan plan) {
-        //TODO - hide loading icon
+        mView.hideLoadingIcon();
         mCurrentPlan = plan;
         mView.completePlanCreation();
     }

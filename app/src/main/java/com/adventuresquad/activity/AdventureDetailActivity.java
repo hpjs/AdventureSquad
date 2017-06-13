@@ -107,4 +107,14 @@ public class AdventureDetailActivity extends AppCompatActivity implements Presen
     public void displayMessage(String errorMessage) {
 
     }
+
+    @Override
+    public void showLoadingIcon() {
+
+    }
+
+    @Override
+    public void hideLoadingIcon() {
+
+    }
 }

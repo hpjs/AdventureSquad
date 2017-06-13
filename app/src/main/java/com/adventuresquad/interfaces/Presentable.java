@@ -8,4 +8,7 @@ public interface Presentable {
 
     public void displayMessage(String errorMessage);
 
+    public void showLoadingIcon();
+    public void hideLoadingIcon();
+
 }

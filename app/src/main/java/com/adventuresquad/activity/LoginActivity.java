@@ -1,5 +1,6 @@
 package com.adventuresquad.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
 
     //DefaultPresenter
     private LoginPresenter mPresenter;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +81,18 @@ public class LoginActivity extends AppCompatActivity implements PresentableLogin
     /**
      * Shows the loading icon, hides rest of the UI
      */
+    @Override
     public void showLoadingIcon() {
-
+        mProgressDialog = ProgressDialog.show(this, "",
+                getResources().getString(R.string.login_loading), true);
     }
 
     /**
      * Hides the screen-wide loading icon, shows the rest of the view
      */
+    @Override
     public void hideLoadingIcon() {
-
+        mProgressDialog.hide();
     }
 
     /**
