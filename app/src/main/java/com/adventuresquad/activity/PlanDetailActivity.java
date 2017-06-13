@@ -98,7 +98,7 @@ public class PlanDetailActivity extends AppCompatActivity implements Presentable
 
         //Date formatting and display
         Date date = new Date(plan.getBookingDate());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEEEEEE, d MMMMMMMMMM yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH);
         mTextPlanDate.setText(dateFormat.format(date));
 
     }
