@@ -86,6 +86,8 @@ public class MyPlansPresenter {
 
             @Override
             public void onRetrieveDataFail(Exception e) {
+                //User doesn't have any plans
+                mView.hideLoadingIcon();
                 mView.displayMessage(e.getMessage());
             }
         });
