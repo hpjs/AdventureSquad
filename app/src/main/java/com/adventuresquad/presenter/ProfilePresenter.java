@@ -1,19 +1,18 @@
 package com.adventuresquad.presenter;
 
-import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.api.UserApi;
+import com.adventuresquad.api.interfaces.ActionRequest;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.interfaces.PresentableProfileView;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.LogoutApiPresenter;
-import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 
 /**
  * Presenter for the ProfileActivity class
  * Manages interactions between the Profile activity and the APIs, as well as business logic
  * Created by Harrison on 30/05/2017.
  */
-public class ProfilePresenter implements LogoutApiPresenter, UserApiPresenter {
+public class ProfilePresenter {
     private PresentableProfileView mActivity;
     private AuthApi mAuthApi;
     private UserApi mUserApi;
@@ -28,21 +27,20 @@ public class ProfilePresenter implements LogoutApiPresenter, UserApiPresenter {
 
     }
 
-    @Override
     public void logout() {
         //Call the relevant API methods and do other stuff that needs to happen to log out
 
-        mAuthApi.signOut(this);
-    }
+        mAuthApi.signOut(new ActionRequest() {
+            @Override
+            public void onActionComplete() {
+                mActivity.completeLogout();
+            }
 
-    @Override
-    public void onLogoutSuccess() {
-        mActivity.completeLogout();
-    }
-
-    @Override
-    public void onLogoutFail(Exception exception) {
-        mActivity.displayMessage(exception.toString());
+            @Override
+            public void onActionFail(Exception e) {
+                mActivity.displayMessage(e.toString());
+            }
+        });
     }
 
     /**
@@ -50,49 +48,18 @@ public class ProfilePresenter implements LogoutApiPresenter, UserApiPresenter {
      */
     public void retrieveCurrentUser() {
         mActivity.showLoadingIcon();
-        mUserApi.retrieveCurrentUser(this);
+        mUserApi.retrieveCurrentUser(new RetrieveDataRequest<User>() {
+            @Override
+            public void onRetrieveData(User data) {
+                mCurrentUser = data;
+                mActivity.hideLoadingIcon();
+                mActivity.displayProfile(data);
+            }
+
+            @Override
+            public void onRetrieveDataFail(Exception e) {
+                mActivity.displayMessage("Could not retrieve profile.");
+            }
+        });
     }
-
-    /**
-     * User retrieved, notify activity
-     * @param user
-     */
-    @Override
-    public void onRetrieveCurrentUser(User user) {
-        mCurrentUser = user;
-        mActivity.hideLoadingIcon();
-        mActivity.displayProfile(user);
-    }
-
-    /**
-     * Current user retrieval failed
-     * @param e
-     */
-    @Override
-    public void onRetrieveCurrentUserFail(Exception e) {
-        mActivity.displayMessage("Could not retrieve profile.");
-    }
-
-    //region Unused UserApi methods
-
-    @Override
-    public void onAddUser() {
-
-    }
-
-    @Override
-    public void onAddUserFail(Exception e) {
-
-    }
-
-    @Override
-    public void onUpdateUserSquad() {
-
-    }
-
-    @Override
-    public void onUpdateUserSquadFail() {
-
-    }
-    //endregion
 }

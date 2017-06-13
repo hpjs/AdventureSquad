@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.adventuresquad.activity.ProfileActivity"
+    tools:context="com.adventuresquad.view.ProfileActivity"
     tools:showIn="@layout/activity_profile">
 
     <RelativeLayout
@@ -39,7 +39,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/adventure_placeholder_small"/>
 
-            <!--java.lang.RuntimeException: Unable to start activity ComponentInfo{com.adventuresquad/com.adventuresquad.activity.ProfileActivity}:
+            <!--java.lang.RuntimeException: Unable to start view ComponentInfo{com.adventuresquad/com.adventuresquad.view.ProfileActivity}:
             android.view.InflateException:
             Binary XML file line #36: Binary XML file line #26: Error inflating class android.support.v4.widget.CircleImageView-->
             <!--<ImageView-->

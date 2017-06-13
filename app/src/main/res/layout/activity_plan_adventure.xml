@@ -6,7 +6,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context="com.adventuresquad.activity.PlanAdventureActivity">
+                                                 tools:context="com.adventuresquad.view.PlanAdventureActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/plan_appbar"
@@ -35,7 +35,7 @@
 
     <!--Note: No longer needed (buttons in fragments working)-->
     <!--Note: Have to do a clean & build when you update the layouts (for some reason)-->
-    <!--NOTE: Perhaps a button in the activity will be easier than using the fragments-->
+    <!--NOTE: Perhaps a button in the view will be easier than using the fragments-->
     <!--<Button-->
         <!--android:id="@+id/plan_adventure_action_button"-->
         <!--android:layout_width="match_parent"-->

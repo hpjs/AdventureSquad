@@ -6,14 +6,12 @@ import com.adventuresquad.api.UserApi;
 import com.adventuresquad.api.interfaces.StoreDataRequest;
 import com.adventuresquad.interfaces.PresentableRegisterView;
 import com.adventuresquad.model.User;
-import com.adventuresquad.presenter.interfaces.RegisterApiPresenter;
-import com.adventuresquad.presenter.interfaces.UserApiPresenter;
 
 /**
  * Presenter for registration. Handles user auth creation, and other additional user info.
  * Created by Harrison on 11/05/2017.
  */
-public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter {
+public class RegisterPresenter {
     private PresentableRegisterView mActivity;
     private AuthApi mAuthApi;
     private UserApi mUserApi;
@@ -29,92 +27,95 @@ public class RegisterPresenter implements RegisterApiPresenter, UserApiPresenter
 
     public void register(String fullName, String email, String pass1, String pass2) {
         mActivity.showLoadingIcon();
-
         mUser = new User();
 
-        //Check user name not empty / null
-        if (fullName != null && !fullName.isEmpty()) {
+        //Validate name
+
+        if (stringValid(fullName)) {
             mUser.setUserName(fullName);
         } else {
             mActivity.validationFail(PresentableRegisterView.ValidationError.NO_NAME);
             return;
         }
 
-        //Check that passwords match
+        //Validate email
+        if (stringValid(email)) {
+            mUser.setUserEmail(email);
+        } else {
+            mActivity.validationFail(PresentableRegisterView.ValidationError.NO_EMAIL);
+            return;
+        }
+
+        //Validate passwords
         if (!pass1.equals(pass2)) {
             //Pass did not match
             mActivity.validationFail(PresentableRegisterView.ValidationError.PASSWORD_MISMATCH);
             return;
         }
-            //Actually create the account
-        mAuthApi.registerUser(email, pass1, this);
+
+        //Actually create the account with auth api
+        mAuthApi.registerUser(email, pass1, new StoreDataRequest<String>() {
+            @Override
+            public void onStoreData(String data) {
+                //Account created, add user object under database
+                addUser(data);
+            }
+
+            @Override
+            public void onStoreDataFail(Exception e) {
+                mActivity.hideLoadingIcon();
+                mUser = null;
+                mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
+            }
+        });
     }
 
-    @Override
-    public void onRegisterSuccess(String userId, String userEmail) {
-        //User auth rego was successful, create the rest of the user
-        addUser(userId, userEmail);
-    }
-
-    @Override
-    public void onRegisterFail(Exception exception) {
-        mActivity.hideLoadingIcon();
-        mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
+    /**
+     * Checks if a string is not empty/null
+     * @param fullName
+     * @return
+     */
+    private boolean stringValid(String string) {
+        return string != null && !string.isEmpty();
     }
 
     /**
      * Adds a single user to the database using their auth user UID
      */
-    public void addUser(String userId, String userEmail) {
+    private void addUser(String userId) {
         //Update user object with new details
         mUser.setUserId(userId);
-        mUser.setUserEmail(userEmail);
         //Add the user object to the database
-        mUserApi.addUser(mUser, this);
+        mUserApi.addUser(mUser, new StoreDataRequest<User>() {
+            @Override
+            public void onStoreData(User data) {
+                createUserPersonalSquad();
+            }
+
+            @Override
+            public void onStoreDataFail(Exception e) {
+                mActivity.hideLoadingIcon();
+                mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
+                mUser = null;
+            }
+        });
     }
 
-    @Override
-    public void onAddUser() {
+    private void createUserPersonalSquad() {
         //User adding to database complete.
         //Add personal squad to this user so they can make plans
         mSquadApi.createPersonalSquad(mUser.getUserId(), mUserApi, new StoreDataRequest<String>() {
             @Override
             public void onStoreData(String data) { //Store success, holds the userId that was stored to
-                onUpdateUserSquad();
+                mActivity.hideLoadingIcon();
+                mActivity.registrationComplete();
             }
 
             @Override
             public void onStoreDataFail(Exception e) {
-                mActivity.displayMessage("User creation failed - " + e.toString());
+                mUser = null;
+                mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
             }
         });
-    }
-
-    @Override
-    public void onAddUserFail(Exception e) {
-        mActivity.hideLoadingIcon();
-        mActivity.validationFail(PresentableRegisterView.ValidationError.REGISTER_FAIL);
-        mUser = null;
-    }
-
-    @Override
-    public void onUpdateUserSquad() {
-        mActivity.hideLoadingIcon();
-        mActivity.registrationComplete();
-    }
-
-    @Override
-    public void onRetrieveCurrentUser(User user) {
-
-    }
-
-    @Override
-    public void onRetrieveCurrentUserFail(Exception e) {
-
-    }
-
-    @Override
-    public void onUpdateUserSquadFail() {
-
     }
 }

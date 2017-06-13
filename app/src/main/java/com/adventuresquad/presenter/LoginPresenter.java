@@ -1,34 +1,31 @@
 package com.adventuresquad.presenter;
 
 import com.adventuresquad.api.AuthApi;
+import com.adventuresquad.api.interfaces.RetrieveDataRequest;
 import com.adventuresquad.interfaces.PresentableLoginView;
-import com.adventuresquad.presenter.interfaces.LoginApiPresenter;
 
 /**
  * DefaultPresenter class for Login activity'
  * Provides an interface between data and activity logic
  * Created by Harrison on 11/05/2017.
  */
-public class LoginPresenter implements LoginApiPresenter {
-    private PresentableLoginView mActivity; //Shouldn't know what the activity is doing
-    private AuthApi mApi;
+public class LoginPresenter {
+    private PresentableLoginView mView; //Shouldn't know what the activity is doing
+    private AuthApi mAuthApi;
 
-    public LoginPresenter(PresentableLoginView activity, AuthApi api) {
-        mActivity = activity;
-        mApi = api;
-        //TODO - check if initialiseAuthService is really needed
-        mApi.initialiseAuthService();
+    public LoginPresenter(PresentableLoginView view, AuthApi authApi) {
+        mView = view;
+        mAuthApi = authApi;
+        mAuthApi.initialiseAuthService();
         checkLoggedIn();
     }
 
     /**
-     *
+     * Checks if the user is logged in - if they are, progress to full app
      */
-    public void checkLoggedIn() {
-        if (mApi.checkUserLoggedIn()) {
-            mActivity.onLoginSuccess();
-        } else {
-            //User was not already logged in, do nothing.
+    private void checkLoggedIn() {
+        if (mAuthApi.checkUserLoggedIn()) {
+            mView.onLoginSuccess();
         }
     }
 
@@ -37,20 +34,21 @@ public class LoginPresenter implements LoginApiPresenter {
      */
     public void login(String email, String password) {
         //Perform a small amount of validation if necessary and show loading icon
-        mActivity.showLoadingIcon();
+        mView.showLoadingIcon();
         if (!email.isEmpty() && !email.isEmpty()) {
-            mApi.emailPasswordLogin(this, email, password);
+            mAuthApi.emailPasswordLogin(email, password, new RetrieveDataRequest<String>() {
+                @Override
+                public void onRetrieveData(String data) {
+                    //Logged in successfully
+                    mView.onLoginSuccess();
+                    mView.hideLoadingIcon();
+                }
+
+                @Override
+                public void onRetrieveDataFail(Exception e) {
+                    mView.displayMessage("Login failed.");
+                }
+            });
         }
-    }
-
-    @Override
-    public void onLoginSuccess(String userId) {
-        mActivity.onLoginSuccess();
-        mActivity.hideLoadingIcon();
-    }
-
-    @Override
-    public void onLoginFail(Exception exception) {
-        mActivity.displayMessage("Login failed.");
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.adventuresquad.activity.PlanDetailActivity">
+    tools:context="com.adventuresquad.view.PlanDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/plan_detail_app_bar"
