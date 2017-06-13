@@ -2,12 +2,8 @@ package com.adventuresquad.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,7 +13,7 @@ import android.widget.Toast;
 import com.adventuresquad.R;
 import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.api.UserApi;
-import com.adventuresquad.interfaces.PresentableProfileView;
+import com.adventuresquad.interfaces.PresentableLogoutView;
 import com.adventuresquad.model.User;
 import com.adventuresquad.presenter.ProfilePresenter;
 
@@ -25,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProfileActivity extends AppCompatActivity implements PresentableProfileView {
+public class ProfileActivity extends AppCompatActivity implements PresentableLogoutView {
 
     ProfilePresenter mPresenter;
 
@@ -71,14 +67,11 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
     }
 
     @Override
-    public void displayProfile(User user) {
+    public void displayItem(User user) {
         //Put adventure contents into view (like a RecyclerView view bind)
         //Load image
         mProfileName.setText(user.getUserName());
         mProfileText.setText(getString(R.string.profile_no_text));
-
-        //Set map view...
-
     }
 
     @Override
@@ -105,5 +98,4 @@ public class ProfileActivity extends AppCompatActivity implements PresentablePro
         Toast.makeText(this, string,
                 Toast.LENGTH_SHORT).show();
     }
-
 }

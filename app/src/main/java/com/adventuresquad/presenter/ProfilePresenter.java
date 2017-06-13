@@ -4,7 +4,7 @@ import com.adventuresquad.api.AuthApi;
 import com.adventuresquad.api.UserApi;
 import com.adventuresquad.api.interfaces.ActionRequest;
 import com.adventuresquad.api.interfaces.RetrieveDataRequest;
-import com.adventuresquad.interfaces.PresentableProfileView;
+import com.adventuresquad.interfaces.PresentableLogoutView;
 import com.adventuresquad.model.User;
 
 /**
@@ -13,12 +13,12 @@ import com.adventuresquad.model.User;
  * Created by Harrison on 30/05/2017.
  */
 public class ProfilePresenter {
-    private PresentableProfileView mView;
+    private PresentableLogoutView mView;
     private AuthApi mAuthApi;
     private UserApi mUserApi;
     private User mCurrentUser;
 
-    public ProfilePresenter(PresentableProfileView view, AuthApi authApi, UserApi userApi) {
+    public ProfilePresenter(PresentableLogoutView view, AuthApi authApi, UserApi userApi) {
         mAuthApi = authApi;
         mUserApi = userApi;
         mView = view;
@@ -53,7 +53,7 @@ public class ProfilePresenter {
             public void onRetrieveData(User data) {
                 mCurrentUser = data;
                 mView.hideLoadingIcon();
-                mView.displayProfile(data);
+                mView.displayItem(data);
             }
 
             @Override
