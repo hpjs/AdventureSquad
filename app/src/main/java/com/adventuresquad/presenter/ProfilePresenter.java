@@ -13,15 +13,15 @@ import com.adventuresquad.model.User;
  * Created by Harrison on 30/05/2017.
  */
 public class ProfilePresenter {
-    private PresentableProfileView mActivity;
+    private PresentableProfileView mView;
     private AuthApi mAuthApi;
     private UserApi mUserApi;
     private User mCurrentUser;
 
-    public ProfilePresenter(PresentableProfileView activity, AuthApi authApi, UserApi userApi) {
+    public ProfilePresenter(PresentableProfileView view, AuthApi authApi, UserApi userApi) {
         mAuthApi = authApi;
         mUserApi = userApi;
-        mActivity = activity;
+        mView = view;
         //TODO - check if initialiseAuthService is really needed
         authApi.initialiseAuthService();
 
@@ -33,12 +33,12 @@ public class ProfilePresenter {
         mAuthApi.signOut(new ActionRequest() {
             @Override
             public void onActionComplete() {
-                mActivity.completeLogout();
+                mView.completeLogout();
             }
 
             @Override
             public void onActionFail(Exception e) {
-                mActivity.displayMessage(e.toString());
+                mView.displayMessage(e.toString());
             }
         });
     }
@@ -47,18 +47,18 @@ public class ProfilePresenter {
      * Starts to retrieve the current user for 'my profile'
      */
     public void retrieveCurrentUser() {
-        mActivity.showLoadingIcon();
+        mView.showLoadingIcon();
         mUserApi.retrieveCurrentUser(new RetrieveDataRequest<User>() {
             @Override
             public void onRetrieveData(User data) {
                 mCurrentUser = data;
-                mActivity.hideLoadingIcon();
-                mActivity.displayProfile(data);
+                mView.hideLoadingIcon();
+                mView.displayProfile(data);
             }
 
             @Override
             public void onRetrieveDataFail(Exception e) {
-                mActivity.displayMessage("Could not retrieve profile.");
+                mView.displayMessage("Could not retrieve profile.");
             }
         });
     }

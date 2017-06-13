@@ -44,16 +44,16 @@ public class PlanSquadPresenter {
     public void retrieveCurrentUser() {
         mView.showLoadingIcon();
         //get current user
-        mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
+        mUserApi.retrieveCurrentUser(new RetrieveDataRequest<User>(){
             @Override
-            public void onGetUser(User user) {
+            public void onRetrieveData(User user) {
                 //Get squads for this user
                 mCurrentUser = user;
                 retrieveSquads(user);
             }
 
             @Override
-            public void onGetUserFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
                 //Could not get current user
                 //Squad retrieval failed
             }
@@ -62,7 +62,7 @@ public class PlanSquadPresenter {
 
     /**
      * Retrieve a list of Squad IDs that this user has.
-     * @param user
+     * @param user The user object to retrieve the squads of
      */
     private void retrieveSquads(User user) {
         if (user.getUserSquads() != null) {

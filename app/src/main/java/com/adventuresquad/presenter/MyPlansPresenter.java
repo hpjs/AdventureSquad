@@ -57,15 +57,15 @@ public class MyPlansPresenter {
         mView.showLoadingIcon();
 
         //Gets the current user object
-        mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
+        mUserApi.retrieveCurrentUser(new RetrieveDataRequest<User>(){
             @Override
-            public void onGetUser(User user) { //User was successfully retrieved
-                mCurrentUser = user;
+            public void onRetrieveData(User data) { //User was successfully retrieved
+                mCurrentUser = data;
                 retrieveUserPlanIds(); //Get user's squad plans
             }
 
             @Override
-            public void onGetUserFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
                 mView.displayMessage("User error: " + e.toString());
             }
         });

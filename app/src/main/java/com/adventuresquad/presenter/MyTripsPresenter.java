@@ -51,15 +51,15 @@ public class MyTripsPresenter {
         mView.displayMessage("Refreshing Plan list...");
 
         //Gets the current user object
-        mUserApi.retrieveCurrentUser(new UserApi.RetrieveUserListener() {
+        mUserApi.retrieveCurrentUser(new RetrieveDataRequest<User>() {
             @Override
-            public void onGetUser(User user) { //User was successfully retrieved
+            public void onRetrieveData(User user) { //User was successfully retrieved
                 mCurrentUser = user;
                 retrieveUserPlanIds(); //Get user's squad plans
             }
 
             @Override
-            public void onGetUserFail(Exception e) {
+            public void onRetrieveDataFail(Exception e) {
                 mView.displayMessage("User error: " + e.toString());
             }
         });

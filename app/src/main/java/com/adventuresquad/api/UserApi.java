@@ -58,6 +58,21 @@ public class UserApi {
     }
 
     /**
+     * Retrieves the current user by first getting the user's id,
+     * then retrieving user object from the database
+     * @param callback The presenter to return to on completion
+     */
+    public void retrieveCurrentUser(final RetrieveDataRequest<User> callback) {
+        //Retrieves the current user from firebase auth
+        try {
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            retrieveUser(currentUserId, callback);
+        } catch (NullPointerException exception) {
+            callback.onRetrieveDataFail(exception);
+        }
+    }
+
+    /**
      * Retrieves a single user from the database
      * @param userId The ID of the user to retrieve
      * @param callback The object to notify when user is successfully retrieved
@@ -79,21 +94,6 @@ public class UserApi {
                 callback.onRetrieveDataFail(databaseError.toException());
             }
         });
-    }
-
-    /**
-     * Retrieves the current user by first getting the user's id,
-     * then retrieving user object from the database
-     * @param callback The presenter to return to on completion
-     */
-    public void retrieveCurrentUser(final RetrieveDataRequest<User> callback) {
-        //Retrieves the current user from firebase auth
-        try {
-            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            retrieveUser(currentUserId, callback);
-        } catch (NullPointerException exception) {
-            callback.onRetrieveDataFail(exception);
-        }
     }
 
     /**

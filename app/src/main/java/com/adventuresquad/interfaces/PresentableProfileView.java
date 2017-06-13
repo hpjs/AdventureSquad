@@ -5,7 +5,6 @@ import com.adventuresquad.model.User;
 /**
  * Created by Harrison on 30/05/2017.
  */
-
 public interface PresentableProfileView extends Presentable {
 
     /**
