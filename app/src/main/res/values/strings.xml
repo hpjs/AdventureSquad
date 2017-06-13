@@ -34,7 +34,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_create">Create</string>
     <string name="title_squad">Squad</string>
-    <string name="title_my_trips">My Trips</string>
+    <string name="title_my_plans">My Plans</string>
     <string name="title_profile">Profile</string>
     <string name="read_database_error">Could not get data, database error</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
@@ -251,5 +251,6 @@
     <string name="register_loading">Registering...</string>
     <string name="login_loading">Logging in...</string>
     <string name="plan_adventure_squad">Adventure with Squad</string>
+    <string name="plan_creating">Creating plan...</string>
 
 </resources>

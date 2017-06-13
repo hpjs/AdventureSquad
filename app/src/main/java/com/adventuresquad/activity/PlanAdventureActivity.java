@@ -128,7 +128,7 @@ public class PlanAdventureActivity extends AppCompatActivity implements PlanFrag
     @Override
     public void showLoadingIcon() {
         mProgressDialog = ProgressDialog.show(this, "",
-                getResources().getString(R.string.login_loading), true);
+                getResources().getString(R.string.plan_creating), true);
     }
 
     /**

@@ -16,12 +16,11 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/my_plans_toolbar"
-            android:title="@string/title_activity_my_plans"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            android:title="@string/title_activity_my_plans"
+            app:title="@string/title_my_plans"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/my_plans_tabs"
@@ -35,10 +34,10 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/my_plans_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_navbar_margin"
         app:layout_anchor="@id/my_plans_appbar"
         app:layout_anchorGravity="bottom|center"
-        android:layout_marginBottom="@dimen/activity_navbar_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <!--<fragment-->

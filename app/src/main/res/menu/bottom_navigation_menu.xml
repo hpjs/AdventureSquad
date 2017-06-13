@@ -27,7 +27,7 @@
     <item
         android:id="@+id/navigation_myTrips"
         android:icon="@drawable/ic_terrain_black_24dp"
-        android:title="@string/title_my_trips"
+        android:title="@string/title_my_plans"
         android:checked="false"
         app:showAsAction="ifRoom"/>
 
